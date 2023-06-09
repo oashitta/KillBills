@@ -7,5 +7,6 @@ CREATE TABLE bills (
   due_date DATE,
   reminder_date DATE,
   paid_date DATE,
+  note VARCHAR(255),
   status BOOLEAN
 );
