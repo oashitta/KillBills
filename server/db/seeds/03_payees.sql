@@ -1,0 +1,27 @@
+INSERT INTO payees 
+  (name, url, account_number, is_hidden, category_id)
+VALUES 
+  ('Bell', 'https://www.bell.ca', '1234567890', TRUE, 1), 
+  ('Rogers', 'https://www.rogers.com', '1234567890', FALSE, 1), 
+  ('Telus', 'https://www.telus.ca', '1234567890', FALSE, 1), 
+  ('RBC Visa', 'https://www.royalbank.com', '1234567890', TRUE, 2), 
+  ('TD Visa', 'https://www.td.com', '1234567890', TRUE, 2), 
+  ('BMO Visa', 'https://www.bmo.com', '1234567890', TRUE, 2), 
+  ('Scotiabank Visa', 'https://www.scotiabank.com', '1234567890', FALSE, 2), 
+  ('CIBC Mastercard', 'https://www.cibc.com', '1234567890', FALSE, 2), 
+  ('American Express', 'https://www.americanexpress.com', '1234567890', FALSE, 2), 
+  ('Toronto Hydro', 'https://www.torontohydro.com', '1234567890', FALSE, 1), 
+  ('City of Toronto', 'https://www.toronto.ca', '1234567890', FALSE, 4), 
+  ('Intact Insurance', 'https://www.thinkinsure.ca', '1234567890', TRUE, 5), 
+  ('Manulife', 'https://www.manulife.ca', '1234567890', FALSE, 5), 
+  ('Netflix', 'https://www.netflix.com', '1234567890', FALSE, 9), 
+  ('Amazon Prime', 'https://www.amazon.ca', '1234567890', TRUE, 9), 
+  ('Youtube Premium', 'https://www.youtube.com', '1234567890', FALSE, 9), 
+  ('Google', 'https://www.google.com', '1234567890', FALSE, 10), 
+  ('Apple', 'https://www.apple.com', '1234567890', FALSE, 10), 
+  ('Xbox Live', 'https://www.xbox.com', '1234567890', TRUE, 9), 
+  ('Playstation Plus', 'https://www.playstation.com', '1234567890', FALSE, 9), 
+  ('Nintendo Switch Online', 'https://www.nintendo.com', '1234567890', FALSE, 9), 
+  ('Landlord', '', '1234567890', FALSE, 3), 
+  ('Toyota', 'https://www.toyota.ca', '1234567890', TRUE, 4), 
+  ('Tesla', 'https://www.tesla.com/', '1234567890', FALSE, 4);
