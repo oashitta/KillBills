@@ -5,8 +5,6 @@ import App from "./App";
 import { Auth0Provider } from "@auth0/auth0-react";
 import reportWebVitals from "./reportWebVitals";
 import TopNavigationBar from "./components/TopNavigationBar";
-import LoginButton from "./components/Login";
-import LogoutButton from "./components/Logout";
 import Profile from "./components/Profile";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -22,8 +20,6 @@ root.render(
     >
       <App />
       <TopNavigationBar />
-      {/* <LoginButton /> */}
-      {/* <LogoutButton /> */}
       <Profile />
     </Auth0Provider>
   </React.StrictMode>
