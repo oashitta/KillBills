@@ -1,17 +1,21 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import React from "react";
+import { React, useState } from "react";
 
 const LogoutButton = () => {
-  const { logout } = useAuth0();
+  const { logout, isAuthenticated } = useAuth0();
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleLogout = () => {
+    setIsLoading(true);
+    logout({ returnTo: window.location.origin });
+  };
 
   return (
-    <button
-      onClick={() =>
-        logout({ logoutParams: { returnTo: window.location.origin } })
-      }
-    >
-      Log Out
-    </button>
+    isAuthenticated && (
+      <button onClick={handleLogout} disabled={isLoading}>
+        Log Out
+      </button>
+    )
   );
 };
 
