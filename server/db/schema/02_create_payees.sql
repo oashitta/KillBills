@@ -7,5 +7,6 @@ CREATE TABLE
     url VARCHAR(255),
     account_number VARCHAR(255),
     is_hidden BOOLEAN,
+    user_id INTEGER REFERENCES users(id) NOT NULL,
     category_id INTEGER REFERENCES categories(id) NOT NULL
   );

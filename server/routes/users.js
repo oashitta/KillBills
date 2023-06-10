@@ -1,10 +1,24 @@
 const express = require("express");
 const router = express.Router();
-const users = ["Bob", "Alex", "Will", "Tristan"];
+
+const usersQuery = require('../db/queries/users')
 
 // all routes will go here
 router.get("/", (req, res) => {
-  res.json(users);
+  usersQuery.getUsers()
+    .then((users) => {
+      return res.json(users.rows)
+    })
 });
+
+router.post('/new', (req, res) => {
+  const {name, email, password} = req.body;
+  console.log("values", name)
+
+  usersQuery.addUser(name, email, password)
+  // .then((id)=>{
+  //   res.json(id);
+  // });
+})
 
 module.exports = router;
