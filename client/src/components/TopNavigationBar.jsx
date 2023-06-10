@@ -7,7 +7,7 @@ import LogoutButton from "./Logout";
 
 export default function TopNavigationBar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [notificationCount, setNotificationCount] = useState(3);
+  // const [notificationCount, setNotificationCount] = useState(3);
 
   return (
     <header className="bg-white">
