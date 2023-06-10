@@ -8,13 +8,15 @@ import LoginButton from "./login";
 import LogoutButton from "./logout";
 import Profile from "./profile";
 
+// require("dotenv").config();
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
   <React.StrictMode>
     <Auth0Provider
-      domain="dev-mip1d8xijfynygqs.us.auth0.com"
-      clientId="C45BhwlV7kGCd3BVPchiUrJ1iPGPYeUb"
+      domain={process.env.REACT_APP_AUTH0_DOMAIN}
+      clientId={process.env.REACT_APP_AUTH0_CLIENT_ID}
       authorizationParams={{
         redirect_uri: "http://localhost:3000",
       }}
