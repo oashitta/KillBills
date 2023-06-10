@@ -4,11 +4,10 @@ import "./index.css";
 import App from "./App";
 import { Auth0Provider } from "@auth0/auth0-react";
 import reportWebVitals from "./reportWebVitals";
-import LoginButton from "./login";
-import LogoutButton from "./logout";
-import Profile from "./profile";
-
-// require("dotenv").config();
+import TopNavigationBar from "./components/TopNavigationBar";
+import LoginButton from "./components/Login";
+import LogoutButton from "./components/Logout";
+import Profile from "./components/Profile";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -22,8 +21,9 @@ root.render(
       }}
     >
       <App />
-      <LoginButton />
-      <LogoutButton />
+      <TopNavigationBar />
+      {/* <LoginButton /> */}
+      {/* <LogoutButton /> */}
       <Profile />
     </Auth0Provider>
   </React.StrictMode>
