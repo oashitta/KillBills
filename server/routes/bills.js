@@ -69,14 +69,6 @@ router.get("/date/total", (req, res) => {
   });
 });
 
-// GET /bills/:id
-router.get("/:id", (req, res) => {
-  const billId = req.params.id;
-  bills.getBillById(billId).then((data) => {
-    res.json({ bill: data });
-  });
-});
-
 // GET /bills/category/:id
 router.get("/category/:id", (req, res) => {
   const categoryId = req.params.id;
@@ -110,6 +102,14 @@ router.get("/overdue", (req, res) => {
 router.get("/date", (req, res) => {
   bills.getBillsByDate().then((data) => {
     res.json({ bills: data });
+  });
+});
+
+// GET /bills/:id
+router.get("/:id", (req, res) => {
+  const billId = req.params.id;
+  bills.getBillById(billId).then((data) => {
+    res.json({ bill: data });
   });
 });
 
