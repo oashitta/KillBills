@@ -4,7 +4,7 @@ const users = require("../db/queries/users");
 
 // GET /users
 router.get("/", (req, res) => {
-  users.getAllUsers().then((data) => {
+  users.getUsers().then((data) => {
     res.json({ users: data });
   });
 });
