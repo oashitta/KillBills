@@ -34,42 +34,6 @@ router.delete("/:id", (req, res) => {
   });
 });
 
-// GET /bills/category/:id
-router.get("/category/:id", (req, res) => {
-  const categoryId = req.params.id;
-  bills.getBillsByCategory(categoryId).then((data) => {
-    res.json({ bills: data });
-  });
-});
-
-// GET /bills/unpaid
-router.get("/unpaid", (req, res) => {
-  bills.getBillsUnpaid().then((data) => {
-    res.json({ bills: data });
-  });
-});
-
-// GET /bills/due
-router.get("/due", (req, res) => {
-  bills.getBillsDue().then((data) => {
-    res.json({ bills: data });
-  });
-});
-
-// GET /bills/overdue
-router.get("/overdue", (req, res) => {
-  bills.getBillsOverdue().then((data) => {
-    res.json({ bills: data });
-  });
-});
-
-// GET /bills/date
-router.get("/date", (req, res) => {
-  bills.getBillsByDate().then((data) => {
-    res.json({ bills: data });
-  });
-});
-
 // GET /bills/category/total
 router.get("/category/total", (req, res) => {
   bills.getBillsByCategoryTotal().then((data) => {
@@ -110,6 +74,42 @@ router.get("/:id", (req, res) => {
   const billId = req.params.id;
   bills.getBillById(billId).then((data) => {
     res.json({ bill: data });
+  });
+});
+
+// GET /bills/category/:id
+router.get("/category/:id", (req, res) => {
+  const categoryId = req.params.id;
+  bills.getBillsByCategory(categoryId).then((data) => {
+    res.json({ bills: data });
+  });
+});
+
+// GET /bills/unpaid
+router.get("/unpaid", (req, res) => {
+  bills.getBillsUnpaid().then((data) => {
+    res.json({ bills: data });
+  });
+});
+
+// GET /bills/due
+router.get("/due", (req, res) => {
+  bills.getBillsDue().then((data) => {
+    res.json({ bills: data });
+  });
+});
+
+// GET /bills/overdue
+router.get("/overdue", (req, res) => {
+  bills.getBillsOverdue().then((data) => {
+    res.json({ bills: data });
+  });
+});
+
+// GET /bills/date
+router.get("/date", (req, res) => {
+  bills.getBillsByDate().then((data) => {
+    res.json({ bills: data });
   });
 });
 
