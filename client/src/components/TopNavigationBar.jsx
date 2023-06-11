@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useAuth0 } from "@auth0/auth0-react";
 import { Dialog, Popover } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon, BellIcon } from "@heroicons/react/24/outline";
 
@@ -7,6 +8,8 @@ import LogoutButton from "./Logout";
 
 export default function TopNavigationBar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { isAuthenticated } = useAuth0();
+
   // const [notificationCount, setNotificationCount] = useState(3);
 
   return (
@@ -22,7 +25,12 @@ export default function TopNavigationBar() {
           </a>
         </div>
         <div className="flex lg:hidden">
-          <BellIcon className="h-6 w-6 mx-2 text-gray-700" aria-hidden="true" />
+          {isAuthenticated && (
+            <BellIcon
+              className="h-6 w-6 mx-2 text-gray-700"
+              aria-hidden="true"
+            />
+          )}
           <button
             type="button"
             className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
@@ -51,10 +59,12 @@ export default function TopNavigationBar() {
         </Popover.Group>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
           <button className="relative">
-            <BellIcon
-              className="h-6 w-6 mx-2 text-gray-700"
-              aria-hidden="true"
-            />
+            {isAuthenticated && (
+              <BellIcon
+                className="h-6 w-6 mx-2 text-gray-700"
+                aria-hidden="true"
+              />
+            )}
             {/* {notificationCount > 0 && (
               <span className="absolute top-0 right-0 -mt-1 -mr-1 bg-red-500 text-white rounded-full px-1.5 text-xs">
                 {notificationCount}
