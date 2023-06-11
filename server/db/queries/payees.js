@@ -1,6 +1,6 @@
 const db = require("../../configs/db.config");
 
-const getAllPayees = () => {
+const getPayees = () => {
   return db.query("SELECT * FROM payees").then((data) => {
     return data.rows;
   });
@@ -23,4 +23,15 @@ const updatePayee = (id, name, url, accountNumber, isHidden, categoryId) => {
     });
 };
 
-module.exports = { getAllPayees, getPayeeById, updatePayee };
+const addPayee = (name, url, accountNumber, isHidden, categoryId) => {
+  return db
+    .query(
+      "INSERT INTO payees (name, url, account_number, is_hidden, category_id) VALUES ($1, $2, $3, $4, $5) RETURNING *",
+      [name, url, accountNumber, isHidden, categoryId]
+    )
+    .then((data) => {
+      return data.rows[0];
+    });
+};
+
+module.exports = { getPayees, getPayeeById, addPayee, updatePayee };

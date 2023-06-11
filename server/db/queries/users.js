@@ -1,6 +1,6 @@
 const db = require("../../configs/db.config");
 
-const getAllUsers = () => {
+const getUsers = () => {
   return db.query("SELECT * FROM users").then((data) => {
     return data.rows;
   });
@@ -12,7 +12,7 @@ const getUserById = (id) => {
   });
 };
 
-const createUser = (name, email, password) => {
+const addUser = (name, email, password) => {
   return db
     .query("INSERT INTO users (name, email, password) VALUES ($1, $2, $3) RETURNING *", [
       name,
@@ -39,4 +39,4 @@ const deleteUser = (id) => {
   return db.query("DELETE FROM users WHERE id = $1", [id]);
 };
 
-module.exports = { getAllUsers, getUserById, createUser, updateUser, deleteUser };
+module.exports = { getUsers, getUserById, addUser, updateUser, deleteUser };
