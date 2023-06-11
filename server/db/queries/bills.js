@@ -1,6 +1,6 @@
 const db = require("../../configs/db.config");
 
-const getAllBills = (userId) => {
+const getBills = (userId) => {
   return db
     .query("SELECT * FROM bills WHERE user_id = $1", [userId])
     .then((data) => {
@@ -40,7 +40,7 @@ const deleteBill = (id) => {
   return db.query("DELETE FROM bills WHERE id = $1", [id]);
 };
 
-const getAllBillsByCategory = (userId, categoryId) => {
+const getBillsByCategory = (userId, categoryId) => {
   return db
     .query("SELECT * FROM bills WHERE user_id = $1 AND payee_id IN (SELECT id FROM payees WHERE category_id = $2)", [userId, categoryId])
     .then((data) => {
@@ -48,7 +48,7 @@ const getAllBillsByCategory = (userId, categoryId) => {
     });
 };
 
-const getAllBillsUnpaid = (userId) => {
+const getBillsUnpaid = (userId) => {
   return db
     .query("SELECT * FROM bills WHERE user_id = $1 AND paid_date IS NULL", [userId])
     .then((data) => {
@@ -56,7 +56,7 @@ const getAllBillsUnpaid = (userId) => {
     });
 };
 
-const getAllBillsDue = (userId) => {
+const getBillsDue = (userId) => {
   return db
     .query("SELECT * FROM bills WHERE user_id = $1 AND due_date > CURRENT_DATE", [userId])
     .then((data) => {
@@ -64,7 +64,7 @@ const getAllBillsDue = (userId) => {
     });
 };
 
-const getAllBillsOverdue = (userId) => {
+const getBillsOverdue = (userId) => {
   return db
     .query("SELECT * FROM bills WHERE user_id = $1 AND due_date < CURRENT_DATE", [userId])
     .then((data) => {
@@ -72,7 +72,7 @@ const getAllBillsOverdue = (userId) => {
     });
 };
 
-const getAllBillsByDate = (userId, startDate, endDate) => {
+const getBillsByDate = (userId, startDate, endDate) => {
   return db
     .query("SELECT * FROM bills WHERE user_id = $1 AND due_date >= $2 AND due_date <= $3", [userId, startDate, endDate])
     .then((data) => {
@@ -80,7 +80,7 @@ const getAllBillsByDate = (userId, startDate, endDate) => {
     });
 };
 
-const getBillsTotalByCategory = (userId, categoryId) => {
+const getBillsByCategoryTotal = (userId, categoryId) => {
   return db
     .query(
       "SELECT SUM(amount) AS total_amount FROM bills WHERE user_id = $1 AND payee_id IN (SELECT id FROM payees WHERE category_id = $2)",
@@ -91,7 +91,7 @@ const getBillsTotalByCategory = (userId, categoryId) => {
     });
 };
 
-const getBillsTotalUnpaid = (userId) => {
+const getBillsUnpaidTotal = (userId) => {
   return db
     .query("SELECT SUM(amount) AS total_amount FROM bills WHERE user_id = $1 AND paid_date IS NULL", [userId])
     .then((data) => {
@@ -99,7 +99,7 @@ const getBillsTotalUnpaid = (userId) => {
     });
 };
 
-const getBillsTotalDue = (userId) => {
+const getBillsDueTotal = (userId) => {
   return db
     .query("SELECT SUM(amount) AS total_amount FROM bills WHERE user_id = $1 AND due_date >= CURRENT_DATE", [userId])
     .then((data) => {
@@ -107,7 +107,7 @@ const getBillsTotalDue = (userId) => {
     });
 };
 
-const getBillsTotalOverdue = (userId) => {
+const getBillsOverdueTotal = (userId) => {
   return db
     .query("SELECT SUM(amount) AS total_amount FROM bills WHERE user_id = $1 AND due_date < CURRENT_DATE", [userId])
     .then((data) => {
@@ -115,7 +115,7 @@ const getBillsTotalOverdue = (userId) => {
     });
 };
 
-const getBillsTotalByDate = (userId, startDate, endDate) => {
+const getBillsByDateTotal = (userId, startDate, endDate) => {
   return db
     .query("SELECT SUM(amount) AS total_amount FROM bills WHERE user_id = $1 AND due_date >= $2 AND due_date <= $3", [userId, startDate, endDate])
     .then((data) => {
@@ -124,19 +124,19 @@ const getBillsTotalByDate = (userId, startDate, endDate) => {
 };
 
 module.exports = { 
-  getAllBills, 
+  getBills, 
   getBillById, 
   createBill, 
   updateBill, 
   deleteBill, 
-  getAllBillsByCategory, 
-  getAllBillsUnpaid, 
-  getAllBillsDue, 
-  getAllBillsOverdue, 
-  getAllBillsByDate,
-  getBillsTotalByCategory,
-  getBillsTotalUnpaid,
-  getBillsTotalDue,
-  getBillsTotalOverdue,
-  getBillsTotalByDate
+  getBillsByCategory, 
+  getBillsUnpaid, 
+  getBillsDue, 
+  getBillsOverdue, 
+  getBillsByDate,
+  getBillsByCategoryTotal,
+  getBillsUnpaidTotal,
+  getBillsDueTotal,
+  getBillsOverdueTotal,
+  getBillsByDateTotal
 };

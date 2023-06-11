@@ -1,6 +1,6 @@
 const db = require("../../configs/db.config");
 
-const getAllCategories = () => {
+const getCategories = () => {
   return db.query("SELECT * FROM categories").then((data) => {
     return data.rows;
   });
@@ -12,4 +12,4 @@ const getCategoryById = (id) => {
   });
 };
 
-module.exports = { getAllCategories, getCategoryById };
+module.exports = { getCategories, getCategoryById };
