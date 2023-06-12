@@ -1,8 +1,8 @@
-import { React } from "react";
-// import { useAuth0 } from "@auth0/auth0-react";
+import React from "react";
 import { Auth0Provider } from "@auth0/auth0-react";
 import TopNavigationBar from "./components/TopNavigationBar";
 import Profile from "./components/Profile";
+import UpcomingBillsTotal from "./components/UpcomingBillsTotal";
 import "./App.css";
 
 function App() {
@@ -11,11 +11,15 @@ function App() {
       domain={process.env.REACT_APP_AUTH0_DOMAIN}
       clientId={process.env.REACT_APP_AUTH0_CLIENT_ID}
       authorizationParams={{
-        redirect_uri: "http://localhost:3000",
+        redirect_uri: window.location.origin,
+        audience: process.env.REACT_APP_AUTH0_AUDIENCE,
       }}
     >
-      <TopNavigationBar />
-      <Profile />
+      <div>
+        <TopNavigationBar />
+        <Profile />
+      </div>
+      <UpcomingBillsTotal />
     </Auth0Provider>
   );
 }
