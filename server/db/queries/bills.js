@@ -14,7 +14,7 @@ const getBillById = (id) => {
   });
 };
 
-const createBill = (payeeId, userId, amount, dueDate, reminderDate, paidDate, note) => {
+const addBill = (payeeId, userId, amount, dueDate, reminderDate, paidDate, note) => {
   return db
     .query(
       "INSERT INTO bills (payee_id, user_id, amount, due_date, reminder_date, paid_date, note) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *",
@@ -126,7 +126,7 @@ const getBillsByDateTotal = (userId, startDate, endDate) => {
 module.exports = { 
   getBills, 
   getBillById, 
-  createBill, 
+  addBill, 
   updateBill, 
   deleteBill, 
   getBillsByCategory, 
