@@ -1,3 +1,4 @@
+const cors = require("cors");
 const express = require("express");
 const path = require("path");
 const cookieParser = require("cookie-parser");
@@ -26,5 +27,7 @@ app.use("/users", usersRouter);
 app.use("/bills", billsRouter);
 app.use("/payees", payeesRouter);
 app.use("/categories", categoriesRouter);
+
+// app.listen(8080, () => console.log(`server is running on PORT {port}`));
 
 module.exports = app;

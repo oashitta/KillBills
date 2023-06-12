@@ -4,6 +4,10 @@ import TopNavigationBar from "./components/TopNavigationBar";
 import Profile from "./components/Profile";
 import UpcomingBillsTotal from "./components/UpcomingBillsTotal";
 import "./App.css";
+import AddBill from "./components/AddBill";
+import AddPayee from "./components/AddPayee";
+import Dashboard_actions from "./components/Dashboard_actions";
+import Upcoming_bills from "./components/Upcoming_bills";
 
 function App() {
   return (
@@ -15,11 +19,13 @@ function App() {
         audience: process.env.REACT_APP_AUTH0_AUDIENCE,
       }}
     >
-      <div>
-        <TopNavigationBar />
-        <Profile />
-      </div>
+      <TopNavigationBar />
+      {/* <Profile /> */}
+      <Dashboard_actions />
       <UpcomingBillsTotal />
+      <Upcoming_bills />
+      {/* <AddBill /> */}
+      {/* <AddPayee /> */}
     </Auth0Provider>
   );
 }
