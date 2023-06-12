@@ -35,7 +35,7 @@ const AddPayee = () => {
         <form className="mt-6" onSubmit={formik.handleSubmit}>
           <div className="mb-2">
             <label
-              htmlFor="payee"
+              htmlFor="categoryId"
               className="text-xl font-bold text-gray-800"
             >
               Category: 
