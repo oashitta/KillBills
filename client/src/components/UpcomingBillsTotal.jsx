@@ -20,7 +20,6 @@ const UpcomingBillsTotal = (totalDue, setTotalDue) => {
           });
           const data = await response.json();
           setTotalAmount(data.total);
-          setTotalDue(data.total);
         } else {
           setTotalAmount(null);
         }

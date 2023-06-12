@@ -1,19 +1,47 @@
-import { React } from "react";
+import { React, useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { FiLink } from "react-icons/fi";
 
 const Upcoming_bills = () => {
-  const { user, isAuthenticated, isLoading } = useAuth0();
+  const { user, isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0();
+  const [bills, setBills] = useState([]);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      fetchBills();
+    }
+  }, [isAuthenticated]);
+
+  const fetchBills = async () => {
+    try {
+      const accessToken = await getAccessTokenSilently({
+        audience: process.env.REACT_APP_AUTH0_AUDIENCE
+      });
+      const response = await fetch("http://localhost:8080/bills", {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      const data = await response.json();
+      const filteredBills = data.bills
+      .filter(bill => new Date(bill.due_date) >= new Date())
+      .sort((a, b) => new Date(a.due_date) - new Date(b.due_date));
+      setBills(filteredBills);
+    } catch (error) {
+      console.log("Error fetching bills:", error);
+    }
+  };
 
   return (
     <>
-      {isAuthenticated && (
+      {isLoading ? (
+        <p>Loading...</p>
+      ) : isAuthenticated ? (
         <div className="mx-auto flex flex-col max-w-7xl items-center justify-between p-6 lg:px-8">
           <h2 className="font-bold text-xl text-slate-900 my-5">
             Upcoming Bills
           </h2>
 
-          {/* for the table, we want the new rows to be auto generated once the user adds a new bill. it should also be auto populated from the bills in the db. */}
           <table className="table-fixed w-full border-solid border-2">
             <thead className="border-solid border-2">
               <tr className="text-left px-2">
@@ -23,40 +51,23 @@ const Upcoming_bills = () => {
               </tr>
             </thead>
             <tbody className="border-solid border-2 ">
-              <tr className="border-solid border-2 px-2">
-                <td className="border px-4 py-2 flex">
-                  Virgin Mobile
-                  <a href="https://www.virginplus.ca/" target="__blank">
-                    <FiLink className="ml-2" />
-                  </a>
-                </td>
-                <td className="border px-4 py-2">$50.99</td>
-                <td className="border px-4 py-2">2023-07-01</td>
-              </tr>
-              <tr className="border-solid border-2 ">
-                <td className="border px-4 py-2 flex">
-                  Wyse Electricity
-                  {/* This link should go to the payees's website. */}
-                  <a href="https://www.wyseutilities.com/" target="__blank">
-                    <FiLink className="ml-2" />
-                  </a>
-                </td>
-                <td className="border px-4 py-2">$124.69</td>
-                <td className="border px-4 py-2">2023-06-28</td>
-              </tr>
-              <tr className="border-solid border-2 ">
-                <td className="border px-4 py-2 flex">
-                  TD Insurance
-                  <a href="https://www.tdinsurance.com/" target="__blank">
-                    <FiLink className="ml-2" />
-                  </a>
-                </td>
-                <td className="border px-4 py-2">$90.59</td>
-                <td className="border px-4 py-2">2023-06-22</td>
-              </tr>
+              {bills.map((bill) => (
+                <tr key={bill.id} className="border-solid border-2 px-2">
+                  <td className="border px-4 py-2 flex">
+                    {bill.payee_name}
+                    <a href={bill.payee_link} target="__blank">
+                      <FiLink className="ml-2" />
+                    </a>
+                  </td>
+                  <td className="border px-4 py-2">{bill.amount}</td>
+                  <td className="border px-4 py-2">{new Date(bill.due_date).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}</td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
+      ) : (
+        <p>Please log in to view upcoming bills.</p>
       )}
     </>
   );
