@@ -7,6 +7,7 @@ import "./App.css";
 import AddBill from "./components/AddBill";
 import AddPayee from "./components/AddPayee";
 import Dashboard_actions from "./components/Dashboard_actions";
+import Upcoming_bills from "./components/Upcoming_bills";
 
 function App() {
   return (
@@ -20,8 +21,9 @@ function App() {
       <TopNavigationBar />
       {/* <Profile /> */}
       <Dashboard_actions />
+      <Upcoming_bills />
       {/* <AddBill /> */}
-      {/* <AddPayee /> */}
+      <AddPayee />
     </Auth0Provider>
   );
 }
