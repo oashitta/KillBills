@@ -7,8 +7,8 @@ const AddBill = () => {
 
   useEffect(() => {
     axios.get('http://localhost:8080/payees').then(res => {
-      console.log(res.data)
-      setPayees(res.data)
+      console.log("data", res.data)
+      setPayees(res.data.payees)
     })
   }, [])
 
