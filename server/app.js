@@ -1,4 +1,6 @@
+// const port = 8080;
 const express = require("express");
+const cors = require("cors");
 const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
@@ -11,6 +13,7 @@ const categoriesRouter = require("./routes/categories");
 
 const app = express();
 
+app.use(cors());
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -22,5 +25,7 @@ app.use("/users", usersRouter);
 app.use("/bills", billsRouter);
 app.use("/payees", payeesRouter);
 app.use("/categories", categoriesRouter);
+
+// app.listen(8080, () => console.log(`server is running on PORT {port}`));
 
 module.exports = app;
