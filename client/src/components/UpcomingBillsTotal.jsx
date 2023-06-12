@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 
-const UpcomingBillsTotal = () => {
+const UpcomingBillsTotal = (totalDue, setTotalDue) => {
   const { getAccessTokenSilently, isAuthenticated } = useAuth0();
   const [totalAmount, setTotalAmount] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -20,6 +20,7 @@ const UpcomingBillsTotal = () => {
           });
           const data = await response.json();
           setTotalAmount(data.total);
+          setTotalDue(data.total);
         } else {
           setTotalAmount(null);
         }
@@ -41,9 +42,9 @@ const UpcomingBillsTotal = () => {
     <div>
       {isAuthenticated ? (
         totalAmount !== null ? (
-          <p>Total Due: {totalAmount}</p>
+          <p>{totalAmount}</p>
         ) : (
-          <p>No upcoming bills found.</p>
+          <p>$0</p>
         )
       ) : (
         <p>Please log in to view</p>

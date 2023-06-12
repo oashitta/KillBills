@@ -22,7 +22,6 @@ function App() {
       <TopNavigationBar />
       {/* <Profile /> */}
       <Dashboard_actions />
-      <UpcomingBillsTotal />
       <Upcoming_bills />
       {/* <AddBill /> */}
       {/* <AddPayee /> */}

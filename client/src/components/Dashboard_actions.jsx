@@ -1,5 +1,6 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { React, useState } from "react";
+import UpcomingBillsTotal from "./UpcomingBillsTotal";
 
 const Dashboard_actions = () => {
   const { user, isAuthenticated, isLoading } = useAuth0();
@@ -27,7 +28,8 @@ const Dashboard_actions = () => {
 
           {/* this does nothing. just shows the total amount */}
           <div className="p-3 border-solid border-2 border-violet-400 font-bold">
-            <p>Total Due: ${totalDue}</p>
+            <p>Total Due: </p>
+            <UpcomingBillsTotal totalDue={totalDue} setTotalDue={setTotalDue} />
           </div>
         </div>
       )}
