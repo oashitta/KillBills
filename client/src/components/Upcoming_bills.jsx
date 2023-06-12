@@ -24,19 +24,33 @@ const Upcoming_bills = () => {
             </thead>
             <tbody className="border-solid border-2 ">
               <tr className="border-solid border-2 px-2">
-                <td className="border px-4 py-2">
-                  Virgin Mobile <FiLink className="ml-2" />
+                <td className="border px-4 py-2 flex">
+                  Virgin Mobile
+                  <a href="">
+                    <FiLink className="ml-2" />
+                  </a>
                 </td>
                 <td className="border px-4 py-2">$50.99</td>
                 <td className="border px-4 py-2">2023-07-01</td>
               </tr>
-              <tr className="border-solid border-2">
-                <td className="border px-4 py-2">Wyse Electricity</td>
+              <tr className="border-solid border-2 ">
+                <td className="border px-4 py-2 flex">
+                  Wyse Electricity
+                  {/* This link should go to the payees's website. */}
+                  <a href="">
+                    <FiLink className="ml-2" />
+                  </a>
+                </td>
                 <td className="border px-4 py-2">$124.69</td>
                 <td className="border px-4 py-2">2023-06-28</td>
               </tr>
-              <tr className="border-solid border-2">
-                <td className="border px-4 py-2">TD Insurance</td>
+              <tr className="border-solid border-2 ">
+                <td className="border px-4 py-2 flex">
+                  TD Insurance
+                  <a href="">
+                    <FiLink className="ml-2" />
+                  </a>
+                </td>
                 <td className="border px-4 py-2">$90.59</td>
                 <td className="border px-4 py-2">2023-06-22</td>
               </tr>
