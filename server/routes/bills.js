@@ -4,15 +4,17 @@ const bills = require("../db/queries/bills");
 
 // GET /bills
 router.get("/", (req, res) => {
-  bills.getBills().then((data) => {
+  const auth0Sub = req.auth.payload.sub;
+  bills.getBills(auth0Sub).then((data) => {
     res.json({ bills: data });
   });
 });
 
 // POST /bills
 router.post("/", (req, res) => {
-  const { payeeId, userId, amount, dueDate, reminderDate, paidDate, note } = req.body;
-  bills.addBill(payeeId, userId, amount, dueDate, reminderDate, paidDate, note).then((data) => {
+  const auth0Sub = req.auth.payload.sub;
+  const { payeeId, amount, dueDate, reminderDate, paidDate, note } = req.body;
+  bills.createBill(payeeId, auth0Sub, amount, dueDate, reminderDate, paidDate, note).then((data) => {
     res.json({ bill: data });
   });
 });
@@ -20,8 +22,9 @@ router.post("/", (req, res) => {
 // PUT /bills/:id
 router.put("/:id", (req, res) => {
   const billId = req.params.id;
-  const { payeeId, userId, amount, dueDate, reminderDate, paidDate, note } = req.body;
-  bills.updateBill(billId, payeeId, userId, amount, dueDate, reminderDate, paidDate, note).then((data) => {
+  const auth0Sub = req.auth.payload.sub;
+  const { payeeId, amount, dueDate, reminderDate, paidDate, note } = req.body;
+  bills.updateBill(billId, payeeId, auth0Sub, amount, dueDate, reminderDate, paidDate, note).then((data) => {
     res.json({ bill: data });
   });
 });
@@ -36,71 +39,86 @@ router.delete("/:id", (req, res) => {
 
 // GET /bills/category/total
 router.get("/category/total", (req, res) => {
-  bills.getBillsByCategoryTotal().then((data) => {
+  const auth0Sub = req.auth.payload.sub;
+  const categoryId = req.query.categoryId;
+  bills.getBillsByCategoryTotal(auth0Sub, categoryId).then((data) => {
     res.json({ total: data });
   });
 });
 
 // GET /bills/unpaid/total
 router.get("/unpaid/total", (req, res) => {
-  bills.getBillsUnpaidTotal().then((data) => {
+  const auth0Sub = req.auth.payload.sub;
+  bills.getBillsUnpaidTotal(auth0Sub).then((data) => {
     res.json({ total: data });
   });
 });
 
 // GET /bills/due/total
 router.get("/due/total", (req, res) => {
-  bills.getBillsDueTotal().then((data) => {
+  const auth0Sub = req.auth.payload.sub;
+  bills.getBillsDueTotal(auth0Sub).then((data) => {
     res.json({ total: data });
   });
 });
 
 // GET /bills/overdue/total
 router.get("/overdue/total", (req, res) => {
-  bills.getBillsOverdueTotal().then((data) => {
+  const auth0Sub = req.auth.payload.sub;
+  bills.getBillsOverdueTotal(auth0Sub).then((data) => {
     res.json({ total: data });
   });
 });
 
 // GET /bills/date/total
 router.get("/date/total", (req, res) => {
-  bills.getBillsByDateTotal().then((data) => {
+  const auth0Sub = req.auth.payload.sub;
+  const startDate = req.query.startDate;
+  const endDate = req.query.endDate;
+  bills.getBillsByDateTotal(auth0Sub, startDate, endDate).then((data) => {
     res.json({ total: data });
   });
 });
 
 // GET /bills/category/:id
 router.get("/category/:id", (req, res) => {
+  const auth0Sub = req.auth.payload.sub;
   const categoryId = req.params.id;
-  bills.getBillsByCategory(categoryId).then((data) => {
+  bills.getBillsByCategory(auth0Sub, categoryId).then((data) => {
     res.json({ bills: data });
   });
 });
 
 // GET /bills/unpaid
 router.get("/unpaid", (req, res) => {
-  bills.getBillsUnpaid().then((data) => {
+  const auth0Sub = req.auth.payload.sub;
+  bills.getBillsUnpaid(auth0Sub).then((data) => {
     res.json({ bills: data });
   });
 });
 
 // GET /bills/due
 router.get("/due", (req, res) => {
-  bills.getBillsDue().then((data) => {
+  const auth0Sub = req.auth.payload.sub;
+  bills.getBillsDue(auth0Sub).then((data) => {
     res.json({ bills: data });
   });
 });
 
 // GET /bills/overdue
 router.get("/overdue", (req, res) => {
-  bills.getBillsOverdue().then((data) => {
+  const auth0Sub = req.auth.payload.sub;
+  bills.getBillsOverdue(auth0Sub).then((data) => {
     res.json({ bills: data });
   });
 });
 
 // GET /bills/date
 router.get("/date", (req, res) => {
-  bills.getBillsByDate().then((data) => {
+  const auth0Sub = req.auth.payload.sub;
+  const startDate = req.query.startDate;
+  const endDate = req.query.endDate;
+  bills.getBillsByDate(auth0Sub, startDate, endDate).then((data) => {
     res.json({ bills: data });
   });
 });

@@ -13,6 +13,7 @@
     "debug": "~2.6.9",
     "dotenv": "^16.1.4",
     "express": "~4.16.1",
+    "express-oauth2-jwt-bearer": "^1.5.0",
     "morgan": "~1.9.1",
     "pg": "^8.11.0"
   },

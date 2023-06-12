@@ -6,37 +6,22 @@ const getUsers = () => {
   });
 };
 
-const getUserById = (id) => {
-  return db.query("SELECT * FROM users WHERE id = $1", [id]).then((data) => {
+const getUserById = (auth0Sub) => {
+  return db.query("SELECT * FROM users WHERE auth0_sub = $1", [auth0Sub]).then((data) => {
     return data.rows[0];
   });
 };
 
-const addUser = (name, email, password) => {
+const addUser = (auth0Sub, name, email) => {
   return db
-    .query("INSERT INTO users (name, email, password) VALUES ($1, $2, $3) RETURNING *", [
+    .query("INSERT INTO users (auth0_sub, name, email) VALUES ($1, $2, $3, $4) RETURNING *", [
+      auth0Sub,
       name,
-      email,
-      password,
+      email
     ])
     .then((data) => {
       return data.rows[0];
     });
 };
 
-const updateUser = (id, name, email, password) => {
-  return db
-    .query(
-      "UPDATE users SET name = $2, email = $3, password = $4 WHERE id = $1 RETURNING *",
-      [id, name, email, password]
-    )
-    .then((data) => {
-      return data.rows[0];
-    });
-};
-
-const deleteUser = (id) => {
-  return db.query("DELETE FROM users WHERE id = $1", [id]);
-};
-
-module.exports = { getUsers, getUserById, addUser, updateUser, deleteUser };
+module.exports = { getUsers, getUserById, addUser };
