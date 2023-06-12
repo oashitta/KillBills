@@ -23,7 +23,7 @@ function App() {
       <Dashboard_actions />
       <Upcoming_bills />
       {/* <AddBill /> */}
-      <AddPayee />
+      {/* <AddPayee /> */}
     </Auth0Provider>
   );
 }

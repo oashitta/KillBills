@@ -26,7 +26,7 @@ const Upcoming_bills = () => {
               <tr className="border-solid border-2 px-2">
                 <td className="border px-4 py-2 flex">
                   Virgin Mobile
-                  <a href="">
+                  <a href="https://www.virginplus.ca/" target="__blank">
                     <FiLink className="ml-2" />
                   </a>
                 </td>
@@ -37,7 +37,7 @@ const Upcoming_bills = () => {
                 <td className="border px-4 py-2 flex">
                   Wyse Electricity
                   {/* This link should go to the payees's website. */}
-                  <a href="">
+                  <a href="https://www.wyseutilities.com/" target="__blank">
                     <FiLink className="ml-2" />
                   </a>
                 </td>
@@ -47,7 +47,7 @@ const Upcoming_bills = () => {
               <tr className="border-solid border-2 ">
                 <td className="border px-4 py-2 flex">
                   TD Insurance
-                  <a href="">
+                  <a href="https://www.tdinsurance.com/" target="__blank">
                     <FiLink className="ml-2" />
                   </a>
                 </td>

@@ -12,8 +12,13 @@ const Dashboard_actions = () => {
       {isAuthenticated && (
         <div className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8 border-solid border-2 border-violet-400">
           {/* on click of this button, the page should display the add bill component.*/}
-          <div className="p-3 bg-violet-500 font-bold text-white">
-            <a href="">Add Bill +</a>
+          <div className="flex">
+            <div className="p-3 bg-violet-500 font-bold text-white">
+              <a href="">Add Bill +</a>
+            </div>
+            <div className="p-3 bg-violet-500 font-bold text-white mx-3">
+              <a href="">Add Payee +</a>
+            </div>
           </div>
           {/* on click of the payent history button, the page shld display the payment history components */}
           <div className="p-3 border-solid border-2 border-violet-400  bg-violet-500 font-bold text-white">
