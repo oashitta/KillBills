@@ -6,6 +6,7 @@ import Profile from "./components/Profile";
 import "./App.css";
 import AddBill from './components/AddBill';
 import AddPayee from './components/AddPayee';
+import EditBill from './components/EditBill';
 
 function App() {
   return (
@@ -19,7 +20,7 @@ function App() {
       <TopNavigationBar />
       <Profile />
       <AddBill />
-      <AddPayee />
+      <EditBill />
     </Auth0Provider>
   );
 }
