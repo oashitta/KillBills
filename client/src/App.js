@@ -8,6 +8,7 @@ import UpcomingBills from "./components/UpcomingBills";
 import "./App.css";
 import EditBill from "./components/EditBill";
 import Main from "./components/main";
+import PaymentHistory from "./components/PaymentHistory";
 
 const router = createBrowserRouter([
   {
@@ -22,6 +23,7 @@ const router = createBrowserRouter([
       },
       { path: "/settings", element: <Profile /> },
       { path: "/edit-bill", element: <EditBill /> },
+      { path: "/payment-history", element: <PaymentHistory /> },
     ],
   },
 ]);
