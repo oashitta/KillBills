@@ -8,6 +8,7 @@ import Dashboard_actions from "./components/Dashboard_actions";
 import Upcoming_bills from "./components/Upcoming_bills";
 import "./App.css";
 import EditBill from './components/EditBill';
+import EditPayee from './components/EditPayee';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
       {/* <Profile /> */}
       <Dashboard_actions />
       <Upcoming_bills />
+      <EditPayee />
       <EditBill />
       <AddBill />
       <AddPayee />
