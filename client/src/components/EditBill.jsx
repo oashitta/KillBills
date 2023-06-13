@@ -67,7 +67,7 @@ const EditBill = () => {
       setBill(response.data.bill)
 
       } catch (error) {
-        console.log('Error adding bill:', error);
+        console.log('Error editing bill:', error);
       }
     }
 
