@@ -1,4 +1,5 @@
 import { useAuth0 } from "@auth0/auth0-react";
+import { Link } from "react-router-dom";
 import { React, useState } from "react";
 import UpcomingBillsTotal from "./UpcomingBillsTotal";
 
@@ -15,7 +16,8 @@ const Dashboard_actions = () => {
           {/* on click of this button, the page should display the add bill component.*/}
           <div className="flex">
             <div className="p-3 bg-violet-500 font-bold text-white">
-              <a href="">Add Bill +</a>
+              <Link to="/add-bill"> Add Bill + </Link>
+              {/* <a href=""></a> */}
             </div>
             <div className="p-3 bg-violet-500 font-bold text-white mx-3">
               <a href="">Add Payee +</a>
