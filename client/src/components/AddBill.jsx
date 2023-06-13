@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
-import { useFormik } from 'formik';
-import axios from 'axios';
-import { useAuth0 } from '@auth0/auth0-react';
+import { useState, useEffect } from "react";
+import { useFormik } from "formik";
+import axios from "axios";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const AddBill = () => {
   const { getAccessTokenSilently } = useAuth0();
@@ -13,14 +13,14 @@ const AddBill = () => {
         const accessToken = await getAccessTokenSilently({
           audience: process.env.REACT_APP_AUTH0_AUDIENCE,
         });
-        const response = await axios.get('http://localhost:8080/payees', {
+        const response = await axios.get("http://localhost:8080/payees", {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
         });
         setPayees(response.data.payees);
       } catch (error) {
-        console.log('Error fetching payees:', error);
+        console.log("Error fetching payees:", error);
       }
     };
 
@@ -31,25 +31,29 @@ const AddBill = () => {
     initialValues: {
       payeeId: 1,
       userId: 1,
-      amount: '',
-      dueDate: '',
-      reminderDate: '',
-      paidDate: '',
-      note: '',
+      amount: "",
+      dueDate: "",
+      reminderDate: "",
+      paidDate: "",
+      note: "",
     },
     onSubmit: async (values) => {
       try {
         const accessToken = await getAccessTokenSilently({
           audience: process.env.REACT_APP_AUTH0_AUDIENCE,
         });
-        const response = await axios.post('http://localhost:8080/bills', values, {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
+        const response = await axios.post(
+          "http://localhost:8080/bills",
+          values,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
       } catch (error) {
-        console.log('Error adding bill:', error);
+        console.log("Error adding bill:", error);
       }
     },
   });
@@ -58,8 +62,8 @@ const AddBill = () => {
     <div className="relative flex flex-col justify-center min-h-screen overflow-hidden">
       <div className="w-full p-6 m-auto bg-white rounded-md shadow-xl shadow-rose-600/40 ring-2 ring-indigo-600 lg:max-w-xl">
         <div className="text-xl font-bold text-gray-800">
-          <span>+ add payees</span>
-          <span>- delete payees</span>
+          <span>add payee + </span>
+          <span className="mx-3"> delete payee -</span>
         </div>
         <form className="mt-6" onSubmit={formik.handleSubmit}>
           <div className="mb-2">
@@ -85,10 +89,7 @@ const AddBill = () => {
             </select>
           </div>
           <div mt-2>
-            <label
-              htmlFor="amount"
-              className="text-xl font-bold text-gray-800"
-            >
+            <label htmlFor="amount" className="text-xl font-bold text-gray-800">
               Amount:
             </label>
             <input
@@ -155,10 +156,7 @@ const AddBill = () => {
             />
           </div>
           <div className="mt-2">
-            <label
-              htmlFor="note"
-              className="text-xl font-bold text-gray-800"
-            >
+            <label htmlFor="note" className="text-xl font-bold text-gray-800">
               Notes:
             </label>
             <textarea

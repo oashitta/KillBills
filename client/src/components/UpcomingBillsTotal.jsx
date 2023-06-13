@@ -11,13 +11,16 @@ const UpcomingBillsTotal = (totalDue, setTotalDue) => {
       try {
         if (isAuthenticated) {
           const accessToken = await getAccessTokenSilently({
-            audience: process.env.REACT_APP_AUTH0_AUDIENCE
+            audience: process.env.REACT_APP_AUTH0_AUDIENCE,
           });
-          const response = await fetch("http://localhost:8080/bills/due/total", {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          });
+          const response = await fetch(
+            "http://localhost:8080/bills/due/total",
+            {
+              headers: {
+                Authorization: `Bearer ${accessToken}`,
+              },
+            }
+          );
           const data = await response.json();
           setTotalAmount(data.total);
         } else {

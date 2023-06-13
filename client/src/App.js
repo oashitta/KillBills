@@ -1,14 +1,33 @@
 import React from "react";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Auth0Provider } from "@auth0/auth0-react";
-import TopNavigationBar from "./components/TopNavigationBar";
 import Profile from "./components/Profile";
 import AddBill from "./components/AddBill";
 import AddPayee from "./components/AddPayee";
-import Dashboard_actions from "./components/Dashboard_actions";
-import Upcoming_bills from "./components/Upcoming_bills";
+import UpcomingBills from "./components/UpcomingBills";
 import "./App.css";
-import EditBill from './components/EditBill';
-import EditPayee from './components/EditPayee';
+import EditBill from "./components/EditBill";
+import Main from "./components/main";
+import ChartBillsByPayee from "./components/ChartBillsByPayee"
+import ChartBillsByCategory from "./components/ChartBillsByCategory"
+import ChartBillsByMonth from "./components/ChartBillsByMonth"
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Main />,
+    children: [
+      { path: "/", element: <UpcomingBills /> },
+      { path: "/add-bill", element: <AddBill /> },
+      {
+        path: "/add-payee",
+        element: <AddPayee />,
+      },
+      { path: "/settings", element: <Profile /> },
+      { path: "/edit-bill", element: <EditBill /> },
+    ],
+  },
+]);
 
 function App() {
   return (
@@ -20,15 +39,11 @@ function App() {
         audience: process.env.REACT_APP_AUTH0_AUDIENCE,
       }}
     >
-      <TopNavigationBar />
-      {/* <Profile /> */}
-      <Dashboard_actions />
-      <Upcoming_bills />
-      <EditPayee />
-      <EditBill />
-      <AddBill />
-      <AddPayee />
-      </Auth0Provider>
+      <RouterProvider router={router} />
+      <ChartBillsByPayee />
+      <ChartBillsByCategory />
+      <ChartBillsByMonth />
+    </Auth0Provider>
   );
 }
 
