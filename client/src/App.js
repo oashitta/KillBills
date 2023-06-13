@@ -20,7 +20,7 @@ function App() {
       }}
     >
       <TopNavigationBar />
-      {/* <Profile /> */}
+      <Profile />
       <Dashboard_actions />
       <Upcoming_bills />
       {/* <AddBill /> */}

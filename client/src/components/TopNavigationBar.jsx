@@ -19,7 +19,7 @@ export default function TopNavigationBar() {
         aria-label="Global"
       >
         <div className="flex lg:flex-1">
-          <a href="#" className="-m-1.5 p-1.5">
+          <a href="http://localhost:3000/" className="-m-1.5 p-1.5">
             <span className="sr-only">Killbills</span>
             <h2 className="font-bold">KILLBILLS</h2>
           </a>
@@ -41,7 +41,10 @@ export default function TopNavigationBar() {
           </button>
         </div>
         <Popover.Group className="hidden lg:flex lg:gap-x-12">
-          <a href="#" className="text-sm font-semibold leading-6 text-gray-900">
+          <a
+            href="http://localhost:3000/"
+            className="text-sm font-semibold leading-6 text-gray-900"
+          >
             Home
           </a>
           <a href="#" className="text-sm font-semibold leading-6 text-gray-900">
