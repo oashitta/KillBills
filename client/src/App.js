@@ -6,6 +6,9 @@ import AddBill from "./components/AddBill";
 import AddPayee from "./components/AddPayee";
 import Dashboard_actions from "./components/Dashboard_actions";
 import Upcoming_bills from "./components/Upcoming_bills";
+import ChartBillsByPayee from "./components/ChartBillsByPayee"
+import ChartBillsByCategory from "./components/ChartBillsByCategory"
+import ChartBillsByMonth from "./components/ChartBillsByMonth"
 import "./App.css";
 
 function App() {
@@ -22,8 +25,11 @@ function App() {
       {/* <Profile /> */}
       <Dashboard_actions />
       <Upcoming_bills />
-      <AddBill />
-      <AddPayee />
+      {/* <AddBill />
+      <AddPayee /> */}
+      <ChartBillsByPayee />
+      <ChartBillsByCategory />
+      <ChartBillsByMonth />
       </Auth0Provider>
   );
 }
