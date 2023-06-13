@@ -2,12 +2,11 @@ import React from "react";
 import { Auth0Provider } from "@auth0/auth0-react";
 import TopNavigationBar from "./components/TopNavigationBar";
 import Profile from "./components/Profile";
-import UpcomingBillsTotal from "./components/UpcomingBillsTotal";
-import "./App.css";
 import AddBill from "./components/AddBill";
 import AddPayee from "./components/AddPayee";
 import Dashboard_actions from "./components/Dashboard_actions";
 import Upcoming_bills from "./components/Upcoming_bills";
+import "./App.css";
 
 function App() {
   return (
@@ -23,9 +22,9 @@ function App() {
       <Profile />
       <Dashboard_actions />
       <Upcoming_bills />
-      {/* <AddBill /> */}
-      {/* <AddPayee /> */}
-    </Auth0Provider>
+      <AddBill />
+      <AddPayee />
+      </Auth0Provider>
   );
 }
 

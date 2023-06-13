@@ -17,7 +17,7 @@ const getBillById = (id) => {
   });
 };
 
-const addBill = (payeeId, userId, amount, dueDate, reminderDate, paidDate, note) => {
+const addBill = (payeeId, auth0Sub, amount, dueDate, reminderDate, paidDate, note) => {
   return db
     .query(
       "INSERT INTO bills (payee_id, user_id, amount, due_date, reminder_date, paid_date, note) VALUES ($1, (SELECT id FROM users WHERE auth0_sub = $2), $3, $4, $5, $6, $7) RETURNING *",
@@ -43,7 +43,7 @@ const deleteBill = (id) => {
   return db.query("DELETE FROM bills WHERE id = $1", [id]);
 };
 
-const getBillsByCategory = (auth0Sub, categoryId) => {
+const getBillsByCategoryId = (auth0Sub, categoryId) => {
   return db
     .query(
       "SELECT b.* FROM bills b JOIN users u ON b.user_id = u.id WHERE u.auth0_sub = $1 AND b.payee_id IN (SELECT id FROM payees WHERE category_id = $2)",
@@ -153,6 +153,61 @@ const getBillsByDateTotal = (auth0Sub, startDate, endDate) => {
     });
 };
 
+const getBillsByPayee = (auth0Sub) => {
+  return db
+    .query(
+      `
+      SELECT p.id, p.name, SUM(b.amount) AS total_amount
+      FROM payees p
+      JOIN users u ON u.id = p.user_id
+      JOIN bills b ON b.payee_id = p.id
+      WHERE u.auth0_sub = $1
+      GROUP BY p.id, p.name;
+    `,
+      [auth0Sub]
+    )
+    .then((data) => {
+      return data.rows;
+    });
+};
+
+const getBillsByCategory = (auth0Sub) => {
+  return db
+    .query(
+      `
+      SELECT c.*, SUM(b.amount) AS total_amount
+      FROM categories c
+      JOIN payees p ON c.id = p.category_id
+      JOIN bills b ON p.id = b.payee_id
+      JOIN users u ON b.user_id = u.id
+      WHERE u.auth0_sub = $1
+      GROUP BY c.id;
+    `,
+      [auth0Sub]
+    )
+    .then((data) => {
+      return data.rows;
+    });
+};
+
+const getBillsByMonth = (auth0Sub) => {
+  return db
+    .query(
+      `
+      SELECT TO_CHAR(DATE_TRUNC('month', b.due_date), 'YYYY-MM') AS month_year, SUM(b.amount) AS total_amount
+      FROM bills b
+      JOIN users u ON b.user_id = u.id
+      WHERE u.auth0_sub = $1 AND b.due_date >= CURRENT_DATE - INTERVAL '1 year'
+      GROUP BY month_year
+      ORDER BY month_year;
+    `,
+      [auth0Sub]
+    )
+    .then((data) => {
+      return data.rows;
+    });
+};
+
 module.exports = { 
   getBills, 
   getBillById, 
@@ -168,5 +223,8 @@ module.exports = {
   getBillsUnpaidTotal,
   getBillsDueTotal,
   getBillsOverdueTotal,
-  getBillsByDateTotal
+  getBillsByDateTotal,
+  getBillsByPayee,
+  getBillsByCategory,
+  getBillsByMonth
 };
