@@ -8,6 +8,9 @@ import UpcomingBills from "./components/UpcomingBills";
 import "./App.css";
 import EditBill from "./components/EditBill";
 import Main from "./components/main";
+import ChartBillsByPayee from "./components/ChartBillsByPayee"
+import ChartBillsByCategory from "./components/ChartBillsByCategory"
+import ChartBillsByMonth from "./components/ChartBillsByMonth"
 
 const router = createBrowserRouter([
   {
@@ -37,6 +40,9 @@ function App() {
       }}
     >
       <RouterProvider router={router} />
+      <ChartBillsByPayee />
+      <ChartBillsByCategory />
+      <ChartBillsByMonth />
     </Auth0Provider>
   );
 }
