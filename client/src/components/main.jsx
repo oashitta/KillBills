@@ -3,8 +3,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import React from "react";
 import { Outlet } from "react-router-dom";
 import TopNavigationBar from "./TopNavigationBar";
-import Dashboard_actions from "./Dashboard_actions";
-import Upcoming_bills from "./Upcoming_bills";
+import DashboardActions from "./DashboardActions";
 
 const Main = () => {
   const { user, isAuthenticated, isLoading } = useAuth0();
@@ -19,11 +18,13 @@ const Main = () => {
 
       {isAuthenticated ? (
         <>
-          <Dashboard_actions />
+          <DashboardActions />
           <Outlet />
         </>
       ) : (
-        <h2>Please login to view your dashboard.</h2>
+        <h2 className="flex justify-center font-bold text-xl text-slate-900 my-5">
+          Please login to view your dashboard.
+        </h2>
       )}
     </>
   );

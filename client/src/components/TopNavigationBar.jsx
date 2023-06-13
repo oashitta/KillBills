@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
+import { Link } from "react-router-dom";
 import { Dialog, Popover } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon, BellIcon } from "@heroicons/react/24/outline";
 
@@ -47,22 +48,30 @@ export default function TopNavigationBar() {
           >
             Home
           </a>
-          <a href="#" className="text-sm font-semibold leading-6 text-gray-900">
-            Add Bills
-          </a>
-          <a href="#" className="text-sm font-semibold leading-6 text-gray-900">
-            Add Payees
-          </a>
+
+          <Link
+            to="/add-bill"
+            className="text-sm font-semibold leading-6 text-gray-900"
+          >
+            Add Bill
+          </Link>
+
+          <Link
+            to="/add-payee"
+            className="text-sm font-semibold leading-6 text-gray-900"
+          >
+            Add Payee
+          </Link>
           <a href="#" className="text-sm font-semibold leading-6 text-gray-900">
             Payment History
           </a>
           {isAuthenticated && (
-            <a
-              href="#"
+            <Link
+              to="/settings"
               className="text-sm font-semibold leading-6 text-gray-900"
             >
               Settings
-            </a>
+            </Link>
           )}
         </Popover.Group>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">

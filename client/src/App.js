@@ -5,8 +5,7 @@ import TopNavigationBar from "./components/TopNavigationBar";
 import Profile from "./components/Profile";
 import AddBill from "./components/AddBill";
 import AddPayee from "./components/AddPayee";
-import Dashboard_actions from "./components/Dashboard_actions";
-import Upcoming_bills from "./components/Upcoming_bills";
+import UpcomingBills from "./components/UpcomingBills";
 import "./App.css";
 import Main from "./components/main";
 
@@ -15,12 +14,13 @@ const router = createBrowserRouter([
     path: "/",
     element: <Main />,
     children: [
-      { path: "/", element: <Upcoming_bills /> },
+      { path: "/", element: <UpcomingBills /> },
       { path: "/add-bill", element: <AddBill /> },
       {
         path: "/add-payee",
         element: <AddPayee />,
       },
+      { path: "/settings", element: <Profile /> },
     ],
   },
 ]);
@@ -35,13 +35,7 @@ function App() {
         audience: process.env.REACT_APP_AUTH0_AUDIENCE,
       }}
     >
-      {/* <TopNavigationBar /> */}
       <RouterProvider router={router} />
-      {/* <Profile />
-      <Dashboard_actions />
-      <Upcoming_bills /> */}
-      {/* <AddBill /> */}
-      {/* <AddPayee /> */}
     </Auth0Provider>
   );
 }

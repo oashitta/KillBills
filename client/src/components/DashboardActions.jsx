@@ -17,10 +17,9 @@ const Dashboard_actions = () => {
           <div className="flex">
             <div className="p-3 bg-violet-500 font-bold text-white">
               <Link to="/add-bill"> Add Bill + </Link>
-              {/* <a href=""></a> */}
             </div>
             <div className="p-3 bg-violet-500 font-bold text-white mx-3">
-              <a href="">Add Payee +</a>
+              <Link to="/add-payee"> Add Payee + </Link>
             </div>
           </div>
           {/* on click of the payent history button, the page shld display the payment history components */}
