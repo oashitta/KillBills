@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 import { useFormik } from 'formik';
+import { useAuth0 } from '@auth0/auth0-react';
 
 const EditBill = () => {
+  const { getAccessTokenSilently } = useAuth0();
   const [payees, setPayees] = useState([]);
   const [bill, setBill] = useState({});
   const [btnClicked, setBtnClicked] = useState('')
@@ -17,18 +19,39 @@ const EditBill = () => {
   }
 
   useEffect(() => {
-    axios.get('http://localhost:8080/payees').then(res => {
-      console.log("data", res.data)
-      setPayees(res.data.payees)
-    })
-  }, [])
+    const fetchPayees = async () => {
+      try {
+        const accessToken = await getAccessTokenSilently({
+          audience: process.env.REACT_APP_AUTH0_AUDIENCE,
+        });
+        const response = await axios.get('http://localhost:8080/payees', {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+        setPayees(response.data.payees);
+      } catch (error) {
+        console.log('Error fetching payees:', error);
+      }
+    };
+
+    fetchPayees();
+  }, [getAccessTokenSilently]);
 
   useEffect(() => {
-    axios.get('http://localhost:8080/bills/10')
-    .then(res => {
-      console.log("data", res.data)
+    const fetchBill = async () => {
+      try {
+        const accessToken = await getAccessTokenSilently({
+          audience: process.env.REACT_APP_AUTH0_AUDIENCE,
+        });
+        const response = await axios.get('http://localhost:8080/bills/10', {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
 
-      const bill = res.data.bill
+      const bill = response.data.bill
       const dueDate = String(bill.due_date).split('').slice(0,10).join('')
       const reminderDate = String(bill.reminder_date).split('').slice(0,10).join('')
       const paidDate = String(bill.paid_date).split('').slice(0,10).join('')
@@ -41,9 +64,16 @@ const EditBill = () => {
         reminderDate,
         paidDate,
         note: bill.note})
-      setBill(res.data.bill)
-    })
-  }, [])
+      setBill(response.data.bill)
+
+
+      } catch (error) {
+        console.log('Error adding bill:', error);
+      }
+    }
+
+    fetchBill();
+  }, [getAccessTokenSilently])
 
   const formik = useFormik({
     initialValues: {
@@ -55,14 +85,26 @@ const EditBill = () => {
       paidDate: '',
       note: '',
     },
-    onSubmit: values => {
-      if(btnClicked === 'edit') {
-        axios.put('http://localhost:8080/bills/5', 
-        values, {
-          headers: {'Content-Type': 'application/json'}
-        })
-      } else {
-        axios.delete('http://localhost:8080/bills/5')
+    onSubmit: async (values) => {
+      try {
+        const accessToken = await getAccessTokenSilently({
+          audience: process.env.REACT_APP_AUTH0_AUDIENCE,
+        });
+
+        if(btnClicked === 'edit') {
+          await axios.put('http://localhost:8080/bills/10', 
+          values, {
+            headers: {'Content-Type': 'application/json',
+            Authorization: `Bearer ${accessToken}`,}
+          })
+        } else {
+          await axios.delete('http://localhost:8080/bills/10', {
+            headers: {'Content-Type': 'application/json',
+            Authorization: `Bearer ${accessToken}`,}
+          })
+        }
+      } catch (error) {
+        console.log('Error adding bill:', error);
       }
     }
   });
