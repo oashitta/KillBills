@@ -14,9 +14,11 @@ router.get("/", (req, res) => {
 router.post("/", (req, res) => {
   const auth0Sub = req.auth.payload.sub;
   const { payeeId, amount, dueDate, reminderDate, paidDate, note } = req.body;
-  bills.createBill(payeeId, auth0Sub, amount, dueDate, reminderDate, paidDate, note).then((data) => {
-    res.json({ bill: data });
-  });
+  bills
+    .addBill(payeeId, auth0Sub, amount, dueDate, reminderDate, paidDate, note)
+    .then((data) => {
+      res.json({ bill: data });
+    });
 });
 
 // PUT /bills/:id
@@ -24,9 +26,20 @@ router.put("/:id", (req, res) => {
   const billId = req.params.id;
   const auth0Sub = req.auth.payload.sub;
   const { payeeId, amount, dueDate, reminderDate, paidDate, note } = req.body;
-  bills.updateBill(billId, payeeId, auth0Sub, amount, dueDate, reminderDate, paidDate, note).then((data) => {
-    res.json({ bill: data });
-  });
+  bills
+    .updateBill(
+      billId,
+      payeeId,
+      auth0Sub,
+      amount,
+      dueDate,
+      reminderDate,
+      paidDate,
+      note
+    )
+    .then((data) => {
+      res.json({ bill: data });
+    });
 });
 
 // DELETE /bills/:id
@@ -120,6 +133,30 @@ router.get("/date", (req, res) => {
   const endDate = req.query.endDate;
   bills.getBillsByDate(auth0Sub, startDate, endDate).then((data) => {
     res.json({ bills: data });
+  });
+});
+
+// GET /bills/payee
+router.get("/payee", (req, res) => {
+  const auth0Sub = req.auth.payload.sub;
+  getBillsByPayee(auth0Sub).then((data) => {
+    res.json({ payees: data });
+  });
+});
+
+// GET /bills/category
+router.get("/category", (req, res) => {
+  const auth0Sub = req.auth.payload.sub;
+  getBillsByCategory(auth0Sub).then((data) => {
+    res.json({ categories: data });
+  })
+});
+
+// GET /bills/month
+router.get("/month", (req, res) => {
+  const auth0Sub = req.auth.payload.sub;
+  getBillsByMonth(auth0Sub).then((data) => {
+    res.json({ months: data });
   });
 });
 
