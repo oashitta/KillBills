@@ -21,6 +21,7 @@ const router = createBrowserRouter([
         element: <AddPayee />,
       },
       { path: "/settings", element: <Profile /> },
+      { path: "/edit-bill", element: <EditBill /> },
     ],
   },
 ]);
