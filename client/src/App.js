@@ -22,7 +22,7 @@ function App() {
       {/* <Profile /> */}
       <Dashboard_actions />
       <Upcoming_bills />
-      {/* <AddBill /> */}
+      <AddBill />
       <AddPayee />
       </Auth0Provider>
   );

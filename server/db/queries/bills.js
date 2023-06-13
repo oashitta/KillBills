@@ -17,7 +17,7 @@ const getBillById = (id) => {
   });
 };
 
-const addBill = (payeeId, userId, amount, dueDate, reminderDate, paidDate, note) => {
+const addBill = (payeeId, auth0Sub, amount, dueDate, reminderDate, paidDate, note) => {
   return db
     .query(
       "INSERT INTO bills (payee_id, user_id, amount, due_date, reminder_date, paid_date, note) VALUES ($1, (SELECT id FROM users WHERE auth0_sub = $2), $3, $4, $5, $6, $7) RETURNING *",

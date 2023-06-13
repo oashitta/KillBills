@@ -14,7 +14,7 @@ router.get("/", (req, res) => {
 router.post("/", (req, res) => {
   const auth0Sub = req.auth.payload.sub;
   const { payeeId, amount, dueDate, reminderDate, paidDate, note } = req.body;
-  bills.createBill(payeeId, auth0Sub, amount, dueDate, reminderDate, paidDate, note).then((data) => {
+  bills.addBill(payeeId, auth0Sub, amount, dueDate, reminderDate, paidDate, note).then((data) => {
     res.json({ bill: data });
   });
 });
