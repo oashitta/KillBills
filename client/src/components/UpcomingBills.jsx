@@ -100,6 +100,7 @@ const UpcomingBills = () => {
     }),
     bill.payee_link,
   ]);
+  console.log("data", data)
 
   const options = {
     selectableRows: "none",
