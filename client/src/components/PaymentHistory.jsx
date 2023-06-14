@@ -1,5 +1,6 @@
-import { React, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
+import MUIDataTable from "mui-datatables";
 
 const PaymentHistory = () => {
   const { isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0();
@@ -28,40 +29,31 @@ const PaymentHistory = () => {
     }
   };
 
+  const columns = ["Payee", "Amount", "Paid Date"];
+  const data = bills.map((bill) => [
+    bill.payee_name,
+    bill.amount,
+    new Date(bill.paid_date).toLocaleDateString("en-US", {
+      month: "long",
+      day: "numeric",
+      year: "numeric",
+    }),
+  ]);
+
+  const options = {
+    selectableRows: "none",
+  };
+
   return (
     <>
       {isLoading ? (
         <p className="flex justify-center">Loading...</p>
       ) : isAuthenticated ? (
-        <div className="mx-auto flex flex-col max-w-7xl items-center justify-between p-6 lg:px-8">
-          <h2 className="font-bold text-xl text-slate-900 my-5">
+        <div className="mx-auto max-w-7xl px-6 py-8">
+          <h2 className="font-bold text-xl text-slate-900 mb-5">
             Payment History
           </h2>
-
-          <table className="table-fixed w-full border-solid border-2">
-            <thead className="border-solid border-2">
-              <tr className="text-left px-2">
-                <th className="border px-4 py-2">Payee</th>
-                <th className="border px-4 py-2">Amount</th>
-                <th className="border px-4 py-2">Paid Date</th>
-              </tr>
-            </thead>
-            <tbody className="border-solid border-2 ">
-              {bills.map((bill) => (
-                <tr key={bill.id} className="border-solid border-2 px-2">
-                  <td className="border px-4 py-2 flex">{bill.payee_name}</td>
-                  <td className="border px-4 py-2">{bill.amount}</td>
-                  <td className="border px-4 py-2">
-                    {new Date(bill.paid_date).toLocaleDateString("en-US", {
-                      month: "long",
-                      day: "numeric",
-                      year: "numeric",
-                    })}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <MUIDataTable columns={columns} data={data} options={options} />
         </div>
       ) : (
         <p className="flex justify-center font-bold text-xl text-slate-900 my-5">
