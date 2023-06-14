@@ -60,7 +60,7 @@ const AddBill = () => {
 
   return (
     <div className="relative flex flex-col justify-center min-h-screen overflow-hidden">
-      <div className="w-full p-6 m-auto bg-white rounded-md shadow-xl shadow-rose-600/40 ring-2 ring-indigo-600 lg:max-w-xl">
+      <div className="w-full p-6 m-auto bg-white rounded-md border-solid border-2 border-violet-400 lg:max-w-xl">
         <div className="text-xl font-bold text-gray-800">
           <span>add payee + </span>
           <span className="mx-3"> delete payee -</span>
