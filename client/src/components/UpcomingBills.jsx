@@ -44,7 +44,11 @@ const UpcomingBills = () => {
           <div style={{ display: "flex", alignItems: "center" }}>
             {value}
             {tableMeta.rowData[3] && (
-              <a href={tableMeta.rowData[3]} target="_blank" rel="noopener noreferrer">
+              <a
+                href={tableMeta.rowData[3]}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <FiLink className="ml-2" />
               </a>
             )}
@@ -106,18 +110,27 @@ const UpcomingBills = () => {
       {isLoading ? (
         <p className="flex justify-center">Loading...</p>
       ) : isAuthenticated ? (
-        <div className="mx-auto flex flex-col max-w-7xl items-center justify-between p-6 lg:px-8">
-          <h2 className="font-bold text-xl text-slate-900 my-5">Upcoming Bills</h2>
-          <MUIDataTable columns={columns} data={data} options={options} />
+        <div className="mx-auto max-w-7xl px-6 py-8">
+          <h2 className="font-bold text-xl text-slate-900 my-5">
+            Upcoming Bills
+          </h2>
+          <div>
+            <div className="flex mx-auto">
+              <ChartBillsByPayee />
+              <ChartBillsByCategory />
+              <ChartBillsByMonth />
+            </div>
+
+            <div className="mt-4">
+              <MUIDataTable columns={columns} data={data} options={options} />
+            </div>
+          </div>
         </div>
       ) : (
         <p className="flex justify-center font-bold text-xl text-slate-900 my-5">
           Please log in to view upcoming bills.
         </p>
       )}
-      <ChartBillsByPayee />
-      <ChartBillsByCategory />
-      <ChartBillsByMonth />
     </>
   );
 };

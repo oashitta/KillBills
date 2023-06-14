@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import 'chart.js/auto';
-import { Chart } from 'react-chartjs-2';
+import "chart.js/auto";
+import { Chart } from "react-chartjs-2";
 
 const ChartBillsByPayee = () => {
   const { getAccessTokenSilently, isAuthenticated } = useAuth0();
@@ -13,7 +13,7 @@ const ChartBillsByPayee = () => {
       try {
         if (isAuthenticated) {
           const accessToken = await getAccessTokenSilently({
-            audience: process.env.REACT_APP_AUTH0_AUDIENCE
+            audience: process.env.REACT_APP_AUTH0_AUDIENCE,
           });
           const response = await fetch("http://localhost:8080/bills/payee", {
             headers: {
@@ -21,8 +21,10 @@ const ChartBillsByPayee = () => {
             },
           });
           const data = await response.json();
-          const payees = data.payees.map(payee => payee.name);
-          const totalAmounts = data.payees.map(payee => parseFloat(payee.total_amount.replace(/[$,]/g, "")).toFixed(2));
+          const payees = data.payees.map((payee) => payee.name);
+          const totalAmounts = data.payees.map((payee) =>
+            parseFloat(payee.total_amount.replace(/[$,]/g, "")).toFixed(2)
+          );
 
           setChartData({
             labels: payees,
@@ -43,7 +45,7 @@ const ChartBillsByPayee = () => {
                   "rgba(203,226,199,0.6)",
                   "rgba(153,255,230,0.6)",
                   "rgba(226,199,203,0.6)",
-                ],               
+                ],
                 borderColor: "rgba(0,0,0,0)",
                 borderWidth: 1,
               },
@@ -64,10 +66,10 @@ const ChartBillsByPayee = () => {
   }
 
   return (
-    <div>
+    <div className="w-1/3">
       {isAuthenticated ? (
         chartData ? (
-          <Chart type='pie' data={chartData} />
+          <Chart type="pie" data={chartData} />
         ) : (
           <p>No data available</p>
         )
