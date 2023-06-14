@@ -1,8 +1,11 @@
 import { React, useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { FiLink } from "react-icons/fi";
+import ChartBillsByPayee from "./ChartBillsByPayee";
+import ChartBillsByCategory from "./ChartBillsByCategory";
+import ChartBillsByMonth from "./ChartBillsByMonth";
 
-const Upcoming_bills = () => {
+const UpcomingBills = () => {
   const { isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0();
   const [bills, setBills] = useState([]);
 
@@ -77,8 +80,11 @@ const Upcoming_bills = () => {
           Please log in to view upcoming bills.
         </p>
       )}
+      <ChartBillsByPayee />
+      <ChartBillsByCategory />
+      <ChartBillsByMonth />
     </>
   );
 };
 
-export default Upcoming_bills;
+export default UpcomingBills;
