@@ -54,10 +54,36 @@ const getBillsByCategoryId = (auth0Sub, categoryId) => {
     });
 };
 
+const getBillsPaid = (auth0Sub) => {
+  return db
+    .query(
+      `
+      SELECT b.*, p.name AS payee_name
+      FROM bills b
+      JOIN users u ON b.user_id = u.id
+      JOIN payees p ON b.payee_id = p.id
+      WHERE u.auth0_sub = $1
+      AND b.paid_date IS NOT NULL
+      ORDER BY b.paid_date DESC, p.name ASC;
+    `,
+      [auth0Sub]
+    )
+    .then((data) => {
+      return data.rows;
+    });
+};
+
 const getBillsUnpaid = (auth0Sub) => {
   return db
     .query(
-      "SELECT b.* FROM bills b JOIN users u ON b.user_id = u.id WHERE u.auth0_sub = $1 AND b.paid_date IS NULL",
+      `
+      SELECT b.*, p.name AS payee_name
+      FROM bills b
+      JOIN users u ON b.user_id = u.id
+      JOIN payees p ON b.payee_id = p.id
+      WHERE u.auth0_sub = $1
+      AND b.paid_date IS NOT NULL;
+    `,
       [auth0Sub]
     )
     .then((data) => {
@@ -103,6 +129,17 @@ const getBillsByCategoryTotal = (auth0Sub, categoryId) => {
     .query(
       "SELECT SUM(b.amount) AS total_amount FROM bills b JOIN users u ON b.user_id = u.id WHERE u.auth0_sub = $1 AND b.payee_id IN (SELECT id FROM payees WHERE category_id = $2)",
       [auth0Sub, categoryId]
+    )
+    .then((data) => {
+      return data.rows[0].total_amount || 0;
+    });
+};
+
+const getBillsPaidTotal = (auth0Sub) => {
+  return db
+    .query(
+      "SELECT SUM(amount) AS total_amount FROM bills WHERE user_id = (SELECT id FROM users WHERE auth0_sub = $1) AND paid_date IS NOT NULL",
+      [auth0Sub]
     )
     .then((data) => {
       return data.rows[0].total_amount || 0;
@@ -216,16 +253,18 @@ module.exports = {
   updateBill, 
   deleteBill, 
   getBillsByCategoryId, 
+  getBillsPaid, 
   getBillsUnpaid, 
   getBillsDue, 
   getBillsOverdue, 
-  getBillsByDate,
-  getBillsByCategoryTotal,
-  getBillsUnpaidTotal,
-  getBillsDueTotal,
-  getBillsOverdueTotal,
-  getBillsByDateTotal,
-  getBillsByPayee,
-  getBillsByCategory,
+  getBillsByDate, 
+  getBillsByCategoryTotal, 
+  getBillsPaidTotal, 
+  getBillsUnpaidTotal, 
+  getBillsDueTotal, 
+  getBillsOverdueTotal, 
+  getBillsByDateTotal, 
+  getBillsByPayee, 
+  getBillsByCategory, 
   getBillsByMonth
 };

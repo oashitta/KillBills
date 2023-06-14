@@ -16,16 +16,13 @@ const PaymentHistory = () => {
       const accessToken = await getAccessTokenSilently({
         audience: process.env.REACT_APP_AUTH0_AUDIENCE,
       });
-      const response = await fetch("http://localhost:8080/bills", {
+      const response = await fetch("http://localhost:8080/bills/paid", {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
       });
       const data = await response.json();
-      const filteredBills = data.bills
-        .filter((bill) => new Date(bill.paid_date) <= new Date())
-        .sort((a, b) => new Date(a.paid_date) - new Date(b.paid_date));
-      setBills(filteredBills);
+      setBills(data.bills);
     } catch (error) {
       console.log("Error fetching bills:", error);
     }
@@ -44,7 +41,7 @@ const PaymentHistory = () => {
           <table className="table-fixed w-full border-solid border-2">
             <thead className="border-solid border-2">
               <tr className="text-left px-2">
-                <th className="border px-4 py-2">Bill</th>
+                <th className="border px-4 py-2">Payee</th>
                 <th className="border px-4 py-2">Amount</th>
                 <th className="border px-4 py-2">Paid Date</th>
               </tr>
@@ -68,7 +65,7 @@ const PaymentHistory = () => {
         </div>
       ) : (
         <p className="flex justify-center font-bold text-xl text-slate-900 my-5">
-          Please log in to view upcoming bills.
+          Please log in to view payment history.
         </p>
       )}
     </>

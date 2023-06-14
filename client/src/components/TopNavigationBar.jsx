@@ -62,9 +62,12 @@ export default function TopNavigationBar() {
           >
             Add Payee
           </Link>
-          <a href="#" className="text-sm font-semibold leading-6 text-gray-900">
+          <Link
+            to="/payment-history"
+            className="text-sm font-semibold leading-6 text-gray-900"
+          >
             Payment History
-          </a>
+          </Link>
           {isAuthenticated && (
             <Link
               to="/settings"
