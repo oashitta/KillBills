@@ -43,9 +43,9 @@ const UpcomingBills = () => {
         customBodyRender: (value, tableMeta, updateValue) => (
           <div style={{ display: "flex", alignItems: "center" }}>
             {value}
-            {tableMeta.rowData[3] && (
+            {tableMeta.rowData[0] && (
               <a
-                href={tableMeta.rowData[3]}
+                href={tableMeta.rowData[1]}
                 target="_blank"
                 rel="noopener noreferrer"
               >
