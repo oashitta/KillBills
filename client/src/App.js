@@ -4,6 +4,7 @@ import { Auth0Provider } from "@auth0/auth0-react";
 import Profile from "./components/Profile";
 import AddBill from "./components/AddBill";
 import AddPayee from "./components/AddPayee";
+import EditPayee from "./components/EditPayee"
 import UpcomingBills from "./components/UpcomingBills";
 import "./App.css";
 import EditBill from "./components/EditBill";
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
       {
         path: "/add-payee",
         element: <AddPayee />,
+      },
+      {
+        path: "/edit-payee",
+        element: <EditPayee />,
       },
       { path: "/settings", element: <Profile /> },
       { path: "/edit-bill", element: <EditBill /> },
