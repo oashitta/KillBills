@@ -48,8 +48,8 @@ const AddPayee = () => {
             "Content-Type": "application/json",
             Authorization: `Bearer ${accessToken}`,
           },
-        })
-        navigate("/add-bill")
+        });
+        navigate("/add-bill");
       } catch (error) {
         console.log("Error adding payee:", error);
       }
@@ -58,7 +58,7 @@ const AddPayee = () => {
 
   return (
     <div className="relative flex flex-col justify-center min-h-screen overflow-hidden">
-      <div className="w-full p-6 m-auto bg-white rounded-md shadow-xl shadow-rose-600/40 ring-2 ring-indigo-600 lg:max-w-xl">
+      <div className="w-full p-6 m-auto bg-white rounded-md border-solid border-2 border-violet-400 lg:max-w-xl">
         <form className="mt-6" onSubmit={formik.handleSubmit}>
           <div className="mb-2">
             <label htmlFor="payee" className="text-xl font-bold text-gray-800">
