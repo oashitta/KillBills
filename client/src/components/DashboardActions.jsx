@@ -1,13 +1,16 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { React, useState } from "react";
 import UpcomingBillsTotal from "./UpcomingBillsTotal";
 
 const Dashboard_actions = () => {
   const { user, isAuthenticated, isLoading } = useAuth0();
-  const [bills, setBills] = useState([]);
-  const [paymentHistory, setPaymentHistory] = useState([]);
+  // const [bills, setBills] = useState([]);
+  // const [paymentHistory, setPaymentHistory] = useState([]);
   const [totalDue, setTotalDue] = useState(0);
+
+  const location = useLocation();
+  const isPaymentHistoryPage = location.pathname === "/payment-history";
 
   return (
     <>
@@ -24,7 +27,11 @@ const Dashboard_actions = () => {
           </div>
           {/* on click of the payent history button, the page shld display the payment history components */}
           <div className="p-3 border-solid border-2 border-violet-400  bg-violet-500 font-bold text-white">
-            <a href="">Payment History</a>
+            {isPaymentHistoryPage ? (
+              <Link to="/upcoming-bills">UpcomingBills</Link>
+            ) : (
+              <Link to="/payment-history">Payment History</Link>
+            )}
           </div>
 
           {/* this does nothing. just shows the total amount */}

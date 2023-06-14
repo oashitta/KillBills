@@ -8,9 +8,10 @@ import UpcomingBills from "./components/UpcomingBills";
 import "./App.css";
 import EditBill from "./components/EditBill";
 import Main from "./components/main";
-import ChartBillsByPayee from "./components/ChartBillsByPayee"
-import ChartBillsByCategory from "./components/ChartBillsByCategory"
-import ChartBillsByMonth from "./components/ChartBillsByMonth"
+import PaymentHistory from "./components/PaymentHistory";
+import ChartBillsByPayee from "./components/ChartBillsByPayee";
+import ChartBillsByCategory from "./components/ChartBillsByCategory";
+import ChartBillsByMonth from "./components/ChartBillsByMonth";
 
 const router = createBrowserRouter([
   {
@@ -25,6 +26,8 @@ const router = createBrowserRouter([
       },
       { path: "/settings", element: <Profile /> },
       { path: "/edit-bill", element: <EditBill /> },
+      { path: "/payment-history", element: <PaymentHistory /> },
+      { path: "*", element: <h1>404 Page Not Found</h1> },
     ],
   },
 ]);
