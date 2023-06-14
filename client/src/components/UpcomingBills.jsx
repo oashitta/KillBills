@@ -1,8 +1,12 @@
-import { React, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { FiLink } from "react-icons/fi";
+import MUIDataTable from "mui-datatables";
+import ChartBillsByPayee from "./ChartBillsByPayee";
+import ChartBillsByCategory from "./ChartBillsByCategory";
+import ChartBillsByMonth from "./ChartBillsByMonth";
 
-const Upcoming_bills = () => {
+const UpcomingBills = () => {
   const { isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0();
   const [bills, setBills] = useState([]);
 
@@ -32,53 +36,90 @@ const Upcoming_bills = () => {
     }
   };
 
+  const columns = [
+    {
+      name: "Payee",
+      options: {
+        customBodyRender: (value, tableMeta, updateValue) => (
+          <div style={{ display: "flex", alignItems: "center" }}>
+            {value}
+            {tableMeta.rowData[3] && (
+              <a href={tableMeta.rowData[3]} target="_blank" rel="noopener noreferrer">
+                <FiLink className="ml-2" />
+              </a>
+            )}
+          </div>
+        ),
+      },
+    },
+    {
+      name: "Amount",
+      options: {
+        customBodyRender: (value) => {
+          // Format the amount here if needed
+          return value;
+        },
+        customSort: (data, colIndex, order) => {
+          return data.sort((a, b) => {
+            const amountA = parseFloat(a.data[colIndex].replace(/[$,]/g, ""));
+            const amountB = parseFloat(b.data[colIndex].replace(/[$,]/g, ""));
+            return order === "asc" ? amountA - amountB : amountB - amountA;
+          });
+        },
+      },
+    },
+    {
+      name: "Due Date",
+      options: {
+        customBodyRender: (value) => {
+          // Format the date here if needed
+          return value;
+        },
+        customSort: (data, colIndex, order) => {
+          return data.sort((a, b) => {
+            const dateA = new Date(a.data[colIndex]);
+            const dateB = new Date(b.data[colIndex]);
+            return order === "asc" ? dateA - dateB : dateB - dateA;
+          });
+        },
+      },
+    },
+  ];
+
+  const data = bills.map((bill) => [
+    bill.payee_name,
+    bill.amount,
+    new Date(bill.due_date).toLocaleDateString("en-US", {
+      month: "long",
+      day: "numeric",
+      year: "numeric",
+    }),
+    bill.payee_link,
+  ]);
+
+  const options = {
+    selectableRows: "none",
+  };
+
   return (
     <>
       {isLoading ? (
         <p className="flex justify-center">Loading...</p>
       ) : isAuthenticated ? (
         <div className="mx-auto flex flex-col max-w-7xl items-center justify-between p-6 lg:px-8">
-          <h2 className="font-bold text-xl text-slate-900 my-5">
-            Upcoming Bills
-          </h2>
-
-          <table className="table-fixed w-full border-solid border-2">
-            <thead className="border-solid border-2">
-              <tr className="text-left px-2">
-                <th className="border px-4 py-2">Payee</th>
-                <th className="border px-4 py-2">Amount</th>
-                <th className="border px-4 py-2">Due Date</th>
-              </tr>
-            </thead>
-            <tbody className="border-solid border-2 ">
-              {bills.map((bill) => (
-                <tr key={bill.id} className="border-solid border-2 px-2">
-                  <td className="border px-4 py-2 flex">
-                    {bill.payee_name}
-                    <a href={bill.payee_link} target="__blank">
-                      <FiLink className="ml-2" />
-                    </a>
-                  </td>
-                  <td className="border px-4 py-2">{bill.amount}</td>
-                  <td className="border px-4 py-2">
-                    {new Date(bill.due_date).toLocaleDateString("en-US", {
-                      month: "long",
-                      day: "numeric",
-                      year: "numeric",
-                    })}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <h2 className="font-bold text-xl text-slate-900 my-5">Upcoming Bills</h2>
+          <MUIDataTable columns={columns} data={data} options={options} />
         </div>
       ) : (
         <p className="flex justify-center font-bold text-xl text-slate-900 my-5">
           Please log in to view upcoming bills.
         </p>
       )}
+      <ChartBillsByPayee />
+      <ChartBillsByCategory />
+      <ChartBillsByMonth />
     </>
   );
 };
 
-export default Upcoming_bills;
+export default UpcomingBills;

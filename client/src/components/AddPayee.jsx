@@ -2,10 +2,13 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useFormik } from "formik";
 import { useAuth0 } from "@auth0/auth0-react";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const AddPayee = () => {
   const { getAccessTokenSilently } = useAuth0();
   const [categories, setCategories] = useState([]);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -45,7 +48,8 @@ const AddPayee = () => {
             "Content-Type": "application/json",
             Authorization: `Bearer ${accessToken}`,
           },
-        });
+        })
+        navigate("/add-bill")
       } catch (error) {
         console.log("Error adding payee:", error);
       }

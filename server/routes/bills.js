@@ -59,6 +59,14 @@ router.get("/category/total", (req, res) => {
   });
 });
 
+// GET /bills/paid/total
+router.get("/paid/total", (req, res) => {
+  const auth0Sub = req.auth.payload.sub;
+  bills.getBillsPaidTotal(auth0Sub).then((data) => {
+    res.json({ total: data });
+  });
+});
+
 // GET /bills/unpaid/total
 router.get("/unpaid/total", (req, res) => {
   const auth0Sub = req.auth.payload.sub;
@@ -98,6 +106,14 @@ router.get("/category/:id", (req, res) => {
   const auth0Sub = req.auth.payload.sub;
   const categoryId = req.params.id;
   bills.getBillsByCategory(auth0Sub, categoryId).then((data) => {
+    res.json({ bills: data });
+  });
+});
+
+// GET /bills/paid
+router.get("/paid", (req, res) => {
+  const auth0Sub = req.auth.payload.sub;
+  bills.getBillsPaid(auth0Sub).then((data) => {
     res.json({ bills: data });
   });
 });
