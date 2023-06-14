@@ -8,15 +8,14 @@ const EditBill = () => {
   const [payees, setPayees] = useState([]);
   const [bill, setBill] = useState({});
   const [btnClicked, setBtnClicked] = useState('')
-  const [isPaid, setIsPaid] = useState(false);
+  // const [isPaid, setIsPaid] = useState(false);
 
-  const isPaidHandle = (e) => {
-    e.preventDefault();
-    if(bill.paid_date) {
-      setIsPaid("ture")
-    }
-    setIsPaid(!isPaid)
-  }
+  // const isPaidHandle = (e) => {
+  //   e.preventDefault();
+  //   if(bill.paid_date) {
+  //     setIsPaid("ture")
+  //   }
+  // }
 
   useEffect(() => {
     const fetchPayees = async () => {
@@ -44,7 +43,7 @@ const EditBill = () => {
         const accessToken = await getAccessTokenSilently({
           audience: process.env.REACT_APP_AUTH0_AUDIENCE,
         });
-        const response = await axios.get('http://localhost:8080/bills/10', {
+        const response = await axios.get('http://localhost:8080/bills/5', {
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${accessToken}`,
@@ -55,8 +54,14 @@ const EditBill = () => {
       const dueDate = String(bill.due_date).split('').slice(0,10).join('')
       const reminderDate = String(bill.reminder_date).split('').slice(0,10).join('')
       const paidDate = String(bill.paid_date).split('').slice(0,10).join('')
+      const isPaid = () => {
+        if(bill.paid_date) {
+          return true
+        }
+      }
 
       formik.setValues({
+        isPaid : isPaid(),
         payeeId: bill.payee_id,
         userId: 1,
         amount: bill.amount,
@@ -67,7 +72,7 @@ const EditBill = () => {
       setBill(response.data.bill)
 
       } catch (error) {
-        console.log('Error adding bill:', error);
+        console.log('Error editing bill:', error);
       }
     }
 
@@ -76,6 +81,7 @@ const EditBill = () => {
 
   const formik = useFormik({
     initialValues: {
+      isPaid : false,
       payeeId: 1,
       userId: 1,
       amount: '',
@@ -91,13 +97,13 @@ const EditBill = () => {
         });
 
         if(btnClicked === 'edit') {
-          await axios.put('http://localhost:8080/bills/10', 
+          await axios.put('http://localhost:8080/bills/5', 
           values, {
             headers: {'Content-Type': 'application/json',
             Authorization: `Bearer ${accessToken}`,}
           })
         } else {
-          await axios.delete('http://localhost:8080/bills/10', {
+          await axios.delete('http://localhost:8080/bills/5', {
             headers: {'Content-Type': 'application/json',
             Authorization: `Bearer ${accessToken}`,}
           })
@@ -215,13 +221,14 @@ const EditBill = () => {
             <div className="flex">
                 <label className="inline-flex relative items-center mr-5 cursor-pointer">
                     <input
+                        id='isPaid'
+                        name='isPaid'
                         type="checkbox"
                         className="sr-only peer"
-                        checked={isPaid}
-                        readOnly
+                        checked={formik.values.isPaid}
+                        onClick={formik.handleChange}
                     />
                     <div
-                        onClick={isPaidHandle}
                         className="w-11 h-6 bg-gray-200 rounded-full peer  peer-focus:ring-green-300  peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-600"
                     ></div>
                     <span className="ml-2 text-lg font-medium text-gray-900">

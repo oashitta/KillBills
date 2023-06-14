@@ -139,7 +139,7 @@ router.get("/date", (req, res) => {
 // GET /bills/payee
 router.get("/payee", (req, res) => {
   const auth0Sub = req.auth.payload.sub;
-  getBillsByPayee(auth0Sub).then((data) => {
+  bills.getBillsByPayee(auth0Sub).then((data) => {
     res.json({ payees: data });
   });
 });
@@ -147,7 +147,7 @@ router.get("/payee", (req, res) => {
 // GET /bills/category
 router.get("/category", (req, res) => {
   const auth0Sub = req.auth.payload.sub;
-  getBillsByCategory(auth0Sub).then((data) => {
+  bills.getBillsByCategory(auth0Sub).then((data) => {
     res.json({ categories: data });
   })
 });
@@ -155,7 +155,7 @@ router.get("/category", (req, res) => {
 // GET /bills/month
 router.get("/month", (req, res) => {
   const auth0Sub = req.auth.payload.sub;
-  getBillsByMonth(auth0Sub).then((data) => {
+  bills.getBillsByMonth(auth0Sub).then((data) => {
     res.json({ months: data });
   });
 });

@@ -157,10 +157,11 @@ const getBillsByPayee = (auth0Sub) => {
   return db
     .query(
       `
-      SELECT p.id, p.name, SUM(b.amount) AS total_amount
+      SELECT p.id, p.name,
+      SUM(b.amount) AS total_amount
       FROM payees p
-      JOIN users u ON u.id = p.user_id
-      JOIN bills b ON b.payee_id = p.id
+      JOIN bills b ON p.id = b.payee_id
+      JOIN users u ON b.user_id = u.id
       WHERE u.auth0_sub = $1
       GROUP BY p.id, p.name;
     `,
@@ -214,7 +215,7 @@ module.exports = {
   addBill, 
   updateBill, 
   deleteBill, 
-  getBillsByCategory, 
+  getBillsByCategoryId, 
   getBillsUnpaid, 
   getBillsDue, 
   getBillsOverdue, 
