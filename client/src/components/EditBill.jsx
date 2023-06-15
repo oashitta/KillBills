@@ -23,11 +23,14 @@ const EditBill = () => {
         const accessToken = await getAccessTokenSilently({
           audience: process.env.REACT_APP_AUTH0_AUDIENCE,
         });
-        const response = await axios.get("http://localhost:8080/payees", {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
+        const response = await axios.get(
+          "https://killbills-server.onrender.com/payees",
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
         setPayees(response.data.payees);
       } catch (error) {
         console.log("Error fetching payees:", error);
@@ -43,12 +46,15 @@ const EditBill = () => {
         const accessToken = await getAccessTokenSilently({
           audience: process.env.REACT_APP_AUTH0_AUDIENCE,
         });
-        const response = await axios.get("http://localhost:8080/bills/5", {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
+        const response = await axios.get(
+          "https://killbills-server.onrender.com/bills/5",
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
 
         const bill = response.data.bill;
         const dueDate = String(bill.due_date).split("").slice(0, 10).join("");
@@ -100,14 +106,18 @@ const EditBill = () => {
         });
 
         if (btnClicked === "edit") {
-          await axios.put("http://localhost:8080/bills/5", values, {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${accessToken}`,
-            },
-          });
+          await axios.put(
+            "https://killbills-server.onrender.com/bills/5",
+            values,
+            {
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${accessToken}`,
+              },
+            }
+          );
         } else {
-          await axios.delete("http://localhost:8080/bills/5", {
+          await axios.delete("https://killbills-server.onrender.com/bills/5", {
             headers: {
               "Content-Type": "application/json",
               Authorization: `Bearer ${accessToken}`,

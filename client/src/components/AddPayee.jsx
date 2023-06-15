@@ -16,11 +16,14 @@ const AddPayee = () => {
         const accessToken = await getAccessTokenSilently({
           audience: process.env.REACT_APP_AUTH0_AUDIENCE,
         });
-        const response = await axios.get("http://localhost:8080/categories", {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
+        const response = await axios.get(
+          "https://killbills-server.onrender.com/categories",
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
         setCategories(response.data.categories);
       } catch (error) {
         console.log("Error fetching categories:", error);
@@ -43,12 +46,16 @@ const AddPayee = () => {
         const accessToken = await getAccessTokenSilently({
           audience: process.env.REACT_APP_AUTH0_AUDIENCE,
         });
-        await axios.post("http://localhost:8080/payees", values, {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
+        await axios.post(
+          "https://killbills-server.onrender.com/payees",
+          values,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
         navigate("/add-bill");
       } catch (error) {
         console.log("Error adding payee:", error);

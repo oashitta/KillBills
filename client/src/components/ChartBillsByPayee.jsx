@@ -15,11 +15,14 @@ const ChartBillsByPayee = () => {
           const accessToken = await getAccessTokenSilently({
             audience: process.env.REACT_APP_AUTH0_AUDIENCE,
           });
-          const response = await fetch("http://localhost:8080/bills/payee", {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          });
+          const response = await fetch(
+            "https://killbills-server.onrender.com/bills/payee",
+            {
+              headers: {
+                Authorization: `Bearer ${accessToken}`,
+              },
+            }
+          );
           const data = await response.json();
           const payees = data.payees.map((payee) => payee.name);
           const totalAmounts = data.payees.map((payee) =>
@@ -53,14 +56,14 @@ const ChartBillsByPayee = () => {
             options: {
               plugins: {
                 title: {
-                    display: true,
-                    text: 'Payee'
+                  display: true,
+                  text: "Payee",
                 },
                 legend: {
                   display: false,
-                }
-              }
-            }
+                },
+              },
+            },
           });
         }
       } catch (error) {

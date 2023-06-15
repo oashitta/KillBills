@@ -15,11 +15,14 @@ const ChartBillsByMonth = () => {
           const accessToken = await getAccessTokenSilently({
             audience: process.env.REACT_APP_AUTH0_AUDIENCE,
           });
-          const response = await fetch("http://localhost:8080/bills/month", {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          });
+          const response = await fetch(
+            "https://killbills-server.onrender.com/bills/month",
+            {
+              headers: {
+                Authorization: `Bearer ${accessToken}`,
+              },
+            }
+          );
           const data = await response.json();
           const months = data.months.map((month) => month.month_year);
           const totalAmounts = data.months.map((month) =>
@@ -48,20 +51,20 @@ const ChartBillsByMonth = () => {
                   "rgba(226,199,203,0.6)",
                 ],
                 borderWidth: 3,
-                tension: 0.1
+                tension: 0.1,
               },
             ],
             options: {
               plugins: {
                 title: {
-                    display: true,
-                    text: 'Month'
+                  display: true,
+                  text: "Month",
                 },
                 legend: {
                   display: false,
-                }
-              }
-            }
+                },
+              },
+            },
           });
         }
       } catch (error) {

@@ -15,11 +15,14 @@ const ChartBillsByCategory = () => {
           const accessToken = await getAccessTokenSilently({
             audience: process.env.REACT_APP_AUTH0_AUDIENCE,
           });
-          const response = await fetch("http://localhost:8080/bills/category", {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          });
+          const response = await fetch(
+            "https://killbills-server.onrender.com/category",
+            {
+              headers: {
+                Authorization: `Bearer ${accessToken}`,
+              },
+            }
+          );
           const data = await response.json();
           const categories = data.categories.map((category) => category.name);
           const totalAmounts = data.categories.map((category) =>
@@ -53,14 +56,14 @@ const ChartBillsByCategory = () => {
             options: {
               plugins: {
                 title: {
-                    display: true,
-                    text: 'Category'
+                  display: true,
+                  text: "Category",
                 },
                 legend: {
                   display: false,
-                }
-              }
-            }
+                },
+              },
+            },
           });
         }
       } catch (error) {
