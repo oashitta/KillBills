@@ -47,17 +47,21 @@ const ChartBillsByMonth = () => {
                   "rgba(153,255,230,0.6)",
                   "rgba(226,199,203,0.6)",
                 ],
-                borderColor: "rgba(0,0,0,0)",
-                borderWidth: 1,
+                borderWidth: 3,
+                tension: 0.1
               },
             ],
             options: {
               plugins: {
-                colors: {
-                  enabled: false,
+                title: {
+                    display: true,
+                    text: 'Month'
                 },
-              },
-            },
+                legend: {
+                  display: false,
+                }
+              }
+            }
           });
         }
       } catch (error) {
@@ -77,7 +81,7 @@ const ChartBillsByMonth = () => {
     <div className="w-1/3">
       {isAuthenticated ? (
         chartData ? (
-          <Chart type="pie" data={chartData} />
+          <Chart type="line" data={chartData} options={chartData.options} />
         ) : (
           <p>No data available</p>
         )

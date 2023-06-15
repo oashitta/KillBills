@@ -50,6 +50,17 @@ const ChartBillsByPayee = () => {
                 borderWidth: 1,
               },
             ],
+            options: {
+              plugins: {
+                title: {
+                    display: true,
+                    text: 'Payee'
+                },
+                legend: {
+                  display: false,
+                }
+              }
+            }
           });
         }
       } catch (error) {
@@ -69,7 +80,7 @@ const ChartBillsByPayee = () => {
     <div className="w-1/3">
       {isAuthenticated ? (
         chartData ? (
-          <Chart type="pie" data={chartData} />
+          <Chart type="pie" data={chartData} options={chartData.options} />
         ) : (
           <p>No data available</p>
         )

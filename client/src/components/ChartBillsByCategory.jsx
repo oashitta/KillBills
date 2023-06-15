@@ -53,11 +53,14 @@ const ChartBillsByCategory = () => {
             options: {
               plugins: {
                 title: {
-                  display: true,
-                  text: "Categories",
+                    display: true,
+                    text: 'Category'
                 },
-              },
-            },
+                legend: {
+                  display: false,
+                }
+              }
+            }
           });
         }
       } catch (error) {
@@ -77,7 +80,7 @@ const ChartBillsByCategory = () => {
     <div className="w-1/3">
       {isAuthenticated ? (
         chartData ? (
-          <Chart type="pie" data={chartData} />
+          <Chart type="pie" data={chartData} options={chartData.options} />
         ) : (
           <p>No data available</p>
         )
