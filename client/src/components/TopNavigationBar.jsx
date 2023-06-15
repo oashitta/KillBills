@@ -162,10 +162,10 @@ export default function TopNavigationBar() {
               </div>
               <div className="py-6">
                 <div className="mx-2">
-                  <LoginButton />{" "}
+                  <LoginButton />
                 </div>
                 <div className="mx-2">
-                  <LogoutButton />{" "}
+                  <LogoutButton />
                 </div>
               </div>
             </div>
