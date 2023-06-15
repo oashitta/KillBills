@@ -20,7 +20,7 @@ export default function TopNavigationBar() {
         aria-label="Global"
       >
         <div className="flex lg:flex-1">
-          <a href="http://localhost:3000/" className="-m-1.5 p-1.5">
+          <a href="https://killbills.onrender.com" className="-m-1.5 p-1.5">
             <span className="sr-only">Killbills</span>
             <h2 className="font-bold">KILLBILLS</h2>
           </a>
@@ -43,7 +43,7 @@ export default function TopNavigationBar() {
         </div>
         <Popover.Group className="hidden lg:flex lg:gap-x-12">
           <a
-            href="http://localhost:3000/"
+            href="https://killbills.onrender.com"
             className="text-sm font-semibold leading-6 text-gray-900"
           >
             Home
@@ -125,7 +125,7 @@ export default function TopNavigationBar() {
             <div className="-my-6 divide-y divide-gray-500/10">
               <div className="space-y-2 py-6">
                 <a
-                  href="http://localhost:3000/"
+                  href="https://killbills.onrender.com"
                   className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                 >
                   Home
