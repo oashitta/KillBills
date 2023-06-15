@@ -100,7 +100,7 @@ const UpcomingBills = () => {
     }),
     bill.payee_link,
   ]);
-  console.log("data", data)
+  console.log("data", data);
 
   const options = {
     selectableRows: "none",
@@ -113,13 +113,16 @@ const UpcomingBills = () => {
       ) : isAuthenticated ? (
         <div className="mx-auto max-w-7xl px-6 py-8">
           <div>
+            <h2 className="font-bold text-xl text-slate-900 my-7 flex justify-center">
+              Bills Snapshot
+            </h2>
             <div className="flex mx-auto">
               <ChartBillsByPayee />
               <ChartBillsByCategory />
               <ChartBillsByMonth />
             </div>
 
-            <h2 className="font-bold text-xl text-slate-900 my-5">
+            <h2 className="font-bold text-xl text-slate-900 my-7 flex justify-center">
               Upcoming Bills
             </h2>
 

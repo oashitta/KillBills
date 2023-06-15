@@ -125,35 +125,40 @@ export default function TopNavigationBar() {
             <div className="-my-6 divide-y divide-gray-500/10">
               <div className="space-y-2 py-6">
                 <a
-                  href="#"
+                  href="http://localhost:3000/"
                   className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                 >
                   Home
                 </a>
-                <a
-                  href="#"
+                <Link
+                  to="/add-bill"
                   className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                 >
-                  Add Bills
-                </a>
-                <a
-                  href="#"
+                  Add Bill
+                </Link>
+
+                <Link
+                  to="/add-payee"
                   className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                 >
-                  Add Payees
-                </a>
-                <a
-                  href="#"
+                  Add Payee
+                </Link>
+
+                <Link
+                  to="/payment-history"
                   className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                 >
                   Payment History
-                </a>
-                <a
-                  href="#"
-                  className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                >
-                  Settings
-                </a>
+                </Link>
+
+                {isAuthenticated && (
+                  <Link
+                    to="/settings"
+                    className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                  >
+                    Settings
+                  </Link>
+                )}
               </div>
               <div className="py-6">
                 <div className="mx-2">
