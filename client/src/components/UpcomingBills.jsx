@@ -43,9 +43,9 @@ const UpcomingBills = () => {
         customBodyRender: (value, tableMeta, updateValue) => (
           <div style={{ display: "flex", alignItems: "center" }}>
             {value}
-            {tableMeta.rowData[3] && (
+            {tableMeta.rowData[0] && (
               <a
-                href={tableMeta.rowData[3]}
+                href={tableMeta.rowData[1]}
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -112,15 +112,16 @@ const UpcomingBills = () => {
         <p className="flex justify-center">Loading...</p>
       ) : isAuthenticated ? (
         <div className="mx-auto max-w-7xl px-6 py-8">
-          <h2 className="font-bold text-xl text-slate-900 my-5">
-            Upcoming Bills
-          </h2>
           <div>
             <div className="flex mx-auto">
               <ChartBillsByPayee />
               <ChartBillsByCategory />
               <ChartBillsByMonth />
             </div>
+
+            <h2 className="font-bold text-xl text-slate-900 my-5">
+              Upcoming Bills
+            </h2>
 
             <div className="mt-4">
               <MUIDataTable columns={columns} data={data} options={options} />
