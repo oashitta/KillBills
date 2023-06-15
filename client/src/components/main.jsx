@@ -4,7 +4,7 @@ import React from "react";
 import { Outlet } from "react-router-dom";
 import TopNavigationBar from "./TopNavigationBar";
 import DashboardActions from "./DashboardActions";
-import LoginButton from "./Login";
+// import heroImage from "client/src/images/heroImage.png";
 
 const Main = () => {
   const { user, isAuthenticated, isLoading } = useAuth0();
@@ -23,10 +23,7 @@ const Main = () => {
           <Outlet />
         </>
       ) : (
-        // <h2 className="flex justify-center font-bold text-xl text-slate-900 my-5">
-        //   Please login to view your dashboard.
-        // </h2>
-        <div class="h-screen flex bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-600">
+        <div className="h-screen flex bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-600">
           <div className="flex flex-col w-full justify-center mx-auto text-center">
             <h1 className="font-extrabold text-5xl text-white mb-2 p-2">
               Hate Paying Late Fees??!
@@ -43,7 +40,9 @@ const Main = () => {
               </button>
             </a>
           </div>
-          <div className="w-full flex justify-center mx-auto">An image</div>
+          <div className="w-full flex justify-center self-center mx-auto">
+            <img src="" alt="hero image" className="text-white" />
+          </div>
         </div>
       )}
     </>
