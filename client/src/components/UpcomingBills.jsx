@@ -46,11 +46,7 @@ const UpcomingBills = () => {
       id: bill.id,
       name: bill.payee_name,
       amount: bill.amount,
-      date: new Date(bill.due_date).toLocaleDateString("en-US", {
-        month: "long",
-        day: "numeric",
-        year: "numeric",
-      }),
+      date: bill.due_date,
       link: bill.payee_link,
     })
   );
@@ -90,7 +86,7 @@ const UpcomingBills = () => {
               gap: '1rem',
             }}
           >
-            <span>{renderedCellValue}</span>
+            <span>${renderedCellValue.toFixed(2)}</span>
           </Box>
         ),
       },
@@ -106,7 +102,7 @@ const UpcomingBills = () => {
               gap: '1rem',
             }}
           >
-            <span>{renderedCellValue}</span>
+            <span>{new Date(renderedCellValue).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}</span>
           </Box>
         ),
       },
