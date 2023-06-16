@@ -14,12 +14,15 @@ const EditPayee = () => {
         const accessToken = await getAccessTokenSilently({
           audience: process.env.REACT_APP_AUTH0_AUDIENCE,
         });
-        const response = await axios.get("http://localhost:8080/categories", {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
+        const response = await axios.get(
+          process.env.REACT_APP_API_SERVER_URL + "/categories",
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
         setCategories(response.data.categories);
       } catch (error) {
         console.log("Error fetching categories:", error);
@@ -35,12 +38,15 @@ const EditPayee = () => {
         const accessToken = await getAccessTokenSilently({
           audience: process.env.REACT_APP_AUTH0_AUDIENCE,
         });
-        const response = await axios.get("http://localhost:8080/payees/5", {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
+        const response = await axios.get(
+          process.env.REACT_APP_API_SERVER_URL + "/5",
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
 
         const payee = response.data.payee;
         console.log(payee);
@@ -74,7 +80,7 @@ const EditPayee = () => {
         const accessToken = await getAccessTokenSilently({
           audience: process.env.REACT_APP_AUTH0_AUDIENCE,
         });
-        await axios.put("http://localhost:8080/payees/5", values, {
+        await axios.put(process.env.REACT_APP_API_SERVER_URL + "/5", values, {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${accessToken}`,

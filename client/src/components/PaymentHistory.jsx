@@ -17,11 +17,14 @@ const PaymentHistory = () => {
       const accessToken = await getAccessTokenSilently({
         audience: process.env.REACT_APP_AUTH0_AUDIENCE,
       });
-      const response = await fetch("http://localhost:8080/bills/paid", {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
+      const response = await fetch(
+        process.env.REACT_APP_API_SERVER_URL + "/paid",
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
       const data = await response.json();
       setBills(data.bills);
     } catch (error) {
