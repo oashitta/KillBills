@@ -2,12 +2,17 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useFormik } from "formik";
 import { useAuth0 } from "@auth0/auth0-react";
+import { useParams } from 'react-router-dom';
 
 const EditBill = () => {
   const { getAccessTokenSilently } = useAuth0();
   const [payees, setPayees] = useState([]);
   const [bill, setBill] = useState({});
   const [btnClicked, setBtnClicked] = useState("");
+  const params = useParams()
+
+  console.log("params", params)
+
   // const [isPaid, setIsPaid] = useState(false);
 
   // const isPaidHandle = (e) => {
@@ -43,7 +48,7 @@ const EditBill = () => {
         const accessToken = await getAccessTokenSilently({
           audience: process.env.REACT_APP_AUTH0_AUDIENCE,
         });
-        const response = await axios.get("http://localhost:8080/bills/5", {
+        const response = await axios.get(`http://localhost:8080/bills/${params.id}`, {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${accessToken}`,
@@ -100,14 +105,14 @@ const EditBill = () => {
         });
 
         if (btnClicked === "edit") {
-          await axios.put("http://localhost:8080/bills/5", values, {
+          await axios.put(`http://localhost:8080/bills/${params.id}`, values, {
             headers: {
               "Content-Type": "application/json",
               Authorization: `Bearer ${accessToken}`,
             },
           });
         } else {
-          await axios.delete("http://localhost:8080/bills/5", {
+          await axios.delete(`http://localhost:8080/bills/${params.id}`, {
             headers: {
               "Content-Type": "application/json",
               Authorization: `Bearer ${accessToken}`,

@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { FiLink } from "react-icons/fi";
+import { MaterialReactTable } from 'material-react-table';
+import { Box, Button, ListItemIcon, MenuItem, Typography } from '@mui/material';
 import MUIDataTable from "mui-datatables";
 import ChartBillsByPayee from "./ChartBillsByPayee";
 import ChartBillsByCategory from "./ChartBillsByCategory";
@@ -30,81 +32,152 @@ const UpcomingBills = () => {
       const filteredBills = data.bills
         .filter((bill) => new Date(bill.due_date) >= new Date())
         .sort((a, b) => new Date(a.due_date) - new Date(b.due_date));
-      setBills(filteredBills);
-    } catch (error) {
-      console.log("Error fetching bills:", error);
-    }
-  };
+        setBills(filteredBills);
+      } catch (error) {
+        console.log("Error fetching bills:", error);
+      }
+    };
+    
 
-  const columns = [
-    {
-      name: "Payee",
-      options: {
-        customBodyRender: (value, tableMeta, updateValue) => (
-          <div style={{ display: "flex", alignItems: "center" }}>
-            {value}
-            {tableMeta.rowData[0] && (
-              <a
-                href={tableMeta.rowData[1]}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <FiLink className="ml-2" />
-              </a>
-            )}
-          </div>
+  const data = bills.map((bill) => 
+    ({
+      id: bill.id,
+      name: bill.payee_name,
+      amount: bill.amount,
+      date: new Date(bill.due_date).toLocaleDateString("en-US", {
+        month: "long",
+        day: "numeric",
+        year: "numeric",
+      }),
+      link: bill.payee_link,
+    })
+  );
+
+  console.log("bills", bills)
+  console.log("data", data)
+
+
+  const columns = useMemo(
+    () => [
+      {
+        accessorKey: 'id',
+        header: 'ID',
+        size: 150,
+      },
+      {
+        accessorKey: 'name', //access nested data with dot notation
+        header: 'Payee',
+        size: 200,
+        Cell: ({ renderedCellValue, row }) => (
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: '1.2rem',
+              gap: '1rem',
+            }}
+          >
+            <span>{renderedCellValue}</span>
+            <a href={row.original.link}><FiLink className="ml-2" /></a>
+          </Box>
         ),
       },
-    },
-    {
-      name: "Amount",
-      options: {
-        customBodyRender: (value) => {
-          // Format the amount here if needed
-          return value;
-        },
-        customSort: (data, colIndex, order) => {
-          return data.sort((a, b) => {
-            const amountA = parseFloat(a.data[colIndex].replace(/[$,]/g, ""));
-            const amountB = parseFloat(b.data[colIndex].replace(/[$,]/g, ""));
-            return order === "asc" ? amountA - amountB : amountB - amountA;
-          });
-        },
+      {
+        accessorKey: 'amount',
+        header: 'Amount',
+        size: 200,
+        Cell: ({ renderedCellValue, row }) => (
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: '1.2rem',
+              gap: '1rem',
+            }}
+          >
+            <span>{renderedCellValue}</span>
+          </Box>
+        ),
       },
-    },
-    {
-      name: "Due Date",
-      options: {
-        customBodyRender: (value) => {
-          // Format the date here if needed
-          return value;
-        },
-        customSort: (data, colIndex, order) => {
-          return data.sort((a, b) => {
-            const dateA = new Date(a.data[colIndex]);
-            const dateB = new Date(b.data[colIndex]);
-            return order === "asc" ? dateA - dateB : dateB - dateA;
-          });
-        },
+      {
+        accessorKey: 'date', //normal accessorKey
+        header: 'Due Date',
+        size: 200,
+        Cell: ({ renderedCellValue, row }) => (
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: '1.2rem',
+              gap: '1rem',
+            }}
+          >
+            <span>{renderedCellValue}</span>
+          </Box>
+        ),
       },
-    },
-  ];
+    ]
+  )
+  //  [
+  //   {
+  //     name: "Payee",
+  //     options: {
+  //       customBodyRender: (value, tableMeta, updateValue) => (
+  //         <div style={{ display: "flex", alignItems: "center" }}>
+  //           {value}
+  //           {tableMeta.rowData[0] && (
+  //             <a
+  //               href={tableMeta.rowData[1]}
+  //               target="_blank"
+  //               rel="noopener noreferrer"
+  //             >
+  //               <FiLink className="ml-2" />
+  //             </a>
+  //           )}
+  //         </div>
+  //       ),
+  //     },
+  //   },
+  //   {
+  //     name: "Amount",
+  //     options: {
+  //       customBodyRender: (value) => {
+  //         // Format the amount here if needed
+  //         return value;
+  //       },
+  //       customSort: (data, colIndex, order) => {
+  //         return data.sort((a, b) => {
+  //           const amountA = parseFloat(a.data[colIndex].replace(/[$,]/g, ""));
+  //           const amountB = parseFloat(b.data[colIndex].replace(/[$,]/g, ""));
+  //           return order === "asc" ? amountA - amountB : amountB - amountA;
+  //         });
+  //       },
+  //     },
+  //   },
+  //   {
+  //     name: "Due Date",
+  //     options: {
+  //       customBodyRender: (value) => {
+  //         // Format the date here if needed
+  //         return value;
+  //       },
+  //       customSort: (data, colIndex, order) => {
+  //         return data.sort((a, b) => {
+  //           const dateA = new Date(a.data[colIndex]);
+  //           const dateB = new Date(b.data[colIndex]);
+  //           return order === "asc" ? dateA - dateB : dateB - dateA;
+  //         });
+  //       },
+  //     },
+  //   },
+  // ];
 
-  const data = bills.map((bill) => [
-    bill.payee_name,
-    bill.amount,
-    new Date(bill.due_date).toLocaleDateString("en-US", {
-      month: "long",
-      day: "numeric",
-      year: "numeric",
-    }),
-    bill.payee_link,
-  ]);
-  console.log("data", data);
-
-  const options = {
-    selectableRows: "none",
-  };
+  // const options = {
+  //   selectableRows: "none",
+  // };
 
   return (
     <>
@@ -127,7 +200,31 @@ const UpcomingBills = () => {
             </h2>
 
             <div className="mt-4">
-              <MUIDataTable columns={columns} data={data} options={options} />
+              
+                <MaterialReactTable
+                  columns={columns}
+                  data={data}
+                  initialState={{ columnVisibility: { id: false } }}
+                  muiTableBodyRowProps={({ row }) => ({
+                    onClick: () => {
+                      window.open(
+                        `/edit-bill/${row.original.id}`,
+                        "_self"
+                      )
+                    },
+                      sx: {
+                      cursor: 'pointer',
+                    },
+                  })}
+                  muiTableHeadCellProps={{
+                    sx: (theme) => ({
+                      color: 'blue',
+                      fontSize: '1.3rem',
+                      width: 'auto',
+                      paddingLeft: '10rem',
+                    }),
+                  }}
+                />
             </div>
           </div>
         </div>
