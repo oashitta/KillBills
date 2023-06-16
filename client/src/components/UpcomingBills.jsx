@@ -1,9 +1,8 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { FiLink } from "react-icons/fi";
 import { MaterialReactTable } from 'material-react-table';
-import { Box, Button, ListItemIcon, MenuItem, Typography } from '@mui/material';
-import MUIDataTable from "mui-datatables";
+import { Box } from '@mui/material';
 import ChartBillsByPayee from "./ChartBillsByPayee";
 import ChartBillsByCategory from "./ChartBillsByCategory";
 import ChartBillsByMonth from "./ChartBillsByMonth";
@@ -56,12 +55,7 @@ const UpcomingBills = () => {
     })
   );
 
-  console.log("bills", bills)
-  console.log("data", data)
-
-
-  const columns = useMemo(
-    () => [
+  const columns = [
       {
         accessorKey: 'id',
         header: 'ID',
@@ -123,7 +117,7 @@ const UpcomingBills = () => {
         ),
       },
     ]
-  )
+
   //  [
   //   {
   //     name: "Payee",
