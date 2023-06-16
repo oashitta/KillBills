@@ -15,11 +15,14 @@ const ChartBillsByMonth = () => {
           const accessToken = await getAccessTokenSilently({
             audience: process.env.REACT_APP_AUTH0_AUDIENCE,
           });
-          const response = await fetch("http://localhost:8080/bills/month", {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          });
+          const response = await fetch(
+            process.env.REACT_APP_API_SERVER_URL + "/bills/month",
+            {
+              headers: {
+                Authorization: `Bearer ${accessToken}`,
+              },
+            }
+          );
           const data = await response.json();
           const months = data.months.map((month) => month.month_year);
           const totalAmounts = data.months.map((month) =>
@@ -46,20 +49,20 @@ const ChartBillsByMonth = () => {
                   "rgba(153,255,230,0.6)",
                   "rgba(226,199,203,0.6)",
                 ],
-                borderWidth: 2
+                borderWidth: 2,
               },
             ],
             options: {
               plugins: {
                 title: {
-                    display: true,
-                    text: 'By Month'
+                  display: true,
+                  text: "By Month",
                 },
                 legend: {
                   display: false,
-                }
-              }
-            }
+                },
+              },
+            },
           });
         }
       } catch (error) {

@@ -15,11 +15,14 @@ const ChartBillsByCategory = () => {
           const accessToken = await getAccessTokenSilently({
             audience: process.env.REACT_APP_AUTH0_AUDIENCE,
           });
-          const response = await fetch("http://localhost:8080/bills/category", {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          });
+          const response = await fetch(
+            process.env.REACT_APP_API_SERVER_URL + "/bills/category",
+            {
+              headers: {
+                Authorization: `Bearer ${accessToken}`,
+              },
+            }
+          );
           const data = await response.json();
           const categories = data.categories.map((category) => category.name);
           const totalAmounts = data.categories.map((category) =>
@@ -46,20 +49,20 @@ const ChartBillsByCategory = () => {
                   "rgba(153,255,230,0.6)",
                   "rgba(226,199,203,0.6)",
                 ],
-                borderWidth: 2
+                borderWidth: 2,
               },
             ],
             options: {
               plugins: {
                 title: {
                   display: true,
-                  text: 'By Category'
+                  text: "By Category",
                 },
                 legend: {
                   display: false,
-                }
-              }
-            }
+                },
+              },
+            },
           });
         }
       } catch (error) {

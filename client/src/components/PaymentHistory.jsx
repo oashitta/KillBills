@@ -18,7 +18,7 @@ const PaymentHistory = () => {
         audience: process.env.REACT_APP_AUTH0_AUDIENCE,
       });
       const response = await fetch(
-        process.env.REACT_APP_API_SERVER_URL + "/paid",
+        process.env.REACT_APP_API_SERVER_URL + "/bills/paid",
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
