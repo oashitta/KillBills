@@ -30,7 +30,6 @@ const ChartBillsByMonth = () => {
             labels: months,
             datasets: [
               {
-                label: "Total Amount",
                 data: totalAmounts,
                 fill: false,
                 backgroundColor: [
@@ -47,15 +46,14 @@ const ChartBillsByMonth = () => {
                   "rgba(153,255,230,0.6)",
                   "rgba(226,199,203,0.6)",
                 ],
-                borderWidth: 3,
-                tension: 0.1
+                borderWidth: 2
               },
             ],
             options: {
               plugins: {
                 title: {
                     display: true,
-                    text: 'Month'
+                    text: 'By Month'
                 },
                 legend: {
                   display: false,
@@ -78,10 +76,12 @@ const ChartBillsByMonth = () => {
   }
 
   return (
-    <div className="w-1/3">
+    <div className="w-1/3 px-1 py-1">
       {isAuthenticated ? (
         chartData ? (
-          <Chart type="line" data={chartData} options={chartData.options} />
+          <div className="rounded-lg shadow-lg border border-gray-100 p-4">
+            <Chart type="pie" data={chartData} options={chartData.options} />
+          </div>
         ) : (
           <p>No data available</p>
         )
