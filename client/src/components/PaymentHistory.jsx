@@ -18,7 +18,7 @@ const PaymentHistory = () => {
         audience: process.env.REACT_APP_AUTH0_AUDIENCE,
       });
       const response = await fetch(
-        "https://killbills-server.onrender.com/paid",
+        process.env.REACT_APP_API_SERVER_URL + "/paid",
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,

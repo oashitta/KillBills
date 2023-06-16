@@ -165,7 +165,7 @@ router.get("/category", (req, res) => {
   const auth0Sub = req.auth.payload.sub;
   bills.getBillsByCategory(auth0Sub).then((data) => {
     res.json({ categories: data });
-  })
+  });
 });
 
 // GET /bills/month

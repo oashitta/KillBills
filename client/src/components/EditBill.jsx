@@ -24,7 +24,7 @@ const EditBill = () => {
           audience: process.env.REACT_APP_AUTH0_AUDIENCE,
         });
         const response = await axios.get(
-          "https://killbills-server.onrender.com/payees",
+          process.env.REACT_APP_API_SERVER_URL + "/payees",
           {
             headers: {
               Authorization: `Bearer ${accessToken}`,
@@ -47,7 +47,7 @@ const EditBill = () => {
           audience: process.env.REACT_APP_AUTH0_AUDIENCE,
         });
         const response = await axios.get(
-          "https://killbills-server.onrender.com/bills/5",
+          process.env.REACT_APP_API_SERVER_URL + "/bills/5",
           {
             headers: {
               "Content-Type": "application/json",
@@ -107,7 +107,7 @@ const EditBill = () => {
 
         if (btnClicked === "edit") {
           await axios.put(
-            "https://killbills-server.onrender.com/bills/5",
+            process.env.REACT_APP_API_SERVER_URL + "/bills/5",
             values,
             {
               headers: {
@@ -117,12 +117,15 @@ const EditBill = () => {
             }
           );
         } else {
-          await axios.delete("https://killbills-server.onrender.com/bills/5", {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${accessToken}`,
-            },
-          });
+          await axios.delete(
+            process.env.REACT_APP_API_SERVER_URL + "/bills/5",
+            {
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${accessToken}`,
+              },
+            }
+          );
         }
       } catch (error) {
         console.log("Error adding bill:", error);

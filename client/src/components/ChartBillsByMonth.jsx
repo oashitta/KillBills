@@ -16,7 +16,7 @@ const ChartBillsByMonth = () => {
             audience: process.env.REACT_APP_AUTH0_AUDIENCE,
           });
           const response = await fetch(
-            "https://killbills-server.onrender.com/bills/month",
+            process.env.REACT_APP_API_SERVER_URL + "/bills/month",
             {
               headers: {
                 Authorization: `Bearer ${accessToken}`,

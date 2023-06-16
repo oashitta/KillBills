@@ -15,7 +15,7 @@ const EditPayee = () => {
           audience: process.env.REACT_APP_AUTH0_AUDIENCE,
         });
         const response = await axios.get(
-          "https://killbills-server.onrender.com/categories",
+          process.env.REACT_APP_API_SERVER_URL + "/categories",
           {
             headers: {
               "Content-Type": "application/json",
@@ -39,7 +39,7 @@ const EditPayee = () => {
           audience: process.env.REACT_APP_AUTH0_AUDIENCE,
         });
         const response = await axios.get(
-          "https://killbills-server.onrender.com/5",
+          process.env.REACT_APP_API_SERVER_URL + "/5",
           {
             headers: {
               "Content-Type": "application/json",
@@ -80,7 +80,7 @@ const EditPayee = () => {
         const accessToken = await getAccessTokenSilently({
           audience: process.env.REACT_APP_AUTH0_AUDIENCE,
         });
-        await axios.put("https://killbills-server.onrender.com/5", values, {
+        await axios.put(process.env.REACT_APP_API_SERVER_URL + "/5", values, {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${accessToken}`,

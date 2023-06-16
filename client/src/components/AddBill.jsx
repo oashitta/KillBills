@@ -18,7 +18,7 @@ const AddBill = () => {
           audience: process.env.REACT_APP_AUTH0_AUDIENCE,
         });
         const response = await axios.get(
-          "https://killbills-server.onrender.com/payees",
+          process.env.REACT_APP_API_SERVER_URL + "/payees",
           {
             headers: {
               Authorization: `Bearer ${accessToken}`,
@@ -51,7 +51,7 @@ const AddBill = () => {
           audience: process.env.REACT_APP_AUTH0_AUDIENCE,
         });
         await axios.post(
-          "https://killbills-server.onrender.com/bills",
+          process.env.REACT_APP_API_SERVER_URL + "/bills",
           values,
           {
             headers: {

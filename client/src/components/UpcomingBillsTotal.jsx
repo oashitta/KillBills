@@ -14,7 +14,7 @@ const UpcomingBillsTotal = (totalDue, setTotalDue) => {
             audience: process.env.REACT_APP_AUTH0_AUDIENCE,
           });
           const response = await fetch(
-            "https://killbills-server.onrender.com/bills/due/total",
+            process.env.REACT_APP_API_SERVER_URL + "/total",
             {
               headers: {
                 Authorization: `Bearer ${accessToken}`,
