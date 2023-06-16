@@ -72,10 +72,6 @@ const AddBill = () => {
       <div className="w-full p-6 m-auto bg-white rounded-md border-solid border-2 border-violet-400 lg:max-w-xl">
         <div className="text-xl font-bold text-gray-800">
           <Link to="/add-payee">Add Payee + </Link>
-          <Link to="/edit-payee" className="mx-3">
-            {" "}
-            Delete Payee -
-          </Link>
         </div>
         <form className="mt-6" onSubmit={formik.handleSubmit}>
           <div className="mb-2">

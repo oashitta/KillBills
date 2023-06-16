@@ -2,12 +2,17 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useFormik } from "formik";
 import { useAuth0 } from "@auth0/auth0-react";
+import { useNavigate } from "react-router-dom";
+import { useParams } from 'react-router-dom';
 
 const EditBill = () => {
   const { getAccessTokenSilently } = useAuth0();
   const [payees, setPayees] = useState([]);
   const [bill, setBill] = useState({});
   const [btnClicked, setBtnClicked] = useState("");
+
+  const navigate = useNavigate();
+  const params = useParams()
   // const [isPaid, setIsPaid] = useState(false);
 
   // const isPaidHandle = (e) => {
@@ -23,14 +28,11 @@ const EditBill = () => {
         const accessToken = await getAccessTokenSilently({
           audience: process.env.REACT_APP_AUTH0_AUDIENCE,
         });
-        const response = await axios.get(
-          process.env.REACT_APP_API_SERVER_URL + "/payees",
-          {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          }
-        );
+        const response = await axios.get(process.env.REACT_APP_API_SERVER_URL + "/payees", {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
         setPayees(response.data.payees);
       } catch (error) {
         console.log("Error fetching payees:", error);
@@ -46,15 +48,14 @@ const EditBill = () => {
         const accessToken = await getAccessTokenSilently({
           audience: process.env.REACT_APP_AUTH0_AUDIENCE,
         });
-        const response = await axios.get(
-          process.env.REACT_APP_API_SERVER_URL + "/bills/5",
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${accessToken}`,
-            },
-          }
-        );
+        const response = await axios.get(process.env.REACT_APP_API_SERVER_URL + "/bills/" + params.id, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+
+        console.log("response", response)
 
         const bill = response.data.bill;
         const dueDate = String(bill.due_date).split("").slice(0, 10).join("");
@@ -62,7 +63,12 @@ const EditBill = () => {
           .split("")
           .slice(0, 10)
           .join("");
-        const paidDate = String(bill.paid_date).split("").slice(0, 10).join("");
+        const paidDate = () => {
+          if (!bill.paid_date) {
+            return undefined
+          }
+          return String(bill.paid_date).split("").slice(0, 10).join("");
+        }
         const isPaid = () => {
           if (bill.paid_date) {
             return true;
@@ -106,27 +112,21 @@ const EditBill = () => {
         });
 
         if (btnClicked === "edit") {
-          await axios.put(
-            process.env.REACT_APP_API_SERVER_URL + "/bills/5",
-            values,
-            {
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${accessToken}`,
-              },
-            }
-          );
+          await axios.put(process.env.REACT_APP_API_SERVER_URL + "/bills/" + params.id, values, {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${accessToken}`,
+            },
+          });
         } else {
-          await axios.delete(
-            process.env.REACT_APP_API_SERVER_URL + "/bills/5",
-            {
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${accessToken}`,
-              },
-            }
-          );
+          await axios.delete(process.env.REACT_APP_API_SERVER_URL + "/bills/" + params.id, {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${accessToken}`,
+            },
+          });
         }
+        navigate("/");
       } catch (error) {
         console.log("Error adding bill:", error);
       }
@@ -249,6 +249,7 @@ const EditBill = () => {
                   className="sr-only peer"
                   checked={formik.values.isPaid}
                   onClick={formik.handleChange}
+                  readOnly
                 />
                 <div className="w-11 h-6 bg-gray-200 rounded-full peer  peer-focus:ring-green-300  peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-600"></div>
                 <span className="ml-2 text-lg font-medium text-gray-900">

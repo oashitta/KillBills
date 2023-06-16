@@ -27,7 +27,7 @@ const router = createBrowserRouter([
         element: <EditPayee />,
       },
       { path: "/settings", element: <Profile /> },
-      { path: "/edit-bill", element: <EditBill /> },
+      { path: "/edit-bill/:id", element: <EditBill /> },
       { path: "/payment-history", element: <PaymentHistory /> },
       { path: "/upcoming-bills", element: <UpcomingBills /> },
       { path: "*", element: <h1>404 Page Not Found</h1> },
