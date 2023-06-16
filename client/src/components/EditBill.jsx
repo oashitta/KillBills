@@ -55,8 +55,6 @@ const EditBill = () => {
           },
         });
 
-        console.log("response", response)
-
         const bill = response.data.bill;
         const dueDate = String(bill.due_date).split("").slice(0, 10).join("");
         const reminderDate = String(bill.reminder_date)
@@ -65,7 +63,7 @@ const EditBill = () => {
           .join("");
         const paidDate = () => {
           if (!bill.paid_date) {
-            return undefined
+            return undefined;
           }
           return String(bill.paid_date).split("").slice(0, 10).join("");
         }
@@ -73,6 +71,7 @@ const EditBill = () => {
           if (bill.paid_date) {
             return true;
           }
+          return false
         };
 
         formik.setValues({
@@ -82,7 +81,7 @@ const EditBill = () => {
           amount: bill.amount,
           dueDate,
           reminderDate,
-          paidDate,
+          paidDate: paidDate(),
           note: bill.note,
         });
         setBill(response.data.bill);
