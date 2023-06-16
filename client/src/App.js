@@ -30,7 +30,20 @@ const router = createBrowserRouter([
       { path: "/edit-bill/:id", element: <EditBill /> },
       { path: "/payment-history", element: <PaymentHistory /> },
       { path: "/upcoming-bills", element: <UpcomingBills /> },
-      { path: "*", element: <h1>404 Page Not Found</h1> },
+      {
+        path: "*",
+        element: (
+          <div className="flex justify-center items-center flex-col h-screen">
+            {/* flex justify-center items-center flex-col h-screen */}
+            <h1 className=" font-bold my-3 text-5xl">404 Page Not Found</h1>
+            <img
+              src="https://media4.giphy.com/media/0IGsC1JY4k0LzdDJfb/giphy.gif?cid=ecf05e47w4zt469jaav6n8t7hixpeypszfkcwqnd17mg5ra1&ep=v1_gifs_related&rid=giphy.gif&ct=g"
+              alt="404-gif"
+              className="w-1/5"
+            />
+          </div>
+        ),
+      },
     ],
   },
 ]);

@@ -1,10 +1,10 @@
+import heroImage from "../heroImage.jpg";
 import { useAuth0 } from "@auth0/auth0-react";
 
 import React from "react";
 import { Outlet } from "react-router-dom";
 import TopNavigationBar from "./TopNavigationBar";
 import DashboardActions from "./DashboardActions";
-// import heroImage from "client/src/images/heroImage.png";
 
 const Main = () => {
   const { user, isAuthenticated, isLoading } = useAuth0();
@@ -41,7 +41,7 @@ const Main = () => {
             </a>
           </div>
           <div className="w-full flex justify-center self-center mx-auto">
-            <img src="" alt="hero image" className="text-white" />
+            <img src={heroImage} alt="hero-image" className="text-white" />
           </div>
         </div>
       )}
