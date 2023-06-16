@@ -14,7 +14,7 @@ const UpcomingBillsTotal = (totalDue, setTotalDue) => {
             audience: process.env.REACT_APP_AUTH0_AUDIENCE,
           });
           const response = await fetch(
-            "http://localhost:8080/bills/due/total",
+            process.env.REACT_APP_API_SERVER_URL + "/total",
             {
               headers: {
                 Authorization: `Bearer ${accessToken}`,

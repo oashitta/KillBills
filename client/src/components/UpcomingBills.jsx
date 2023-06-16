@@ -23,11 +23,14 @@ const UpcomingBills = () => {
       const accessToken = await getAccessTokenSilently({
         audience: process.env.REACT_APP_AUTH0_AUDIENCE,
       });
-      const response = await fetch("http://localhost:8080/bills", {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
+      const response = await fetch(
+        process.env.REACT_APP_API_SERVER_URL + "/bills",
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
       const data = await response.json();
       const filteredBills = data.bills
         .filter((bill) => new Date(bill.due_date) >= new Date())
