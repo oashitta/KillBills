@@ -48,18 +48,15 @@ const PaymentHistory = () => {
       {
         accessorKey: 'id',
         header: 'ID',
-        size: 150,
       },
       {
         accessorKey: 'name', //access nested data with dot notation
         header: 'Payee',
-        size: 200,
         Cell: ({ renderedCellValue, row }) => (
           <Box
             sx={{
               display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
+              paddingLeft: '1.1rem',
               fontSize: '1.2rem',
               gap: '1rem',
             }}
@@ -71,13 +68,10 @@ const PaymentHistory = () => {
       {
         accessorKey: 'amount',
         header: 'Amount',
-        size: 200,
         Cell: ({ renderedCellValue, row }) => (
           <Box
             sx={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
+              paddingLeft: '1.1rem',
               fontSize: '1.2rem',
               gap: '1rem',
             }}
@@ -89,13 +83,10 @@ const PaymentHistory = () => {
       {
         accessorKey: 'date', //normal accessorKey
         header: 'Due Date',
-        size: 200,
         Cell: ({ renderedCellValue, row }) => (
           <Box
             sx={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
+              paddingLeft: '1.1rem',
               fontSize: '1.2rem',
               gap: '1rem',
             }}
@@ -138,8 +129,7 @@ const PaymentHistory = () => {
                     sx: (theme) => ({
                       color: 'blue',
                       fontSize: '1.3rem',
-                      width: 'auto',
-                      paddingLeft: '10rem',
+                      paddingLeft: '2rem',
                     }),
                   }}
                 />
