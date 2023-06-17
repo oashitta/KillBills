@@ -77,7 +77,6 @@ const UpcomingBills = () => {
       {
         accessorKey: 'amount',
         header: 'Amount',
-        
         Cell: ({ renderedCellValue, row }) => (
           <Box
             sx={{
@@ -93,7 +92,6 @@ const UpcomingBills = () => {
       {
         accessorKey: 'date', //normal accessorKey
         header: 'Due Date',
-        
         Cell: ({ renderedCellValue, row }) => (
           <Box
             sx={{
