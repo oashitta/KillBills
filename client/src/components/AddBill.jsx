@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 const AddBill = () => {
-  const { getAccessTokenSilently } = useAuth0();
+  const { user, getAccessTokenSilently } = useAuth0();
   const [payees, setPayees] = useState([]);
 
   const navigate = useNavigate();
@@ -37,7 +37,7 @@ const AddBill = () => {
   const formik = useFormik({
     initialValues: {
       payeeId: 1,
-      userId: 1,
+      userId: user.sub,
       amount: "",
       dueDate: undefined,
       reminderDate: undefined,

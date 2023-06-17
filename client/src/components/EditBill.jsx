@@ -6,21 +6,13 @@ import { useNavigate } from "react-router-dom";
 import { useParams } from 'react-router-dom';
 
 const EditBill = () => {
-  const { getAccessTokenSilently } = useAuth0();
+  const { user, getAccessTokenSilently } = useAuth0();
   const [payees, setPayees] = useState([]);
   const [bill, setBill] = useState({});
   const [btnClicked, setBtnClicked] = useState("");
 
   const navigate = useNavigate();
   const params = useParams()
-  // const [isPaid, setIsPaid] = useState(false);
-
-  // const isPaidHandle = (e) => {
-  //   e.preventDefault();
-  //   if(bill.paid_date) {
-  //     setIsPaid("ture")
-  //   }
-  // }
 
   useEffect(() => {
     const fetchPayees = async () => {
@@ -77,7 +69,7 @@ const EditBill = () => {
         formik.setValues({
           isPaid: isPaid(),
           payeeId: bill.payee_id,
-          userId: 1,
+          userId: user.sub,
           amount: bill.amount,
           dueDate,
           reminderDate,
@@ -97,7 +89,7 @@ const EditBill = () => {
     initialValues: {
       isPaid: false,
       payeeId: 1,
-      userId: 1,
+      userId: user.sub,
       amount: "",
       dueDate: "",
       reminderDate: "",
