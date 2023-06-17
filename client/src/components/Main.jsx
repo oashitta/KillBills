@@ -3,11 +3,11 @@ import { useAuth0 } from "@auth0/auth0-react";
 
 import React from "react";
 import { Outlet } from "react-router-dom";
-import TopNavigationBar from "./TopNavigationBar";
-import DashboardActions from "./DashboardActions";
+import Navigation from "./Navigation";
+import Dashboard from "./Dashboard";
 
 const Main = () => {
-  const { user, isAuthenticated, isLoading } = useAuth0();
+  const { user, isAuthenticated, isLoading, loginWithRedirect } = useAuth0();
 
   if (isLoading) {
     return <div className="flex justify-center">Loading ...</div>;
@@ -15,11 +15,11 @@ const Main = () => {
 
   return (
     <>
-      <TopNavigationBar />
+      <Navigation />
 
       {isAuthenticated ? (
         <>
-          <DashboardActions />
+          <Dashboard />
           <Outlet />
         </>
       ) : (
@@ -37,6 +37,11 @@ const Main = () => {
               </button> */}
               <button className="rounded-md text-white font-semibold mx-2 py-4 px-7 bg-gradient-to-r from-pink-500 to-indigo-700 hover:from-pink-500 hover:to-yellow-500">
                 Sign Up!
+              </button>
+            </a>&nbsp;
+            <a href="">
+              <button onClick={() => loginWithRedirect()} className="rounded-md text-white font-semibold mx-2 py-4 px-7 bg-gradient-to-r from-pink-500 to-indigo-700 hover:from-pink-500 hover:to-yellow-500">
+                Sign In
               </button>
             </a>
           </div>

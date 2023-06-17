@@ -8,8 +8,9 @@ import EditPayee from "./components/EditPayee";
 import UpcomingBills from "./components/UpcomingBills";
 import "./App.css";
 import EditBill from "./components/EditBill";
-import Main from "./components/main";
+import Main from "./components/Main";
 import PaymentHistory from "./components/PaymentHistory";
+import Insights from "./components/Insights";
 
 const router = createBrowserRouter([
   {
@@ -30,6 +31,7 @@ const router = createBrowserRouter([
       { path: "/edit-bill/:id", element: <EditBill /> },
       { path: "/payment-history", element: <PaymentHistory /> },
       { path: "/upcoming-bills", element: <UpcomingBills /> },
+      { path: "/insights", element: <Insights /> },
       {
         path: "*",
         element: (

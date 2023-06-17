@@ -79,7 +79,7 @@ const ChartBillsByMonth = () => {
   }
 
   return (
-    <div className="w-1/3 px-1 py-1">
+    <div className="px-1 py-1">
       {isAuthenticated ? (
         chartData ? (
           <div className="rounded-lg shadow-lg border border-gray-100 p-4">

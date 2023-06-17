@@ -3,7 +3,14 @@ const db = require("../../configs/db.config");
 const getBills = (auth0Sub) => {
   return db
     .query(
-      "SELECT b.id, b.amount::money::numeric::float8, b.due_date, p.name AS payee_name, p.url AS payee_link FROM bills b JOIN users u ON b.user_id = u.id JOIN payees p ON b.payee_id = p.id WHERE u.auth0_sub = $1",
+      `
+      SELECT b.id, b.amount::money::numeric::float8, b.due_date, p.name AS payee_name, p.url AS payee_link 
+      FROM bills b 
+      JOIN users u ON b.user_id = u.id 
+      JOIN payees p ON b.payee_id = p.id 
+      WHERE u.auth0_sub = $1 
+      AND b.paid_date IS NULL
+      `,
       [auth0Sub]
     )
     .then((data) => {
@@ -171,7 +178,7 @@ const getBillsDueTotal = (auth0Sub) => {
 const getBillsOverdueTotal = (auth0Sub) => {
   return db
     .query(
-      "SELECT SUM(amount) AS total_amount FROM bills WHERE user_id = (SELECT id FROM users WHERE auth0_sub = $1) AND due_date < CURRENT_DATE",
+      "SELECT SUM(amount) AS total_amount FROM bills WHERE user_id = (SELECT id FROM users WHERE auth0_sub = $1) AND due_date < CURRENT_DATE AND paid_date IS NULL",
       [auth0Sub]
     )
     .then((data) => {
