@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import { MaterialReactTable } from 'material-react-table';
-import { Box } from '@mui/material';
+import { MaterialReactTable } from "material-react-table";
+import { Box } from "@mui/material";
 
 const PaymentHistory = () => {
   const { isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0();
@@ -35,76 +35,80 @@ const PaymentHistory = () => {
 
   // const columns = ["Payee", "Amount", "Paid Date"];
 
-  const data = bills.map((bill) => 
-    ({
-      id: bill.id,
-      name: bill.payee_name,
-      amount: bill.amount,
-      date: bill.due_date
-    })
-  );
+  const data = bills.map((bill) => ({
+    id: bill.id,
+    name: bill.payee_name,
+    amount: bill.amount,
+    date: bill.due_date,
+  }));
 
   const columns = [
-      {
-        accessorKey: 'id',
-        header: 'ID',
-        size: 150,
-      },
-      {
-        accessorKey: 'name', //access nested data with dot notation
-        header: 'Payee',
-        size: 200,
-        Cell: ({ renderedCellValue, row }) => (
-          <Box
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontSize: '1.2rem',
-              gap: '1rem',
-            }}
-          >
-            <span>{renderedCellValue}</span>
-          </Box>
-        ),
-      },
-      {
-        accessorKey: 'amount',
-        header: 'Amount',
-        size: 200,
-        Cell: ({ renderedCellValue, row }) => (
-          <Box
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontSize: '1.2rem',
-              gap: '1rem',
-            }}
-          >
-            <span>${renderedCellValue.toFixed(2)}</span>
-          </Box>
-        ),
-      },
-      {
-        accessorKey: 'date', //normal accessorKey
-        header: 'Due Date',
-        size: 200,
-        Cell: ({ renderedCellValue, row }) => (
-          <Box
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontSize: '1.2rem',
-              gap: '1rem',
-            }}
-          >
-            <span>{new Date(renderedCellValue).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}</span>
-          </Box>
-        ),
-      },
-    ]
+    {
+      accessorKey: "id",
+      header: "ID",
+      size: 150,
+    },
+    {
+      accessorKey: "name", //access nested data with dot notation
+      header: "Payee",
+      size: 200,
+      Cell: ({ renderedCellValue, row }) => (
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            fontSize: "1.2rem",
+            gap: "1rem",
+          }}
+        >
+          <span>{renderedCellValue}</span>
+        </Box>
+      ),
+    },
+    {
+      accessorKey: "amount",
+      header: "Amount",
+      size: 200,
+      Cell: ({ renderedCellValue, row }) => (
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            fontSize: "1.2rem",
+            gap: "1rem",
+          }}
+        >
+          <span>${renderedCellValue.toFixed(2)}</span>
+        </Box>
+      ),
+    },
+    {
+      accessorKey: "date", //normal accessorKey
+      header: "Due Date",
+      size: 200,
+      Cell: ({ renderedCellValue, row }) => (
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            fontSize: "1.2rem",
+            gap: "1rem",
+          }}
+        >
+          <span>
+            {new Date(renderedCellValue).toLocaleDateString("en-US", {
+              month: "long",
+              day: "numeric",
+              year: "numeric",
+            })}
+          </span>
+        </Box>
+      ),
+    },
+  ];
 
   // const options = {
   //   selectableRows: "none",
@@ -116,33 +120,30 @@ const PaymentHistory = () => {
         <p className="flex justify-center">Loading...</p>
       ) : isAuthenticated ? (
         <div className="mx-auto max-w-7xl px-6 py-8">
-          <h2 className="font-bold text-xl text-slate-900 mb-5">
+          <h2 className="font-bold text-xl text-slate-900 mb-5 flex justify-center">
             Payment History
           </h2>
           <MaterialReactTable
-                  columns={columns}
-                  data={data}
-                  initialState={{ columnVisibility: { id: false } }}
-                  muiTableBodyRowProps={({ row }) => ({
-                    onClick: () => {
-                      window.open(
-                        `/edit-bill/${row.original.id}`,
-                        "_self"
-                      )
-                    },
-                      sx: {
-                      cursor: 'pointer',
-                    },
-                  })}
-                  muiTableHeadCellProps={{
-                    sx: (theme) => ({
-                      color: 'blue',
-                      fontSize: '1.3rem',
-                      width: 'auto',
-                      paddingLeft: '10rem',
-                    }),
-                  }}
-                />
+            columns={columns}
+            data={data}
+            initialState={{ columnVisibility: { id: false } }}
+            muiTableBodyRowProps={({ row }) => ({
+              onClick: () => {
+                window.open(`/edit-bill/${row.original.id}`, "_self");
+              },
+              sx: {
+                cursor: "pointer",
+              },
+            })}
+            muiTableHeadCellProps={{
+              sx: (theme) => ({
+                color: "blue",
+                fontSize: "1.3rem",
+                width: "auto",
+                paddingLeft: "10rem",
+              }),
+            }}
+          />
         </div>
       ) : (
         <p className="flex justify-center font-bold text-xl text-slate-900 my-5">
