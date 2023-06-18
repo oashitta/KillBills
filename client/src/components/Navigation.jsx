@@ -18,8 +18,8 @@ export default function Navigation() {
   return (
     isAuthenticated && (
     <>
-    <div className="min-h-full">
-      <Disclosure as="nav" className="bg-white">
+    <div className="min-h-full sticky top-0 z-88 bg-gray-50">
+      <Disclosure as="nav">
         {({ open }) => (
           <>
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -50,7 +50,10 @@ export default function Navigation() {
                         leaveTo="transform opacity-0 scale-95"
                       >
                         <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                          <div className="block px-4 py-2 text-sm text-gray-700 font-bold" id="headlessui-menu-item-:r3l:" role="menuitem" tabIndex="-1" data-headlessui-state="">{user.email}</div>
+                          <div className="px-4 py-1 border-b">
+                            <span className="block text-sm text-gray-900 font-bold">{user.name}</span>
+                            <span className="block text-sm text-gray-500 truncate">{user.email}</span>
+                          </div>
                           {userNavigation.map((item) => (
                             <Menu.Item key={item.name}>
                               {({ active }) => (
@@ -66,7 +69,7 @@ export default function Navigation() {
                               )}
                             </Menu.Item>
                           ))}
-                          <div className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer" id="headlessui-menu-item-:r88:" role="menuitem" tabIndex="-1" data-headlessui-state="" onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}>Sign Out</div>
+                          <div className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer" onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}>Sign Out</div>
                         </Menu.Items>
                       </Transition>
                     </Menu>
