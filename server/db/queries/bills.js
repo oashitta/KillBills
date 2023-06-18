@@ -186,6 +186,17 @@ const getBillsOverdueTotal = (auth0Sub) => {
     });
 };
 
+const getBillsOverdueCount = (auth0Sub) => {
+  return db
+    .query(
+      "SELECT COUNT(*) AS total_count FROM bills WHERE user_id = (SELECT id FROM users WHERE auth0_sub = $1) AND due_date < CURRENT_DATE AND paid_date IS NULL",
+      [auth0Sub]
+    )
+    .then((data) => {
+      return data.rows[0].total_count || 0;
+    });
+};
+
 const getBillsByDateTotal = (auth0Sub, startDate, endDate) => {
   return db
     .query(
@@ -253,6 +264,33 @@ const getBillsByMonth = (auth0Sub) => {
     });
 };
 
+const getBillNextDate = (auth0Sub) => {
+  return db
+    .query(
+      `
+      SELECT 
+        DATE_PART('day', CAST(b.due_date AS TIMESTAMP) - CURRENT_DATE) AS days
+      FROM
+        bills b
+      JOIN
+        users u ON b.user_id = u.id
+      JOIN
+        payees p ON b.payee_id = p.id
+      WHERE
+        u.auth0_sub = $1
+        AND b.paid_date IS NULL
+        AND b.due_date > CURRENT_DATE
+      ORDER BY
+        b.due_date ASC
+      LIMIT 1;
+    `,
+      [auth0Sub]
+    )
+    .then((data) => {
+      return data.rows[0].days || 0;
+    });
+};
+
 module.exports = { 
   getBills, 
   getBillById, 
@@ -270,8 +308,10 @@ module.exports = {
   getBillsUnpaidTotal, 
   getBillsDueTotal, 
   getBillsOverdueTotal, 
+  getBillsOverdueCount, 
   getBillsByDateTotal, 
   getBillsByPayee, 
   getBillsByCategory, 
-  getBillsByMonth
+  getBillsByMonth,
+  getBillNextDate
 };

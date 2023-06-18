@@ -91,6 +91,14 @@ router.get("/overdue/total", (req, res) => {
   });
 });
 
+// GET /bills/overdue/count
+router.get("/overdue/count", (req, res) => {
+  const auth0Sub = req.auth.payload.sub;
+  bills.getBillsOverdueCount(auth0Sub).then((data) => {
+    res.json({ count: data });
+  });
+});
+
 // GET /bills/date/total
 router.get("/date/total", (req, res) => {
   const auth0Sub = req.auth.payload.sub;
@@ -142,6 +150,14 @@ router.get("/overdue", (req, res) => {
   });
 });
 
+// GET /bills/overdue/count
+router.get("/overdue", (req, res) => {
+  const auth0Sub = req.auth.payload.sub;
+  bills.getBillsOverdue(auth0Sub).then((data) => {
+    res.json({ bills: data });
+  });
+});
+
 // GET /bills/date
 router.get("/date", (req, res) => {
   const auth0Sub = req.auth.payload.sub;
@@ -173,6 +189,14 @@ router.get("/month", (req, res) => {
   const auth0Sub = req.auth.payload.sub;
   bills.getBillsByMonth(auth0Sub).then((data) => {
     res.json({ months: data });
+  });
+});
+
+// GET /bills/next/days
+router.get("/next/days", (req, res) => {
+  const auth0Sub = req.auth.payload.sub;
+  bills.getBillNextDate(auth0Sub).then((data) => {
+    res.json({ days: data });
   });
 });
 
