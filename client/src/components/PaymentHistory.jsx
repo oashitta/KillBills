@@ -66,6 +66,7 @@ const PaymentHistory = () => {
       header: "Amount",
       Cell: ({ renderedCellValue, row }) => (
         <Box
+          className="flex justify-start pl-4"
           sx={{
             fontSize: "1.0rem",
             gap: "1rem",
@@ -82,6 +83,7 @@ const PaymentHistory = () => {
       header: "Due Date",
       Cell: ({ renderedCellValue, row }) => (
         <Box
+          className="flex justify-start pl-4"
           sx={{
             fontSize: "1.0rem",
             gap: "1rem",

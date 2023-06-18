@@ -89,6 +89,7 @@ const UpcomingBills = () => {
       header: "Amount",
       Cell: ({ renderedCellValue, row }) => (
         <Box
+          className="flex justify-start pl-4"
           sx={{
             fontSize: "1.0rem",
             gap: "1rem",
@@ -105,6 +106,7 @@ const UpcomingBills = () => {
       header: "Due Date",
       Cell: ({ renderedCellValue, row }) => (
         <Box
+          className="flex justify-start pl-4"
           sx={{
             fontSize: "1.0rem",
             gap: "1rem",
