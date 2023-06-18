@@ -7,8 +7,7 @@ import Navigation from "./Navigation";
 import Dashboard from "./Dashboard";
 
 const Main = () => {
-  const { user, isAuthenticated, isLoading, loginWithRedirect, signup } =
-    useAuth0();
+  const { user, isAuthenticated, isLoading, loginWithRedirect } = useAuth0();
 
   if (isLoading) {
     return (
@@ -53,24 +52,27 @@ const Main = () => {
             <h3 className="font-semibold text-2xl text-white mb-5 p2">
               Then signup to set up your bill reminders.
             </h3>
-            <a href="">
-              {/* redirects to login instead of signup */}
+            <div>
               <button
-                onClick={() => loginWithRedirect({ screen_hint: "signup" })}
+                onClick={() =>
+                  loginWithRedirect({
+                    authorizationParams: { screen_hint: "signup" },
+                  })
+                }
                 className="rounded-md text-white font-semibold mx-2 py-4 px-7 bg-gradient-to-r from-pink-500 to-indigo-700 hover:from-pink-500 hover:to-yellow-500"
               >
-                Sign Up!
+                Sign Up
               </button>
-            </a>
+            </div>
             &nbsp;
-            <a href="">
+            <div>
               <button
                 onClick={() => loginWithRedirect()}
                 className="rounded-md text-white font-semibold mx-2 py-4 px-7 bg-gradient-to-r from-pink-500 to-indigo-700 hover:from-pink-500 hover:to-yellow-500"
               >
                 Sign In
               </button>
-            </a>
+            </div>
           </div>
           <div className="w-full flex justify-center self-center mx-auto">
             <img src={heroImage} alt="hero-image" className="text-white" />
