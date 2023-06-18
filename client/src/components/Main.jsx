@@ -25,9 +25,9 @@ const Main = () => {
 
   return (
     <>
-      <Navigation />
       {isAuthenticated ? (
         <>
+          <Navigation />
           <Dashboard />
           <Outlet />
         </>
