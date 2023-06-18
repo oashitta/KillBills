@@ -134,6 +134,15 @@ router.get("/unpaid", (req, res) => {
   });
 });
 
+// GET /bills/unpaid/dates
+router.get("/unpaid/dates", (req, res) => {
+  const auth0Sub = req.auth.payload.sub;
+  bills.getBillsUnpaidDates(auth0Sub).then((data) => {
+    const billDates = data.map((row) => row.due_date.toISOString().split("T")[0]);
+    res.json({ billDates });
+  });
+});
+
 // GET /bills/due
 router.get("/due", (req, res) => {
   const auth0Sub = req.auth.payload.sub;
