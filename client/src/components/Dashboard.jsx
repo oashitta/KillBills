@@ -112,32 +112,40 @@ const Dashboard = () => {
     <>
       {isAuthenticated && (
         <>
-          <div className="mx-auto flex max-w-7xl items-center justify-between p-6">
-            <div className="rounded-2xl shadow-lg bg-gray-50 border border-gray-100 p-8">
-              <p className="mb-0 font-sans font-semibold leading-normal text-sm">Total Due</p>
-              <h1 className="mb-0 font-bold text-2xl">
-                {totalDue !== null ? <p>{totalDue}</p> : <p>$0</p>}
-              </h1>
-              <span className="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded">Next bill in {nextDue} {nextDue == 1 ? 'Day' : 'Days'}</span>
-            </div>
-            {totalPastDue !== null && (
-              <div className="rounded-2xl shadow-lg bg-gray-50 border border-gray-100 p-8">
-                <p className="mb-0 font-sans font-semibold leading-normal text-sm text-red-500">
-                  Total Past Due
-                </p>
-                <h1 className="mb-0 font-bold text-2xl text-red-500">
-                  {totalPastDue}
+          <div className="mx-auto flex flex-wrap max-w-7xl items-center justify-between p-6">
+            <div className="w-1/2 lg:w-1/3">
+              {/* <div className="rounded-lg shadow-lg bg-gray-50 border border-gray-100 p-8 mb-4"> */}
+              <div className="p-8">
+                <p className="mb-0 font-sans font-semibold leading-normal text-sm">Total Due</p>
+                <h1 className="mb-0 font-bold text-2xl">
+                  {totalDue !== null ? <p>{totalDue}</p> : <p>$0</p>}
                 </h1>
-                <span className="bg-red-100 text-red-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded">{countPastDue} {countPastDue == 1 ? 'Bill' : 'Bills'} Due</span>
+                {nextDue !== null && (
+                  <span className="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded">Next bill due in {nextDue} {nextDue == 1 ? 'Day' : 'Days'}</span>
+                )}
               </div>
-            )}
-            <div className="-mt-2 p-2 lg:mt-0 lg:w-full lg:max-w-md lg:flex-shrink-0">
-              <div className="text-center lg:flex lg:flex-col lg:justify-center lg:py-16">
-                <div className="mx-auto max-w-xs px-8">
-                  <p className="mt-6 flex items-baseline justify-center gap-x-2">
-                    <span className="text-9xl font-bold tracking-tight text-indigo-600">{currentDay}</span>
+              {totalPastDue !== null && (
+                <div className="p-8">
+                {/* <div className="rounded-lg shadow-lg bg-gray-50 border border-gray-100 p-8"> */}
+                  <p className="mb-0 font-sans font-semibold leading-normal text-sm text-red-500">
+                    Total Past Due
                   </p>
-                  <p className="text-base font-semibold text-indigo-600">{currentMonth}</p>
+                  <h1 className="mb-0 font-bold text-2xl text-red-500">
+                    {totalPastDue}
+                  </h1>
+                  <span className="bg-red-100 text-red-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded">{countPastDue} {countPastDue == 1 ? 'Bill' : 'Bills'} Overdue</span>
+                </div>
+              )}
+            </div>
+            <div className="w-1/2 lg:w-1/3">
+              <div className="-mt-2 p-2 lg:mt-0 lg:w-full lg:max-w-md lg:flex-shrink-0">
+                <div className="text-center lg:flex lg:flex-col lg:justify-center lg:py-16">
+                  <div className="mx-auto max-w-xs px-8 py-8 text-indigo-600">
+                    <p className="flex items-baseline justify-center gap-x-2">
+                      <span className="text-9xl font-bold tracking-tight">{currentDay}</span>
+                    </p>
+                    <p className="font-semibold">{currentMonth}</p>
+                  </div>
                 </div>
               </div>
             </div>
