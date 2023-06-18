@@ -115,7 +115,7 @@ const Dashboard = () => {
           <div className="mx-auto flex flex-wrap max-w-7xl items-center justify-between p-6">
             <div className="w-1/2 lg:w-1/3">
               {/* <div className="rounded-lg shadow-lg bg-gray-50 border border-gray-100 p-8 mb-4"> */}
-              <div className="p-8">
+              <div className="p-2">
                 <p className="mb-0 font-sans font-semibold leading-normal text-sm">Total Due</p>
                 <h1 className="mb-0 font-bold text-2xl">
                   {totalDue !== null ? <p>{totalDue}</p> : <p>$0</p>}
@@ -125,7 +125,7 @@ const Dashboard = () => {
                 )}
               </div>
               {totalPastDue !== null && (
-                <div className="p-8">
+                <div className="p-2">
                 {/* <div className="rounded-lg shadow-lg bg-gray-50 border border-gray-100 p-8"> */}
                   <p className="mb-0 font-sans font-semibold leading-normal text-sm text-red-500">
                     Total Past Due
@@ -142,7 +142,7 @@ const Dashboard = () => {
                 <div className="text-center lg:flex lg:flex-col lg:justify-center lg:py-16">
                   <div className="mx-auto max-w-xs px-8 py-8 text-indigo-600">
                     <p className="flex items-baseline justify-center gap-x-2">
-                      <span className="text-9xl font-bold tracking-tight">{currentDay}</span>
+                      <span className="text-9xl font-bold tracking-tight font-outline-2">{currentDay}</span>
                     </p>
                     <p className="font-semibold">{currentMonth}</p>
                   </div>
@@ -150,7 +150,7 @@ const Dashboard = () => {
               </div>
             </div>
           </div>
-          <div className="mx-auto flex max-w-7xl items-center justify-between p-6">
+          <div className="mx-auto flex max-w-7xl items-center justify-between p-6 py-0">
             <Link to="/add-bill">
               <button type="button" className="inline-flex items-center rounded-lg bg-indigo-600 px-3 py-2 text-lg font-semibold text-white shadow-lg hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6 mr-2">
