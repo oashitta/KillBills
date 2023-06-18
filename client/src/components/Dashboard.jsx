@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Link, useLocation } from "react-router-dom";
+import Calendar from "./Calendar"
 
 const Dashboard = () => {
   const { user, getAccessTokenSilently, isAuthenticated, isLoading } = useAuth0();
@@ -8,6 +9,7 @@ const Dashboard = () => {
   const [totalDue, setTotalDue] = useState(null);
   const [countPastDue, setCountPastDue] = useState(null);
   const [nextDue, setNextDue] = useState(null);
+  const [billDates, setBillDates] = useState(null);
   const currentDate = new Date();
   const currentDay = currentDate.getDate();
   const currentMonth = currentDate.toLocaleString('default', { month: 'long' });
@@ -101,11 +103,35 @@ const Dashboard = () => {
         const data = await response.json();
         setCountPastDue(data.count);
       } catch (error) {
-        console.error("Error fetching total amount:", error);
+        console.error("Error fetching total count:", error);
       }
     };
 
     fetchOverdueCount();
+  }, []);
+
+  useEffect(() => {
+    const fetchBillDates = async () => {
+      try {
+        const accessToken = await getAccessTokenSilently({
+          audience: process.env.REACT_APP_AUTH0_AUDIENCE,
+        });
+        const response = await fetch(
+          process.env.REACT_APP_API_SERVER_URL + "/bills/unpaid/dates",
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
+        const data = await response.json();
+        setBillDates(data.billDates);
+      } catch (error) {
+        console.error("Error fetching dates:", error);
+      }
+    };
+
+    fetchBillDates();
   }, []);
 
   return (
@@ -113,7 +139,7 @@ const Dashboard = () => {
       {isAuthenticated && (
         <>
           <div className="mx-auto flex flex-wrap max-w-7xl items-center justify-between p-6">
-            <div className="w-1/2 lg:w-1/3">
+            <div className="w-2/5 lg:w-1/3">
               {/* <div className="rounded-lg shadow-lg bg-gray-50 border border-gray-100 p-8 mb-4"> */}
               <div className="p-2">
                 <p className="mb-0 font-sans font-semibold leading-normal text-sm">Total Due</p>
@@ -137,17 +163,8 @@ const Dashboard = () => {
                 </div>
               )}
             </div>
-            <div className="w-1/2 lg:w-1/3">
-              <div className="-mt-2 p-2 lg:mt-0 lg:w-full lg:max-w-md lg:flex-shrink-0">
-                <div className="text-center lg:flex lg:flex-col lg:justify-center lg:py-16">
-                  <div className="mx-auto max-w-xs px-8 py-8 text-indigo-600">
-                    <p className="flex items-baseline justify-center gap-x-2">
-                      <span className="text-9xl font-bold tracking-tight font-outline-2">{currentDay}</span>
-                    </p>
-                    <p className="font-semibold">{currentMonth}</p>
-                  </div>
-                </div>
-              </div>
+            <div className="w-3/5 lg:w-1/3">
+              <Calendar billDates={billDates} />
             </div>
           </div>
           <div className="mx-auto flex max-w-7xl items-center justify-between p-6 py-0">

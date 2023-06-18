@@ -98,6 +98,23 @@ const getBillsUnpaid = (auth0Sub) => {
     });
 };
 
+const getBillsUnpaidDates = (auth0Sub) => {
+  return db
+    .query(
+      `
+      SELECT DISTINCT due_date
+      FROM bills b
+      JOIN users u ON b.user_id = u.id
+      WHERE u.auth0_sub = $1
+      AND b.paid_date IS NULL;
+    `,
+      [auth0Sub]
+    )
+    .then((data) => {
+      return data.rows;
+    });
+};
+
 const getBillsDue = (auth0Sub) => {
   return db
     .query(
@@ -300,6 +317,7 @@ module.exports = {
   getBillsByCategoryId, 
   getBillsPaid, 
   getBillsUnpaid, 
+  getBillsUnpaidDates, 
   getBillsDue, 
   getBillsOverdue, 
   getBillsByDate, 
