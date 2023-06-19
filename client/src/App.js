@@ -29,8 +29,7 @@ const router = createBrowserRouter([
       },
       { path: "/settings", element: <Profile /> },
       { path: "/edit-bill/:id", element: <EditBill /> },
-      { path: "/payment-history", element: <PaymentHistory /> },
-      { path: "/upcoming-bills", element: <UpcomingBills /> },
+      { path: "/history", element: <PaymentHistory /> },
       { path: "/insights", element: <Insights /> },
       {
         path: "*",
