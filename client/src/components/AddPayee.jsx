@@ -86,33 +86,48 @@ const AddPayee = () => {
               ))}
             </select>
           </div>
-          <input
-            id="name"
-            name="name"
-            type="text"
-            placeholder="Payee Name"
-            onChange={formik.handleChange}
-            value={formik.values.name}
-            className="block w-full px-4 py-2 mt-2 text-indigo-700 bg-white border rounded-md focus:border-indigo-400 focus:ring-indigo-300 focus:outline-none focus:ring focus:ring-opacity-40"
-          />
-          <input
-            id="accountNumber"
-            name="accountNumber"
-            type="text"
-            placeholder="Account #"
-            onChange={formik.handleChange}
-            value={formik.values.accountNumber}
-            className="block w-full px-4 py-2 mt-2 text-indigo-700 bg-white border rounded-md focus:border-indigo-400 focus:ring-indigo-300 focus:outline-none focus:ring focus:ring-opacity-40"
-          />
-          <input
-            id="url"
-            name="url"
-            type="text"
-            placeholder="URL Link"
-            onChange={formik.handleChange}
-            value={formik.values.url}
-            className="block w-full px-4 py-2 mt-2 text-indigo-700 bg-white border rounded-md focus:border-indigo-400 focus:ring-indigo-300 focus:outline-none focus:ring focus:ring-opacity-40"
-          />
+          <div className="mt-2">
+            <label htmlFor="name" className="text-md font-bold text-gray-800">
+              Payee Name:
+            </label>
+            <input
+              id="name"
+              name="name"
+              type="text"
+              placeholder="Payee Name"
+              onChange={formik.handleChange}
+              value={formik.values.name}
+              className="block w-full px-4 py-2 mt-2 text-indigo-700 bg-white border rounded-md focus:border-indigo-400 focus:ring-indigo-300 focus:outline-none focus:ring focus:ring-opacity-40"
+            />
+          </div>
+          <div className="mt-2">
+            <label htmlFor="accountNumber" className="text-md font-bold text-gray-800">
+              Acount Number:
+            </label>
+            <input
+              id="accountNumber"
+              name="accountNumber"
+              type="text"
+              placeholder="Account #"
+              onChange={formik.handleChange}
+              value={formik.values.accountNumber}
+              className="block w-full px-4 py-2 mt-2 text-indigo-700 bg-white border rounded-md focus:border-indigo-400 focus:ring-indigo-300 focus:outline-none focus:ring focus:ring-opacity-40"
+            />
+          </div>
+          <div className="mt-2">
+            <label htmlFor="accountNumber" className="text-md font-bold text-gray-800">
+              Link:
+            </label>
+            <input
+              id="url"
+              name="url"
+              type="text"
+              placeholder="URL Link"
+              onChange={formik.handleChange}
+              value={formik.values.url}
+              className="block w-full px-4 py-2 mt-2 text-indigo-700 bg-white border rounded-md focus:border-indigo-400 focus:ring-indigo-300 focus:outline-none focus:ring focus:ring-opacity-40"
+            />
+          </div>
           <div className="mt-6">
             <button
               type="submit"
