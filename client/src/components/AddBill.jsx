@@ -7,7 +7,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 
-const AddBill = ({ closeModal }) => {
+const AddBill = ({ closeModal, showToast }) => {
   const { user, getAccessTokenSilently } = useAuth0();
   const [payees, setPayees] = useState([]);
 
@@ -62,14 +62,16 @@ const AddBill = ({ closeModal }) => {
             },
           }
         );
-        toast.success("Bill added successfully!");
+        // toast.success("Bill added successfully!");
+        showToast("Bill added successfully!");
         closeModal(); // Close the modal
         setTimeout(() => {
           navigate("/");
         }, 2000);
       } catch (error) {
         // console.log("Error adding bill:", error);
-        toast.error("Failed to add bill. Please try again.");
+        // toast.error("Failed to add bill. Please try again.");
+        showToast("Failed to add bill. Please try again.");
       }
     },
   });

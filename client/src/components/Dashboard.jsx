@@ -3,6 +3,8 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { Link, useLocation } from "react-router-dom";
 import Calendar from "./Calendar"
 import AddBill from "./AddBill"
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Dashboard = () => {
   const { user, getAccessTokenSilently, isAuthenticated, isLoading } = useAuth0();
@@ -15,6 +17,7 @@ const Dashboard = () => {
   const currentDate = new Date();
   const currentDay = currentDate.getDate();
   const currentMonth = currentDate.toLocaleString('default', { month: 'long' });
+  const [toastMessage, setToastMessage] = useState("");
   
   useEffect(() => {
     const fetchOverdueTotal = async () => {
@@ -136,9 +139,13 @@ const Dashboard = () => {
     fetchBillDates();
   }, []);
 
+  const showToast = (message) => {
+    setToastMessage(message);
+    toast.success(message);
+  };
+
   const closeModal = () => {
     setIsAddBillModalOpen(false);
-    window.location.reload();
   };
 
   const handleOverlayClick = (e) => {
@@ -192,7 +199,7 @@ const Dashboard = () => {
           {isAddBillModalOpen && (
             <div className="fixed inset-0 flex items-center justify-center z-50 bg-opacity-50 bg-black" onClick={handleOverlayClick}>
               <div className="relative bg-white w-5/6 max-w-md p-6 rounded-lg shadow-lg w-full max-w-2xl max-h-full">
-                <AddBill closeModal={closeModal} />
+                <AddBill closeModal={closeModal} showToast={showToast} />
                 <button type="button" onClick={closeModal} className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 focus:outline-none">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-6 h-6">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
@@ -201,6 +208,13 @@ const Dashboard = () => {
               </div>
             </div>
             )}
+                  <ToastContainer
+        position="top-right"
+        autoClose={2000}
+        pauseOnHover={true}
+        closeOnClick={true}
+        hideProgressBar={false}
+      />
         </>
       )}
     </>
