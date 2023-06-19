@@ -7,7 +7,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 
-const AddBill = () => {
+const AddBill = ({ closeModal }) => {
   const { user, getAccessTokenSilently } = useAuth0();
   const [payees, setPayees] = useState([]);
 
@@ -63,6 +63,7 @@ const AddBill = () => {
           }
         );
         toast.success("Bill added successfully!");
+        closeModal(); // Close the modal
         setTimeout(() => {
           navigate("/");
         }, 2000);
@@ -74,8 +75,8 @@ const AddBill = () => {
   });
 
   return (
-    <div className="relative flex flex-col justify-center min-h-screen overflow-hidden">
-      <div className="w-full p-6 m-auto bg-white rounded-md border-solid border-2 border-indigo-400 lg:max-w-xl mt-12">
+    <div className="relative flex flex-col justify-center overflow-hidden">
+      <div className="w-full p-6 m-auto bg-white rounded-md lg:max-w-xl mt-12">
         <form className="mt-6" onSubmit={formik.handleSubmit}>
           <div className="mb-2">
             <label

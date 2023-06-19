@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Link, useLocation } from "react-router-dom";
 import Calendar from "./Calendar"
+import AddBill from "./AddBill"
 
 const Dashboard = () => {
   const { user, getAccessTokenSilently, isAuthenticated, isLoading } = useAuth0();
@@ -10,6 +11,7 @@ const Dashboard = () => {
   const [countPastDue, setCountPastDue] = useState(null);
   const [nextDue, setNextDue] = useState(null);
   const [billDates, setBillDates] = useState(null);
+  const [isAddBillModalOpen, setIsAddBillModalOpen] = useState(false);
   const currentDate = new Date();
   const currentDay = currentDate.getDate();
   const currentMonth = currentDate.toLocaleString('default', { month: 'long' });
@@ -134,6 +136,17 @@ const Dashboard = () => {
     fetchBillDates();
   }, []);
 
+  const closeModal = () => {
+    setIsAddBillModalOpen(false);
+    window.location.reload();
+  };
+
+  const handleOverlayClick = (e) => {
+    if (e.target === e.currentTarget) {
+      closeModal();
+    }
+  };
+
   return (
     <>
       {isAuthenticated && (
@@ -168,14 +181,26 @@ const Dashboard = () => {
             </div>
           </div>
           <div className="mx-auto flex max-w-7xl items-center justify-between p-6 py-0">
-            <Link to="/add-bill">
-              <button type="button" className="inline-flex items-center rounded-lg bg-indigo-600 px-3 py-2 text-lg font-semibold text-white shadow-lg hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+            <div>
+              <button type="button" onClick={() => setIsAddBillModalOpen(true)} className="inline-flex items-center rounded-lg bg-indigo-600 px-3 py-2 text-lg font-semibold text-white shadow-lg hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6 mr-2">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                 </svg>Add Bill&nbsp;&nbsp;
               </button>
-            </Link>
+            </div>
           </div>
+          {isAddBillModalOpen && (
+            <div className="fixed inset-0 flex items-center justify-center z-50 bg-opacity-50 bg-black" onClick={handleOverlayClick}>
+              <div className="relative bg-white w-5/6 max-w-md p-6 rounded-lg shadow-lg w-full max-w-2xl max-h-full">
+                <AddBill closeModal={closeModal} />
+                <button type="button" onClick={closeModal} className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 focus:outline-none">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-6 h-6">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+            )}
         </>
       )}
     </>
