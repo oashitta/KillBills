@@ -62,10 +62,13 @@ const AddBill = () => {
             },
           }
         );
-        navigate("/");
+        toast.success("Bill added successfully!");
+        setTimeout(() => {
+          navigate("/");
+        }, 2000);
       } catch (error) {
         // console.log("Error adding bill:", error);
-        toast.error("Failed to add payee. Please try again.");
+        toast.error("Failed to add bill. Please try again.");
       }
     },
   });
@@ -201,6 +204,13 @@ const AddBill = () => {
           </div>
         </form>
       </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={2000}
+        pauseOnHover={true}
+        closeOnClick={true}
+        hideProgressBar={false}
+      />
     </div>
   );
 };
