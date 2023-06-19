@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
 import { useFormik } from "formik";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -12,7 +14,7 @@ const EditBill = () => {
   const [btnClicked, setBtnClicked] = useState("");
 
   const navigate = useNavigate();
-  const params = useParams()
+  const params = useParams();
 
   useEffect(() => {
     const fetchPayees = async () => {
@@ -20,11 +22,14 @@ const EditBill = () => {
         const accessToken = await getAccessTokenSilently({
           audience: process.env.REACT_APP_AUTH0_AUDIENCE,
         });
-        const response = await axios.get(process.env.REACT_APP_API_SERVER_URL + "/payees", {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
+        const response = await axios.get(
+          process.env.REACT_APP_API_SERVER_URL + "/payees",
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
         setPayees(response.data.payees);
       } catch (error) {
         console.log("Error fetching payees:", error);
@@ -40,12 +45,15 @@ const EditBill = () => {
         const accessToken = await getAccessTokenSilently({
           audience: process.env.REACT_APP_AUTH0_AUDIENCE,
         });
-        const response = await axios.get(process.env.REACT_APP_API_SERVER_URL + "/bills/" + params.id, {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
+        const response = await axios.get(
+          process.env.REACT_APP_API_SERVER_URL + "/bills/" + params.id,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
 
         const bill = response.data.bill;
         const dueDate = String(bill.due_date).split("").slice(0, 10).join("");
@@ -58,12 +66,12 @@ const EditBill = () => {
             return undefined;
           }
           return String(bill.paid_date).split("").slice(0, 10).join("");
-        }
+        };
         const isPaid = () => {
           if (bill.paid_date) {
             return true;
           }
-          return false
+          return false;
         };
 
         formik.setValues({
@@ -103,21 +111,35 @@ const EditBill = () => {
         });
 
         if (btnClicked === "edit") {
-          await axios.put(process.env.REACT_APP_API_SERVER_URL + "/bills/" + params.id, values, {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${accessToken}`,
-            },
-          });
+          await axios.put(
+            process.env.REACT_APP_API_SERVER_URL + "/bills/" + params.id,
+            values,
+            {
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${accessToken}`,
+              },
+            }
+          );
+          toast.success("Bill update successful!");
+          setTimeout(() => {
+            navigate("/");
+          }, 1000);
         } else {
-          await axios.delete(process.env.REACT_APP_API_SERVER_URL + "/bills/" + params.id, {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${accessToken}`,
-            },
-          });
+          await axios.delete(
+            process.env.REACT_APP_API_SERVER_URL + "/bills/" + params.id,
+            {
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${accessToken}`,
+              },
+            }
+          );
+          toast.success("Bill deleted successfully!");
+          setTimeout(() => {
+            navigate("/");
+          }, 1000);
         }
-        navigate("/");
       } catch (error) {
         console.log("Error adding bill:", error);
       }
@@ -149,7 +171,7 @@ const EditBill = () => {
                     <option key={payee.id} value={payee.id}>
                       {payee.name}
                     </option>
-                ))}
+                  ))}
               </select>
               <div className="flex-grow-0">
                 <Link to="/add-payee">
@@ -284,6 +306,13 @@ const EditBill = () => {
           </div>
         </form>
       </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={2000}
+        pauseOnHover={true}
+        closeOnClick={true}
+        hideProgressBar={false}
+      />
     </div>
   );
 };
