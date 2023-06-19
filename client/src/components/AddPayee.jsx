@@ -58,8 +58,10 @@ const AddPayee = () => {
             },
           }
         );
-        navigate("/add-bill");
         toast.success("Payee added successfully!");
+        setTimeout(() => {
+          navigate("/add-bill");
+        }, 2000);
       } catch (error) {
         console.log("Error adding payee:", error);
         toast.error("Failed to add payee. Please try again.");
@@ -150,7 +152,7 @@ const AddPayee = () => {
       </div>
       <ToastContainer
         position="top-right"
-        autoClose={3000}
+        autoClose={2000}
         pauseOnHover={true}
         closeOnClick={true}
         hideProgressBar={false}

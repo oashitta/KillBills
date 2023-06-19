@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
 import { useFormik } from "formik";
 import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -62,7 +64,8 @@ const AddBill = () => {
         );
         navigate("/");
       } catch (error) {
-        console.log("Error adding bill:", error);
+        // console.log("Error adding bill:", error);
+        toast.error("Failed to add payee. Please try again.");
       }
     },
   });
@@ -93,7 +96,7 @@ const AddBill = () => {
                     <option key={payee.id} value={payee.id}>
                       {payee.name}
                     </option>
-                ))}
+                  ))}
               </select>
               <div className="flex-grow-0">
                 <Link to="/add-payee">
