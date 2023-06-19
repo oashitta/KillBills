@@ -4,7 +4,7 @@ const getBills = (auth0Sub) => {
   return db
     .query(
       `
-      SELECT b.id, b.amount::money::numeric::float8, b.due_date, p.name AS payee_name, p.url AS payee_link 
+      SELECT b.id, b.amount::money::numeric::float8, b.due_date, p.name AS payee_name, p.url AS payee_link, b.note
       FROM bills b 
       JOIN users u ON b.user_id = u.id 
       JOIN payees p ON b.payee_id = p.id 
