@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
 import { useFormik } from "formik";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -83,12 +85,16 @@ const EditPayee = () => {
         const accessToken = await getAccessTokenSilently({
           audience: process.env.REACT_APP_AUTH0_AUDIENCE,
         });
-        await axios.put(process.env.REACT_APP_API_SERVER_URL + "/payees/5", values, {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
+        await axios.put(
+          process.env.REACT_APP_API_SERVER_URL + "/payees/5",
+          values,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
         navigate("/edit-bill/5");
       } catch (error) {
         console.log("Error editing payee:", error);
@@ -175,6 +181,13 @@ const EditPayee = () => {
           </div>
         </form>
       </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={2000}
+        pauseOnHover={true}
+        closeOnClick={true}
+        hideProgressBar={false}
+      />
     </div>
   );
 };

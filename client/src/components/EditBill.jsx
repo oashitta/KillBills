@@ -141,7 +141,8 @@ const EditBill = () => {
           }, 1000);
         }
       } catch (error) {
-        console.log("Error adding bill:", error);
+        // console.log("Error adding bill:", error);
+        toast.error("Action failed. Please try again.");
       }
     },
   });
