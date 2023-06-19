@@ -37,7 +37,7 @@ const PaymentHistory = () => {
     id: bill.id,
     name: bill.payee_name,
     amount: bill.amount,
-    date: bill.due_date,
+    date: bill.paid_date,
   }));
 
   const columns = [
@@ -80,7 +80,7 @@ const PaymentHistory = () => {
     },
     {
       accessorKey: "date", //normal accessorKey
-      header: "Due Date",
+      header: "Paid Date",
       Cell: ({ renderedCellValue, row }) => (
         <Box
           className="flex justify-start pl-4"
