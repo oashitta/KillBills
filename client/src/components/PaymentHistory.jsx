@@ -108,7 +108,7 @@ const PaymentHistory = () => {
         <p className="flex justify-center">Loading...</p>
       ) : isAuthenticated ? (
         <>
-          <div className="mx-auto flex max-w-7xl items-center justify-between p-6 pb-0">
+          <div className="mx-auto flex max-w-7xl items-center justify-between px-6 mt-12">
             <div className="border-b border-gray-200 dark:border-gray-700">
               <ul className="flex flex-wrap -mb-px text-sm font-medium text-center text-gray-500 dark:text-gray-400">
                 <li className="mr-2">
@@ -178,7 +178,9 @@ const PaymentHistory = () => {
                 <MaterialReactTable
                   columns={columns}
                   data={data}
-                  initialState={{ columnVisibility: { id: false } }}
+                  initialState={{ columnVisibility: { id: false }, density: 'compact' }}
+                  enableDensityToggle={false}
+                  enableHiding={false}
                   muiTableBodyRowProps={({ row }) => ({
                     onClick: () => {
                       window.open(`/edit-bill/${row.original.id}`, "_self");
@@ -188,10 +190,10 @@ const PaymentHistory = () => {
                     },
                   })}
                   muiTableHeadCellProps={{
-                    sx: (theme) => ({
-                      color: "blue",
+                    sx: () => ({
+                      color: "#4F46E5",
                       fontSize: "1.0rem",
-                      paddingLeft: "2rem",
+                      paddingLeft: "1.6rem",
                     }),
                   }}
                 />
