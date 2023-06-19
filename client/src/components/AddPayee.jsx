@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
 import { useFormik } from "formik";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -57,8 +59,10 @@ const AddPayee = () => {
           }
         );
         navigate("/add-bill");
+        toast.success("Payee added successfully!");
       } catch (error) {
         console.log("Error adding payee:", error);
+        toast.error("Failed to add payee. Please try again.");
       }
     },
   });
@@ -101,7 +105,10 @@ const AddPayee = () => {
             />
           </div>
           <div className="mt-2">
-            <label htmlFor="accountNumber" className="text-md font-bold text-gray-800">
+            <label
+              htmlFor="accountNumber"
+              className="text-md font-bold text-gray-800"
+            >
               Acount Number:
             </label>
             <input
@@ -115,7 +122,10 @@ const AddPayee = () => {
             />
           </div>
           <div className="mt-2">
-            <label htmlFor="accountNumber" className="text-md font-bold text-gray-800">
+            <label
+              htmlFor="accountNumber"
+              className="text-md font-bold text-gray-800"
+            >
               Link:
             </label>
             <input
@@ -138,6 +148,13 @@ const AddPayee = () => {
           </div>
         </form>
       </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        pauseOnHover={true}
+        closeOnClick={true}
+        hideProgressBar={false}
+      />
     </div>
   );
 };
