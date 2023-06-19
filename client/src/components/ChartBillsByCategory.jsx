@@ -15,11 +15,14 @@ const ChartBillsByCategory = () => {
           const accessToken = await getAccessTokenSilently({
             audience: process.env.REACT_APP_AUTH0_AUDIENCE,
           });
-          const response = await fetch("http://localhost:8080/bills/category", {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          });
+          const response = await fetch(
+            process.env.REACT_APP_API_SERVER_URL + "/bills/category",
+            {
+              headers: {
+                Authorization: `Bearer ${accessToken}`,
+              },
+            }
+          );
           const data = await response.json();
           const categories = data.categories.map((category) => category.name);
           const totalAmounts = data.categories.map((category) =>
@@ -30,8 +33,8 @@ const ChartBillsByCategory = () => {
             labels: categories,
             datasets: [
               {
-                label: "Total Amount",
                 data: totalAmounts,
+                fill: false,
                 backgroundColor: [
                   "rgba(255,99,132,0.6)",
                   "rgba(54,162,235,0.6)",
@@ -46,15 +49,17 @@ const ChartBillsByCategory = () => {
                   "rgba(153,255,230,0.6)",
                   "rgba(226,199,203,0.6)",
                 ],
-                borderColor: "rgba(0,0,0,0)",
-                borderWidth: 1,
+                borderWidth: 2,
               },
             ],
             options: {
               plugins: {
                 title: {
                   display: true,
-                  text: "Categories",
+                  text: "By Category",
+                },
+                legend: {
+                  display: false,
                 },
               },
             },
@@ -74,10 +79,12 @@ const ChartBillsByCategory = () => {
   }
 
   return (
-    <div className="w-1/3">
+    <div className="px-1 py-1">
       {isAuthenticated ? (
         chartData ? (
-          <Chart type="pie" data={chartData} />
+          <div className="rounded-lg shadow-lg border border-gray-100 p-4">
+            <Chart type="pie" data={chartData} options={chartData.options} />
+          </div>
         ) : (
           <p>No data available</p>
         )

@@ -1,21 +1,20 @@
 import { useState, useEffect } from "react";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
 import { useFormik } from "formik";
 import { useAuth0 } from "@auth0/auth0-react";
+import { useNavigate, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const EditBill = () => {
-  const { getAccessTokenSilently } = useAuth0();
+  const { user, getAccessTokenSilently } = useAuth0();
   const [payees, setPayees] = useState([]);
   const [bill, setBill] = useState({});
   const [btnClicked, setBtnClicked] = useState("");
-  // const [isPaid, setIsPaid] = useState(false);
 
-  // const isPaidHandle = (e) => {
-  //   e.preventDefault();
-  //   if(bill.paid_date) {
-  //     setIsPaid("ture")
-  //   }
-  // }
+  const navigate = useNavigate();
+  const params = useParams();
 
   useEffect(() => {
     const fetchPayees = async () => {
@@ -23,11 +22,14 @@ const EditBill = () => {
         const accessToken = await getAccessTokenSilently({
           audience: process.env.REACT_APP_AUTH0_AUDIENCE,
         });
-        const response = await axios.get("http://localhost:8080/payees", {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
+        const response = await axios.get(
+          process.env.REACT_APP_API_SERVER_URL + "/payees",
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
         setPayees(response.data.payees);
       } catch (error) {
         console.log("Error fetching payees:", error);
@@ -43,12 +45,15 @@ const EditBill = () => {
         const accessToken = await getAccessTokenSilently({
           audience: process.env.REACT_APP_AUTH0_AUDIENCE,
         });
-        const response = await axios.get("http://localhost:8080/bills/5", {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
+        const response = await axios.get(
+          process.env.REACT_APP_API_SERVER_URL + "/bills/" + params.id,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
 
         const bill = response.data.bill;
         const dueDate = String(bill.due_date).split("").slice(0, 10).join("");
@@ -56,21 +61,27 @@ const EditBill = () => {
           .split("")
           .slice(0, 10)
           .join("");
-        const paidDate = String(bill.paid_date).split("").slice(0, 10).join("");
+        const paidDate = () => {
+          if (!bill.paid_date) {
+            return undefined;
+          }
+          return String(bill.paid_date).split("").slice(0, 10).join("");
+        };
         const isPaid = () => {
           if (bill.paid_date) {
             return true;
           }
+          return false;
         };
 
         formik.setValues({
           isPaid: isPaid(),
           payeeId: bill.payee_id,
-          userId: 1,
+          userId: user.sub,
           amount: bill.amount,
           dueDate,
           reminderDate,
-          paidDate,
+          paidDate: paidDate(),
           note: bill.note,
         });
         setBill(response.data.bill);
@@ -86,7 +97,7 @@ const EditBill = () => {
     initialValues: {
       isPaid: false,
       payeeId: 1,
-      userId: 1,
+      userId: user.sub,
       amount: "",
       dueDate: "",
       reminderDate: "",
@@ -100,54 +111,83 @@ const EditBill = () => {
         });
 
         if (btnClicked === "edit") {
-          await axios.put("http://localhost:8080/bills/5", values, {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${accessToken}`,
-            },
-          });
+          await axios.put(
+            process.env.REACT_APP_API_SERVER_URL + "/bills/" + params.id,
+            values,
+            {
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${accessToken}`,
+              },
+            }
+          );
+          toast.success("Bill update successful!");
+          setTimeout(() => {
+            navigate("/");
+          }, 1000);
         } else {
-          await axios.delete("http://localhost:8080/bills/5", {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${accessToken}`,
-            },
-          });
+          await axios.delete(
+            process.env.REACT_APP_API_SERVER_URL + "/bills/" + params.id,
+            {
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${accessToken}`,
+              },
+            }
+          );
+          toast.success("Bill deleted successfully!");
+          setTimeout(() => {
+            navigate("/");
+          }, 1000);
         }
       } catch (error) {
-        console.log("Error adding bill:", error);
+        // console.log("Error adding bill:", error);
+        toast.error("Action failed. Please try again.");
       }
     },
   });
 
   return (
     <div className="relative flex flex-col justify-center min-h-screen overflow-hidden">
-      <div className="w-full p-6 m-auto bg-white rounded-md border-solid border-2 border-violet-400 lg:max-w-xl">
+      <div className="w-full p-6 m-auto bg-white rounded-md border-solid border-2 border-indigo-400 lg:max-w-xl mt-12">
         <form className="mt-6" onSubmit={formik.handleSubmit}>
           <div className="mb-2">
             <label
               htmlFor="payeeId"
-              className="text-xl font-bold text-gray-800"
+              className="text-md font-bold text-gray-800"
             >
               Payee:
             </label>
-            <select
-              name="payeeId"
-              id="payeeId"
-              onChange={formik.handleChange}
-              value={formik.values.payeeId}
-            >
-              {payees.map((payee) => {
-                return (
-                  <option key={payee.id} value={payee.id}>
-                    {payee.name}
-                  </option>
-                );
-              })}
-            </select>
+            <div className="flex mb-2">
+              <select
+                name="payeeId"
+                id="payeeId"
+                onChange={formik.handleChange}
+                value={formik.values.payeeId}
+                className="flex-grow w-3/5 px-4 py-2 mr-2 bg-white border rounded-md focus:border-indigo-400 focus:ring-indigo-300 focus:outline-none focus:ring focus:ring-opacity-40"
+              >
+                {payees
+                  .sort((a, b) => a.name.localeCompare(b.name))
+                  .map((payee) => (
+                    <option key={payee.id} value={payee.id}>
+                      {payee.name}
+                    </option>
+                  ))}
+              </select>
+              <div className="flex-grow-0">
+                <Link to="/add-payee">
+                  <button
+                    type="submit"
+                    className="px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-indigo-700 rounded-md hover:bg-indigo-600 focus:outline-none focus:bg-indigo-600"
+                  >
+                    Add New Payee
+                  </button>
+                </Link>
+              </div>
+            </div>
           </div>
           <div mt-2>
-            <label htmlFor="amount" className="text-xl font-bold text-gray-800">
+            <label htmlFor="amount" className="text-md font-bold text-gray-800">
               Amount:
             </label>
             <input
@@ -164,7 +204,7 @@ const EditBill = () => {
           <div className="mt-2">
             <label
               htmlFor="dueDate"
-              className="text-xl font-bold text-gray-800"
+              className="text-md font-bold text-gray-800"
             >
               Due Date:
             </label>
@@ -181,7 +221,7 @@ const EditBill = () => {
           <div className="mt-2">
             <label
               htmlFor="reminderDate"
-              className="text-xl font-bold text-gray-800"
+              className="text-md font-bold text-gray-800"
             >
               Reminder Date:
             </label>
@@ -198,7 +238,7 @@ const EditBill = () => {
           <div className="mt-2">
             <label
               htmlFor="paidDate"
-              className="text-xl font-bold text-gray-800"
+              className="text-md font-bold text-gray-800"
             >
               Paid Date:
             </label>
@@ -213,7 +253,7 @@ const EditBill = () => {
             />
           </div>
           <div className="mt-2">
-            <label htmlFor="note" className="text-xl font-bold text-gray-800">
+            <label htmlFor="note" className="text-md font-bold text-gray-800">
               Note:
             </label>
             <textarea
@@ -236,9 +276,10 @@ const EditBill = () => {
                   className="sr-only peer"
                   checked={formik.values.isPaid}
                   onClick={formik.handleChange}
+                  readOnly
                 />
-                <div className="w-11 h-6 bg-gray-200 rounded-full peer  peer-focus:ring-green-300  peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-600"></div>
-                <span className="ml-2 text-lg font-medium text-gray-900">
+                <div className="w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-green-300  peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-600"></div>
+                <span className="ml-2 text-md font-medium text-gray-900">
                   Paid
                 </span>
               </label>
@@ -250,7 +291,7 @@ const EditBill = () => {
               onClick={(e) => {
                 setBtnClicked("edit");
               }}
-              className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-indigo-700 rounded-md hover:bg-indigo-600 focus:outline-none focus:bg-indigo-600"
+              className="px-6 py-2 tracking-wide text-white transition-colors duration-200 transform bg-indigo-700 rounded-md hover:bg-indigo-600 focus:outline-none focus:bg-indigo-600"
             >
               Edit Bill
             </button>
@@ -259,13 +300,20 @@ const EditBill = () => {
               onClick={(e) => {
                 setBtnClicked("delete");
               }}
-              className="w-full mt-2 px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-red-700 rounded-md hover:bg-red-600 focus:outline-none focus:bg-indigo-600"
+              className="ml-6 px-6 py-2 tracking-wide text-white transition-colors duration-200 transform bg-red-700 rounded-md hover:bg-red-600 focus:outline-none focus:bg-indigo-600"
             >
               Delete Bill
             </button>
           </div>
         </form>
       </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={2000}
+        pauseOnHover={true}
+        closeOnClick={true}
+        hideProgressBar={false}
+      />
     </div>
   );
 };

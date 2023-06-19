@@ -4,12 +4,13 @@ import { Auth0Provider } from "@auth0/auth0-react";
 import Profile from "./components/Profile";
 import AddBill from "./components/AddBill";
 import AddPayee from "./components/AddPayee";
-import EditPayee from "./components/EditPayee"
+import EditPayee from "./components/EditPayee";
 import UpcomingBills from "./components/UpcomingBills";
 import "./App.css";
 import EditBill from "./components/EditBill";
-import Main from "./components/main";
+import Main from "./components/Main";
 import PaymentHistory from "./components/PaymentHistory";
+import Insights from "./components/Insights";
 
 const router = createBrowserRouter([
   {
@@ -27,10 +28,22 @@ const router = createBrowserRouter([
         element: <EditPayee />,
       },
       { path: "/settings", element: <Profile /> },
-      { path: "/edit-bill", element: <EditBill /> },
-      { path: "/payment-history", element: <PaymentHistory /> },
-      { path: "/upcoming-bills", element: <UpcomingBills /> },
-      { path: "*", element: <h1>404 Page Not Found</h1> },
+      { path: "/edit-bill/:id", element: <EditBill /> },
+      { path: "/history", element: <PaymentHistory /> },
+      { path: "/insights", element: <Insights /> },
+      {
+        path: "*",
+        element: (
+          <div className="flex justify-center items-center flex-col h-screen">
+            <h1 className=" font-bold my-3 text-5xl">404 Page Not Found</h1>
+            <img
+              src="https://media4.giphy.com/media/0IGsC1JY4k0LzdDJfb/giphy.gif?cid=ecf05e47w4zt469jaav6n8t7hixpeypszfkcwqnd17mg5ra1&ep=v1_gifs_related&rid=giphy.gif&ct=g"
+              alt="404-gif"
+              className="w-1/5"
+            />
+          </div>
+        ),
+      },
     ],
   },
 ]);

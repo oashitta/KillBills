@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import { FiLink } from "react-icons/fi";
-import MUIDataTable from "mui-datatables";
+import { MaterialReactTable } from "material-react-table";
+import { Box } from "@mui/material";
 import ChartBillsByPayee from "./ChartBillsByPayee";
 import ChartBillsByCategory from "./ChartBillsByCategory";
 import ChartBillsByMonth from "./ChartBillsByMonth";
@@ -21,119 +21,216 @@ const UpcomingBills = () => {
       const accessToken = await getAccessTokenSilently({
         audience: process.env.REACT_APP_AUTH0_AUDIENCE,
       });
-      const response = await fetch("http://localhost:8080/bills", {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
+      const response = await fetch(
+        process.env.REACT_APP_API_SERVER_URL + "/bills",
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
       const data = await response.json();
-      const filteredBills = data.bills
-        .filter((bill) => new Date(bill.due_date) >= new Date())
-        .sort((a, b) => new Date(a.due_date) - new Date(b.due_date));
+      const filteredBills = data.bills.sort(
+        (a, b) => new Date(a.due_date) - new Date(b.due_date)
+      );
       setBills(filteredBills);
     } catch (error) {
       console.log("Error fetching bills:", error);
     }
   };
 
+  const data = bills.map((bill) => ({
+    id: bill.id,
+    name: bill.payee_name,
+    amount: bill.amount,
+    date: bill.due_date,
+    link: bill.payee_link,
+    note: bill.note
+  }));
+
   const columns = [
     {
-      name: "Payee",
-      options: {
-        customBodyRender: (value, tableMeta, updateValue) => (
-          <div style={{ display: "flex", alignItems: "center" }}>
-            {value}
-            {tableMeta.rowData[0] && (
-              <a
-                href={tableMeta.rowData[1]}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <FiLink className="ml-2" />
-              </a>
-            )}
-          </div>
-        ),
-      },
+      accessorKey: "id",
+      header: "ID",
     },
     {
-      name: "Amount",
-      options: {
-        customBodyRender: (value) => {
-          // Format the amount here if needed
-          return value;
-        },
-        customSort: (data, colIndex, order) => {
-          return data.sort((a, b) => {
-            const amountA = parseFloat(a.data[colIndex].replace(/[$,]/g, ""));
-            const amountB = parseFloat(b.data[colIndex].replace(/[$,]/g, ""));
-            return order === "asc" ? amountA - amountB : amountB - amountA;
-          });
-        },
-      },
+      accessorKey: "name", //access nested data with dot notation
+      header: "Payee",
+      Cell: ({ renderedCellValue, row }) => (
+        <Box
+          sx={{
+            display: "flex",
+            paddingLeft: "1.1rem",
+            fontSize: "1.0rem",
+            gap: "1rem",
+          }}
+        >
+          <span className="text-base">{renderedCellValue}</span>
+        </Box>
+      ),
     },
     {
-      name: "Due Date",
-      options: {
-        customBodyRender: (value) => {
-          // Format the date here if needed
-          return value;
-        },
-        customSort: (data, colIndex, order) => {
-          return data.sort((a, b) => {
-            const dateA = new Date(a.data[colIndex]);
-            const dateB = new Date(b.data[colIndex]);
-            return order === "asc" ? dateA - dateB : dateB - dateA;
-          });
-        },
-      },
+      accessorKey: "amount",
+      header: "Amount",
+      Cell: ({ renderedCellValue, row }) => (
+        <Box
+          className="flex justify-start pl-4"
+          sx={{
+            fontSize: "1.0rem",
+            gap: "1rem",
+            textAlign: "right",
+          }}
+        >
+          <span>${renderedCellValue.toFixed(2)}</span>
+        </Box>
+      ),
+    },
+    {
+      accessorKey: "date", //normal accessorKey
+      header: "Due Date",
+      Cell: ({ renderedCellValue, row }) => (
+        <Box
+          className="flex justify-start pl-4"
+          sx={{
+            fontSize: "1.0rem",
+            gap: "1rem",
+            textAlign: "right",
+          }}
+        >
+          <span>
+            {new Date(renderedCellValue).toLocaleDateString("en-US", {
+              timeZone: "UTC",
+              month: "long",
+              day: "numeric",
+            })}
+          </span>
+        </Box>
+      ),
     },
   ];
-
-  const data = bills.map((bill) => [
-    bill.payee_name,
-    bill.amount,
-    new Date(bill.due_date).toLocaleDateString("en-US", {
-      month: "long",
-      day: "numeric",
-      year: "numeric",
-    }),
-    bill.payee_link,
-  ]);
-  console.log("data", data);
-
-  const options = {
-    selectableRows: "none",
-  };
 
   return (
     <>
       {isLoading ? (
         <p className="flex justify-center">Loading...</p>
       ) : isAuthenticated ? (
-        <div className="mx-auto max-w-7xl px-6 py-8">
-          <div>
-            <h2 className="font-bold text-xl text-slate-900 my-7 flex justify-center">
-              Bills Snapshot
-            </h2>
-            <div className="flex mx-auto">
-              <ChartBillsByPayee />
-              <ChartBillsByCategory />
-              <ChartBillsByMonth />
-            </div>
-
-            <h2 className="font-bold text-xl text-slate-900 my-7 flex justify-center">
-              Upcoming Bills
-            </h2>
-
-            <div className="mt-4">
-              <MUIDataTable columns={columns} data={data} options={options} />
+        <>
+          <div className="mx-auto flex max-w-7xl items-center justify-between pb-0 mt-12">
+            <div className="border-b border-gray-200 bg-white rounded-t-sm pt-2 px-6 shadow-lg">
+              <ul className="flex flex-wrap -mb-px text-sm font-medium text-center text-gray-500 dark:text-gray-400">
+                <li className="mr-2">
+                  <a
+                    href="/"
+                    className="inline-flex p-4 text-indigo-600 border-b-2 border-indigo-600 active group font-bold"
+                    aria-current="page"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      className="w-5 h-5 mr-2 text-indigo-600"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+                    </svg>
+                    Unpaid
+                  </a>
+                </li>
+                <li className="mr-2">
+                  <a
+                    href="/history"
+                    className="inline-flex p-4 border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300 group"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                      strokeWidth="1"
+                      stroke="currentColor"
+                      className="w-5 h-5 mr-2 text-gray-400 group-hover:text-gray-500"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M6.75 2.25A.75.75 0 017.5 3v1.5h9V3A.75.75 0 0118 3v1.5h.75a3 3 0 013 3v11.25a3 3 0 01-3 3H5.25a3 3 0 01-3-3V7.5a3 3 0 013-3H6V3a.75.75 0 01.75-.75zm13.5 9a1.5 1.5 0 00-1.5-1.5H5.25a1.5 1.5 0 00-1.5 1.5v7.5a1.5 1.5 0 001.5 1.5h13.5a1.5 1.5 0 001.5-1.5v-7.5z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                    History
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="/insights"
+                    className="inline-flex p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 group"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      className="w-5 h-5 mr-2 text-gray-400 group-hover:text-gray-500"
+                      fill="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path d="M18.375 2.25c-1.035 0-1.875.84-1.875 1.875v15.75c0 1.035.84 1.875 1.875 1.875h.75c1.035 0 1.875-.84 1.875-1.875V4.125c0-1.036-.84-1.875-1.875-1.875h-.75zM9.75 8.625c0-1.036.84-1.875 1.875-1.875h.75c1.036 0 1.875.84 1.875 1.875v11.25c0 1.035-.84 1.875-1.875 1.875h-.75a1.875 1.875 0 01-1.875-1.875V8.625zM3 13.125c0-1.036.84-1.875 1.875-1.875h.75c1.036 0 1.875.84 1.875 1.875v6.75c0 1.035-.84 1.875-1.875 1.875h-.75A1.875 1.875 0 013 19.875v-6.75z" />
+                    </svg>
+                    Insights
+                  </a>
+                </li>
+              </ul>
             </div>
           </div>
-        </div>
+          <div className="mx-auto max-w-7xl px-0 py-0">
+            <div>
+              <div className="mt-0 shadow-lg">
+                <MaterialReactTable
+                  columns={columns}
+                  data={data}
+                  initialState={{ columnVisibility: { id: false }, density: 'compact' }}
+                  enableDensityToggle={false}
+                  enableHiding={false}
+                  renderDetailPanel={({ row }) => (
+                    <Box            
+                      sx={{            
+                        display: 'grid',
+                        marginLeft: '18px',
+                        gridTemplateColumns: '1fr 1fr',
+                        width: '100%',
+                      }}            
+                    >
+                      <p>{row.original.note}</p><br />
+                      <p>Visit: <a href={row.original.link} className="underline">{row.original.link}</a></p>
+                    </Box>           
+                  )}
+                  muiTablePaperProps={{
+                    elevation: 0,
+                    sx: {
+                      borderTopRightRadius: '1.5rem',
+                      border: '1px #e0e0e0',
+                    },
+                  }}
+                  muiTableBodyRowProps={({ row }) => ({
+                    onClick: () => {
+                      window.open(`/edit-bill/${row.original.id}`, "_self");
+                    },
+                    sx: {
+                      cursor: "pointer",
+                    },
+                  })}
+                  muiTableHeadCellProps={{
+                    sx: {
+                      color: "#4F46E5",
+                      fontSize: "1.0rem",
+                      paddingLeft: "1.6rem",
+                    },
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+        </>
       ) : (
         <p className="flex justify-center font-bold text-xl text-slate-900 my-5">
-          Please log in to view upcoming bills.
+          Please log in.
         </p>
       )}
     </>
