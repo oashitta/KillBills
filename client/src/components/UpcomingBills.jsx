@@ -137,7 +137,7 @@ const UpcomingBills = () => {
                 </li>
                 <li className="mr-2">
                   <a
-                    href="/payment-history"
+                    href="/history"
                     className="inline-flex p-4 border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300 group"
                   >
                     <svg
