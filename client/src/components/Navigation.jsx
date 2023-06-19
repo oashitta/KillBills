@@ -5,6 +5,8 @@ import { Dialog, Popover, Disclosure, Menu, Transition } from "@headlessui/react
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 
 const userNavigation = [
+  { name: 'Dashboard', href: '/' },
+  { name: 'Payment History', href: '/history' },
   { name: 'Settings', href: '/settings' },
 ]
 
