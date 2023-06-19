@@ -12,7 +12,7 @@ const UpcomingBills = () => {
 
   return (
     <>
-          <div className="mx-auto flex max-w-7xl items-center justify-between p-6 pb-0">
+          <div className="mx-auto flex max-w-7xl items-center justify-between px-6 mt-12">
             <div className="border-b border-gray-200 dark:border-gray-700">
               <ul className="flex flex-wrap -mb-px text-sm font-medium text-center text-gray-500 dark:text-gray-400">
                 <li className="mr-2">

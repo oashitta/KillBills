@@ -45,6 +45,7 @@ const UpcomingBills = () => {
     amount: bill.amount,
     date: bill.due_date,
     link: bill.payee_link,
+    note: bill.note
   }));
 
   const columns = [
@@ -64,23 +65,7 @@ const UpcomingBills = () => {
             gap: "1rem",
           }}
         >
-          <span>{renderedCellValue}</span>
-          <a href={row.original.link}>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="w-4 h-4 mt-0.5"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244"
-              />
-            </svg>
-          </a>
+          <span className="text-base">{renderedCellValue}</span>
         </Box>
       ),
     },
@@ -94,7 +79,6 @@ const UpcomingBills = () => {
             fontSize: "1.0rem",
             gap: "1rem",
             textAlign: "right",
-            paddingRight: "2.5rem",
           }}
         >
           <span>${renderedCellValue.toFixed(2)}</span>
@@ -111,7 +95,6 @@ const UpcomingBills = () => {
             fontSize: "1.0rem",
             gap: "1rem",
             textAlign: "right",
-            paddingRight: "2rem",
           }}
         >
           <span>
@@ -131,8 +114,8 @@ const UpcomingBills = () => {
         <p className="flex justify-center">Loading...</p>
       ) : isAuthenticated ? (
         <>
-          <div className="mx-auto flex max-w-7xl items-center justify-between p-6 pb-0">
-            <div className="border-b border-gray-200 dark:border-gray-700">
+          <div className="mx-auto flex max-w-7xl items-center justify-between pb-0 mt-12">
+            <div className="border-b border-gray-200 bg-white rounded-t-sm pt-2 px-6 shadow-lg">
               <ul className="flex flex-wrap -mb-px text-sm font-medium text-center text-gray-500 dark:text-gray-400">
                 <li className="mr-2">
                   <a
@@ -195,13 +178,35 @@ const UpcomingBills = () => {
               </ul>
             </div>
           </div>
-          <div className="mx-auto max-w-7xl px-6 py-0">
+          <div className="mx-auto max-w-7xl px-0 py-0">
             <div>
-              <div className="mt-0">
+              <div className="mt-0 shadow-lg">
                 <MaterialReactTable
                   columns={columns}
                   data={data}
-                  initialState={{ columnVisibility: { id: false } }}
+                  initialState={{ columnVisibility: { id: false }, density: 'compact' }}
+                  enableDensityToggle={false}
+                  enableHiding={false}
+                  renderDetailPanel={({ row }) => (
+                    <Box            
+                      sx={{            
+                        display: 'grid',
+                        marginLeft: '18px',
+                        gridTemplateColumns: '1fr 1fr',
+                        width: '100%',
+                      }}            
+                    >
+                      <p>{row.original.note}</p><br />
+                      <p>Visit: <a href={row.original.link} className="underline">{row.original.link}</a></p>
+                    </Box>           
+                  )}
+                  muiTablePaperProps={{
+                    elevation: 0,
+                    sx: {
+                      borderTopRightRadius: '1.5rem',
+                      border: '1px #e0e0e0',
+                    },
+                  }}
                   muiTableBodyRowProps={({ row }) => ({
                     onClick: () => {
                       window.open(`/edit-bill/${row.original.id}`, "_self");
@@ -212,9 +217,9 @@ const UpcomingBills = () => {
                   })}
                   muiTableHeadCellProps={{
                     sx: {
-                      color: "blue",
+                      color: "#4F46E5",
                       fontSize: "1.0rem",
-                      paddingLeft: "2rem",
+                      paddingLeft: "1.6rem",
                     },
                   }}
                 />
