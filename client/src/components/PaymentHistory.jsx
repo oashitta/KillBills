@@ -93,6 +93,7 @@ const PaymentHistory = () => {
         >
           <span>
             {new Date(renderedCellValue).toLocaleDateString("en-US", {
+              timeZone: "UTC",
               month: "long",
               day: "numeric",
             })}
