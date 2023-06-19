@@ -2,10 +2,14 @@ import { useState, useEffect } from "react";
 import { useFormik } from "formik";
 import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
+import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const AddBill = () => {
-  const { getAccessTokenSilently } = useAuth0();
+  const { user, getAccessTokenSilently } = useAuth0();
   const [payees, setPayees] = useState([]);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchPayees = async () => {
@@ -13,11 +17,14 @@ const AddBill = () => {
         const accessToken = await getAccessTokenSilently({
           audience: process.env.REACT_APP_AUTH0_AUDIENCE,
         });
-        const response = await axios.get("http://localhost:8080/payees", {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
+        const response = await axios.get(
+          process.env.REACT_APP_API_SERVER_URL + "/payees",
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
         setPayees(response.data.payees);
       } catch (error) {
         console.log("Error fetching payees:", error);
@@ -30,20 +37,21 @@ const AddBill = () => {
   const formik = useFormik({
     initialValues: {
       payeeId: 1,
-      userId: 1,
+      userId: user.sub,
       amount: "",
-      dueDate: "",
-      reminderDate: "",
-      paidDate: "",
+      dueDate: undefined,
+      reminderDate: undefined,
+      paidDate: undefined,
       note: "",
     },
     onSubmit: async (values) => {
+      console.log("values", values);
       try {
         const accessToken = await getAccessTokenSilently({
           audience: process.env.REACT_APP_AUTH0_AUDIENCE,
         });
-        const response = await axios.post(
-          "http://localhost:8080/bills",
+        await axios.post(
+          process.env.REACT_APP_API_SERVER_URL + "/bills",
           values,
           {
             headers: {
@@ -52,6 +60,7 @@ const AddBill = () => {
             },
           }
         );
+        navigate("/");
       } catch (error) {
         console.log("Error adding bill:", error);
       }
@@ -60,10 +69,9 @@ const AddBill = () => {
 
   return (
     <div className="relative flex flex-col justify-center min-h-screen overflow-hidden">
-      <div className="w-full p-6 m-auto bg-white rounded-md shadow-xl shadow-rose-600/40 ring-2 ring-indigo-600 lg:max-w-xl">
+      <div className="w-full p-6 m-auto bg-white rounded-md border-solid border-2 border-violet-400 lg:max-w-xl">
         <div className="text-xl font-bold text-gray-800">
-          <span>add payee + </span>
-          <span className="mx-3"> delete payee -</span>
+          <Link to="/add-payee">Add Payee + </Link>
         </div>
         <form className="mt-6" onSubmit={formik.handleSubmit}>
           <div className="mb-2">

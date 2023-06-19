@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import 'chart.js/auto';
-import { Chart } from 'react-chartjs-2';
+import "chart.js/auto";
+import { Chart } from "react-chartjs-2";
 
 const ChartBillsByPayee = () => {
   const { getAccessTokenSilently, isAuthenticated } = useAuth0();
@@ -13,23 +13,28 @@ const ChartBillsByPayee = () => {
       try {
         if (isAuthenticated) {
           const accessToken = await getAccessTokenSilently({
-            audience: process.env.REACT_APP_AUTH0_AUDIENCE
+            audience: process.env.REACT_APP_AUTH0_AUDIENCE,
           });
-          const response = await fetch("http://localhost:8080/bills/payee", {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          });
+          const response = await fetch(
+            process.env.REACT_APP_API_SERVER_URL + "/bills/payee",
+            {
+              headers: {
+                Authorization: `Bearer ${accessToken}`,
+              },
+            }
+          );
           const data = await response.json();
-          const payees = data.payees.map(payee => payee.name);
-          const totalAmounts = data.payees.map(payee => parseFloat(payee.total_amount.replace(/[$,]/g, "")).toFixed(2));
+          const payees = data.payees.map((payee) => payee.name);
+          const totalAmounts = data.payees.map((payee) =>
+            parseFloat(payee.total_amount.replace(/[$,]/g, "")).toFixed(2)
+          );
 
           setChartData({
             labels: payees,
             datasets: [
               {
-                label: "Total Amount",
                 data: totalAmounts,
+                fill: false,
                 backgroundColor: [
                   "rgba(255,99,132,0.6)",
                   "rgba(54,162,235,0.6)",
@@ -43,11 +48,21 @@ const ChartBillsByPayee = () => {
                   "rgba(203,226,199,0.6)",
                   "rgba(153,255,230,0.6)",
                   "rgba(226,199,203,0.6)",
-                ],               
-                borderColor: "rgba(0,0,0,0)",
-                borderWidth: 1,
+                ],
+                borderWidth: 2,
               },
             ],
+            options: {
+              plugins: {
+                title: {
+                  display: true,
+                  text: "By Payee",
+                },
+                legend: {
+                  display: false,
+                },
+              },
+            },
           });
         }
       } catch (error) {
@@ -64,10 +79,12 @@ const ChartBillsByPayee = () => {
   }
 
   return (
-    <div>
+    <div className="px-1 py-1">
       {isAuthenticated ? (
         chartData ? (
-          <Chart type='pie' data={chartData} />
+          <div className="rounded-lg shadow-lg border border-gray-100 p-4">
+            <Chart type="pie" data={chartData} options={chartData.options} />
+          </div>
         ) : (
           <p>No data available</p>
         )

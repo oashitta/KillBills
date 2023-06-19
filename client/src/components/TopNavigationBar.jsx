@@ -11,7 +11,7 @@ export default function TopNavigationBar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { isAuthenticated } = useAuth0();
 
-  // const [notificationCount, setNotificationCount] = useState(3);
+  // const [notificationCount, setNotificationCount] = useState(0);
 
   return (
     <header className="bg-white">
@@ -20,7 +20,10 @@ export default function TopNavigationBar() {
         aria-label="Global"
       >
         <div className="flex lg:flex-1">
-          <a href="http://localhost:3000/" className="-m-1.5 p-1.5">
+          <a
+            href={process.env.REACT_APP_API_SERVER_URL}
+            className="-m-1.5 p-1.5"
+          >
             <span className="sr-only">Killbills</span>
             <h2 className="font-bold">KILLBILLS</h2>
           </a>
@@ -43,7 +46,7 @@ export default function TopNavigationBar() {
         </div>
         <Popover.Group className="hidden lg:flex lg:gap-x-12">
           <a
-            href="http://localhost:3000/"
+            href={process.env.REACT_APP_API_SERVER_URL}
             className="text-sm font-semibold leading-6 text-gray-900"
           >
             Home
@@ -105,10 +108,12 @@ export default function TopNavigationBar() {
         open={mobileMenuOpen}
         onClose={setMobileMenuOpen}
       >
-        {/* <div className="fixed inset-0 z-10" /> */}
         <Dialog.Panel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
           <div className="flex items-center justify-between">
-            <a href="#" className="-m-1.5 p-1.5">
+            <a
+              href={process.env.REACT_APP_API_SERVER_URL}
+              className="-m-1.5 p-1.5"
+            >
               <span className="sr-only">KillBills</span>
               <h2 className="font-bold">KILLBILLS</h2>
             </a>
@@ -125,42 +130,47 @@ export default function TopNavigationBar() {
             <div className="-my-6 divide-y divide-gray-500/10">
               <div className="space-y-2 py-6">
                 <a
-                  href="#"
+                  href={process.env.REACT_APP_API_SERVER_URL}
                   className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                 >
                   Home
                 </a>
-                <a
-                  href="#"
+                <Link
+                  to="/add-bill"
                   className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                 >
-                  Add Bills
-                </a>
-                <a
-                  href="#"
+                  Add Bill
+                </Link>
+
+                <Link
+                  to="/add-payee"
                   className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                 >
-                  Add Payees
-                </a>
-                <a
-                  href="#"
+                  Add Payee
+                </Link>
+
+                <Link
+                  to="/payment-history"
                   className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                 >
                   Payment History
-                </a>
-                <a
-                  href="#"
-                  className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                >
-                  Settings
-                </a>
+                </Link>
+
+                {isAuthenticated && (
+                  <Link
+                    to="/settings"
+                    className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                  >
+                    Settings
+                  </Link>
+                )}
               </div>
               <div className="py-6">
                 <div className="mx-2">
-                  <LoginButton />{" "}
+                  <LoginButton />
                 </div>
                 <div className="mx-2">
-                  <LogoutButton />{" "}
+                  <LogoutButton />
                 </div>
               </div>
             </div>

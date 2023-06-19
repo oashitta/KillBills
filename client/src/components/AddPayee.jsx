@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useFormik } from "formik";
 import { useAuth0 } from "@auth0/auth0-react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const AddPayee = () => {
   const { getAccessTokenSilently } = useAuth0();
@@ -16,11 +16,14 @@ const AddPayee = () => {
         const accessToken = await getAccessTokenSilently({
           audience: process.env.REACT_APP_AUTH0_AUDIENCE,
         });
-        const response = await axios.get("http://localhost:8080/categories", {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
+        const response = await axios.get(
+          process.env.REACT_APP_API_SERVER_URL + "/categories",
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
         setCategories(response.data.categories);
       } catch (error) {
         console.log("Error fetching categories:", error);
@@ -43,13 +46,17 @@ const AddPayee = () => {
         const accessToken = await getAccessTokenSilently({
           audience: process.env.REACT_APP_AUTH0_AUDIENCE,
         });
-        await axios.post("http://localhost:8080/payees", values, {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${accessToken}`,
-          },
-        })
-        navigate("/add-bill")
+        await axios.post(
+          process.env.REACT_APP_API_SERVER_URL + "/payees",
+          values,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
+        navigate("/add-bill");
       } catch (error) {
         console.log("Error adding payee:", error);
       }
@@ -58,7 +65,7 @@ const AddPayee = () => {
 
   return (
     <div className="relative flex flex-col justify-center min-h-screen overflow-hidden">
-      <div className="w-full p-6 m-auto bg-white rounded-md shadow-xl shadow-rose-600/40 ring-2 ring-indigo-600 lg:max-w-xl">
+      <div className="w-full p-6 m-auto bg-white rounded-md border-solid border-2 border-violet-400 lg:max-w-xl">
         <form className="mt-6" onSubmit={formik.handleSubmit}>
           <div className="mb-2">
             <label htmlFor="payee" className="text-xl font-bold text-gray-800">
@@ -69,6 +76,7 @@ const AddPayee = () => {
               id="categoryId"
               onChange={formik.handleChange}
               value={formik.values.value}
+              className="flex-grow w-3/5 px-4 py-2 mr-2 bg-white border rounded-md focus:border-indigo-400 focus:ring-indigo-300 focus:outline-none focus:ring focus:ring-opacity-40"
             >
               {categories.map((category) => {
                 return (
@@ -79,33 +87,48 @@ const AddPayee = () => {
               })}
             </select>
           </div>
-          <input
-            id="name"
-            name="name"
-            type="text"
-            placeholder="Payee Name"
-            onChange={formik.handleChange}
-            value={formik.values.name}
-            className="block w-full px-4 py-2 mt-2 text-indigo-700 bg-white border rounded-md focus:border-indigo-400 focus:ring-indigo-300 focus:outline-none focus:ring focus:ring-opacity-40"
-          />
-          <input
-            id="accountNumber"
-            name="accountNumber"
-            type="text"
-            placeholder="Account #"
-            onChange={formik.handleChange}
-            value={formik.values.accountNumber}
-            className="block w-full px-4 py-2 mt-2 text-indigo-700 bg-white border rounded-md focus:border-indigo-400 focus:ring-indigo-300 focus:outline-none focus:ring focus:ring-opacity-40"
-          />
-          <input
-            id="url"
-            name="url"
-            type="text"
-            placeholder="Link"
-            onChange={formik.handleChange}
-            value={formik.values.url}
-            className="block w-full px-4 py-2 mt-2 text-indigo-700 bg-white border rounded-md focus:border-indigo-400 focus:ring-indigo-300 focus:outline-none focus:ring focus:ring-opacity-40"
-          />
+          <div className="mt-2">
+            <label htmlFor="name" className="text-lg font-bold text-gray-800">
+              Payee Name:
+            </label>
+            <input
+              id="name"
+              name="name"
+              type="text"
+              placeholder="Bell"
+              onChange={formik.handleChange}
+              value={formik.values.name}
+              className="block w-full px-4 py-2 mt-2 text-indigo-700 bg-white border rounded-md focus:border-indigo-400 focus:ring-indigo-300 focus:outline-none focus:ring focus:ring-opacity-40"
+            />
+          </div>
+          <div className="mt-2">
+            <label htmlFor="accountNumber" className="text-lg font-bold text-gray-800">
+              Acount Number:
+            </label>
+            <input
+              id="accountNumber"
+              name="accountNumber"
+              type="text"
+              placeholder="1234567890"
+              onChange={formik.handleChange}
+              value={formik.values.accountNumber}
+              className="block w-full px-4 py-2 mt-2 text-indigo-700 bg-white border rounded-md focus:border-indigo-400 focus:ring-indigo-300 focus:outline-none focus:ring focus:ring-opacity-40"
+            />
+          </div>
+          <div className="mt-2">
+            <label htmlFor="accountNumber" className="text-lg font-bold text-gray-800">
+              Link:
+            </label>
+            <input
+              id="url"
+              name="url"
+              type="text"
+              placeholder="https://www.bell.ca"
+              onChange={formik.handleChange}
+              value={formik.values.url}
+              className="block w-full px-4 py-2 mt-2 text-indigo-700 bg-white border rounded-md focus:border-indigo-400 focus:ring-indigo-300 focus:outline-none focus:ring focus:ring-opacity-40"
+            />
+          </div>
           <div className="mt-6">
             <button
               type="submit"
