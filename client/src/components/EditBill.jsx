@@ -15,6 +15,9 @@ const EditBill = () => {
 
   const navigate = useNavigate();
   const params = useParams();
+  const date = new Date();
+  const today = date.toISOString()
+  console.log(today)
 
   useEffect(() => {
     const fetchPayees = async () => {
@@ -56,23 +59,25 @@ const EditBill = () => {
         );
 
         const bill = response.data.bill;
+        console.log("dueDate", bill.due_date);
         const dueDate = String(bill.due_date).split("").slice(0, 10).join("");
         const reminderDate = String(bill.reminder_date)
           .split("")
           .slice(0, 10)
           .join("");
-        const paidDate = () => {
-          if (!bill.paid_date) {
-            return undefined;
-          }
-          return String(bill.paid_date).split("").slice(0, 10).join("");
-        };
-        const isPaid = () => {
-          if (bill.paid_date) {
-            return true;
-          }
-          return false;
-        };
+
+          const paidDate = () => {
+            if (!bill.paid_date) {
+              return undefined;
+            }
+            return String(bill.paid_date).split("").slice(0, 10).join("");
+          };
+          const isPaid = () => {
+            if (bill.paid_date) {
+              return true;
+            }
+            return false;
+          };
 
         formik.setValues({
           isPaid: isPaid(),
@@ -111,6 +116,20 @@ const EditBill = () => {
         });
 
         if (btnClicked === "edit") {
+          const paidDate = () => {
+            if (!values.paidDate && values.isPaid) {
+              return String(today).split("").slice(0, 10).join("");
+            }
+            if (values.paidDate && values.isPaid) {
+              return String(values.paidDate).split("").slice(0, 10).join("");
+            }
+            if (!values.paidDate && !values.isPaid) {
+              return undefined;
+            }
+          };
+
+          values.paidDate = paidDate();
+
           await axios.put(
             process.env.REACT_APP_API_SERVER_URL + "/bills/" + params.id,
             values,
