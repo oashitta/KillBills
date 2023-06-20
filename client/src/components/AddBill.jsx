@@ -1,6 +1,4 @@
 import { useState, useEffect } from "react";
-import "react-toastify/dist/ReactToastify.css";
-import { ToastContainer, toast } from "react-toastify";
 import { useFormik } from "formik";
 import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -47,7 +45,6 @@ const AddBill = ({ closeModal, showToast }) => {
       note: "",
     },
     onSubmit: async (values) => {
-      console.log("values", values);
       try {
         const accessToken = await getAccessTokenSilently({
           audience: process.env.REACT_APP_AUTH0_AUDIENCE,
@@ -62,15 +59,12 @@ const AddBill = ({ closeModal, showToast }) => {
             },
           }
         );
-        // toast.success("Bill added successfully!");
         showToast("Bill added successfully!");
-        closeModal(); // Close the modal
+        closeModal();
         setTimeout(() => {
           navigate("/");
         }, 2000);
       } catch (error) {
-        // console.log("Error adding bill:", error);
-        // toast.error("Failed to add bill. Please try again.");
         showToast("Failed to add bill. Please try again.");
       }
     },
@@ -78,7 +72,7 @@ const AddBill = ({ closeModal, showToast }) => {
 
   return (
     <div className="relative flex flex-col justify-center overflow-hidden">
-      <div className="w-full p-6 m-auto bg-white rounded-md lg:max-w-xl mt-12">
+      <div className="w-full p-6 m-auto bg-white rounded-md lg:max-w-xl">
         <form className="mt-6" onSubmit={formik.handleSubmit}>
           <div className="mb-2">
             <label
@@ -207,13 +201,6 @@ const AddBill = ({ closeModal, showToast }) => {
           </div>
         </form>
       </div>
-      <ToastContainer
-        position="top-right"
-        autoClose={2000}
-        pauseOnHover={true}
-        closeOnClick={true}
-        hideProgressBar={false}
-      />
     </div>
   );
 };

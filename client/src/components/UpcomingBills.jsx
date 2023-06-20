@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { MaterialReactTable } from "material-react-table";
 import { Box } from "@mui/material";
-import ChartBillsByPayee from "./ChartBillsByPayee";
-import ChartBillsByCategory from "./ChartBillsByCategory";
-import ChartBillsByMonth from "./ChartBillsByMonth";
+import EditBill from "./EditBill";
 
 const UpcomingBills = () => {
   const { isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0();
   const [bills, setBills] = useState([]);
+  const [isEditBillModalOpen, setIsEditBillModalOpen] = useState(false);
+  const [billId, setBillId] = useState(null);
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -108,6 +108,21 @@ const UpcomingBills = () => {
       ),
     },
   ];
+
+  const openEditBillModal = (billId) => {
+    setIsEditBillModalOpen(true);
+    setBillId(billId);
+};
+
+  const closeModal = () => {
+    setIsEditBillModalOpen(false);
+  };
+
+  const handleOverlayClick = (e) => {
+    if (e.target === e.currentTarget) {
+      closeModal();
+    }
+  };
 
   return (
     <>
@@ -210,7 +225,7 @@ const UpcomingBills = () => {
                   }}
                   muiTableBodyRowProps={({ row }) => ({
                     onClick: () => {
-                      window.open(`/edit-bill/${row.original.id}`, "_self");
+                      openEditBillModal(row.original.id);
                     },
                     sx: {
                       cursor: "pointer",
@@ -227,6 +242,18 @@ const UpcomingBills = () => {
               </div>
             </div>
           </div>
+          {isEditBillModalOpen && (
+            <div className="fixed inset-0 flex items-center justify-center z-50 bg-opacity-50 bg-black" onClick={handleOverlayClick}>
+              <div className="relative bg-white w-5/6 max-w-md p-6 rounded-lg shadow-lg w-full max-w-2xl max-h-full">
+                <EditBill billId={billId} closeModal={closeModal} />
+                <button type="button" onClick={closeModal} className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 focus:outline-none">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-6 h-6">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+            )}
         </>
       ) : (
         <p className="flex justify-center font-bold text-xl text-slate-900 my-5">

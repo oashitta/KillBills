@@ -160,7 +160,6 @@ const Dashboard = () => {
         <>
           <div className="mx-auto flex flex-wrap max-w-7xl items-center justify-between p-6">
             <div className="w-2/5 lg:w-1/3">
-              {/* <div className="rounded-lg shadow-lg bg-gray-50 border border-gray-100 p-8 mb-4"> */}
               <div className="p-2">
                 <p className="mb-0 font-sans font-semibold leading-normal text-sm">Total Due</p>
                 <h1 className="mb-0 font-bold text-2xl">
@@ -170,10 +169,9 @@ const Dashboard = () => {
                   <span className="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded">Next bill due in {nextDue} {nextDue == 1 ? 'Day' : 'Days'}</span>
                 )}
               </div>
-              {totalPastDue !== null && (
+              {totalPastDue !== 0 && (
                 <div className="p-2">
-                {/* <div className="rounded-lg shadow-lg bg-gray-50 border border-gray-100 p-8"> */}
-                  <p className="mb-0 font-sans font-semibold leading-normal text-sm text-red-500">
+                   <p className="mb-0 font-sans font-semibold leading-normal text-sm text-red-500">
                     Total Past Due
                   </p>
                   <h1 className="mb-0 font-bold text-2xl text-red-500">
@@ -208,13 +206,13 @@ const Dashboard = () => {
               </div>
             </div>
             )}
-                  <ToastContainer
-        position="top-right"
-        autoClose={2000}
-        pauseOnHover={true}
-        closeOnClick={true}
-        hideProgressBar={false}
-      />
+          <ToastContainer
+            position="top-right"
+            autoClose={2000}
+            pauseOnHover={true}
+            closeOnClick={true}
+            hideProgressBar={false}
+          />
         </>
       )}
     </>
