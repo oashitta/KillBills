@@ -19,7 +19,7 @@ const AddBill = ({ closeModal, showToast }) => {
 
   const handleOverlayClick = (e) => {
     if (e.target === e.currentTarget) {
-      closeModal();
+      closePayeeModal();
     }
   };
 
@@ -111,13 +111,13 @@ const AddBill = ({ closeModal, showToast }) => {
                   ))}
               </select>
               <div className="flex-grow-0">
-                  <button
-                    type="button"
-                    onClick={() => setIsAddPayeeModalOpen(true)}
-                    className="px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-indigo-700 rounded-md hover:bg-indigo-600 focus:outline-none focus:bg-indigo-600"
-                  >
-                    Add Payee
-                  </button>
+                <button
+                  type="button"
+                  onClick={() => setIsAddPayeeModalOpen(true)}
+                  className="px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-indigo-700 rounded-md hover:bg-indigo-600 focus:outline-none focus:bg-indigo-600"
+                >
+                  Add Payee
+                </button>
               </div>
             </div>
           </div>

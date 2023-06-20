@@ -193,6 +193,9 @@ const Dashboard = () => {
   const showToast = (message) => {
     setToastMessage(message);
     toast.success(message);
+    setTimeout(() => {
+      window.location.reload();
+    }, 2000);
   };
 
   const closeModal = () => {
