@@ -124,7 +124,7 @@ const EditBill = () => {
           toast.success("Bill update successful!");
           setTimeout(() => {
             navigate("/");
-          }, 1000);
+          }, 2000);
         } else {
           await axios.delete(
             process.env.REACT_APP_API_SERVER_URL + "/bills/" + params.id,
