@@ -4,12 +4,24 @@ import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import AddPayee from './AddPayee';
 
 const AddBill = ({ closeModal, showToast }) => {
   const { user, getAccessTokenSilently } = useAuth0();
   const [payees, setPayees] = useState([]);
+  const [isAddPayeeModalOpen, setIsAddPayeeModalOpen] = useState(false);
 
   const navigate = useNavigate();
+
+  const closePayeeModal = () => {
+    setIsAddPayeeModalOpen(false);
+  };
+
+  const handleOverlayClick = (e) => {
+    if (e.target === e.currentTarget) {
+      closeModal();
+    }
+  };
 
   useEffect(() => {
     const fetchPayees = async () => {
@@ -99,14 +111,13 @@ const AddBill = ({ closeModal, showToast }) => {
                   ))}
               </select>
               <div className="flex-grow-0">
-                <Link to="/add-payee">
                   <button
-                    type="submit"
+                    type="button"
+                    onClick={() => setIsAddPayeeModalOpen(true)}
                     className="px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-indigo-700 rounded-md hover:bg-indigo-600 focus:outline-none focus:bg-indigo-600"
                   >
                     Add New Payee
                   </button>
-                </Link>
               </div>
             </div>
           </div>
@@ -201,6 +212,18 @@ const AddBill = ({ closeModal, showToast }) => {
           </div>
         </form>
       </div>
+      {isAddPayeeModalOpen && (
+        <div className="fixed inset-0 flex items-center justify-center z-50 bg-opacity-50 bg-black" onClick={handleOverlayClick}>
+          <div className="relative bg-white w-5/6 max-w-md p-6 rounded-lg shadow-lg w-full max-w-2xl max-h-full">
+            <AddPayee closePayeeModal={closePayeeModal} />
+            <button type="button" onClick={closePayeeModal} className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 focus:outline-none">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-6 h-6">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
