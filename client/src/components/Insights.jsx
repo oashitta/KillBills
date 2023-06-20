@@ -12,8 +12,8 @@ const UpcomingBills = () => {
 
   return (
     <>
-          <div className="mx-auto flex max-w-7xl items-center justify-between px-6 mt-12">
-            <div className="border-b border-gray-200 dark:border-gray-700">
+          <div className="mx-auto flex max-w-7xl items-center justify-between pb-0 mt-12">
+            <div className="border-b border-gray-200 bg-white rounded-t-sm pt-2 px-6 shadow-lg">
               <ul className="flex flex-wrap -mb-px text-sm font-medium text-center text-gray-500 dark:text-gray-400">
                 <li className="mr-2">
                 <a href="/" className="inline-flex p-4 border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300 group">
@@ -39,7 +39,7 @@ const UpcomingBills = () => {
               </ul>
             </div>
           </div>
-          <div className="mx-auto max-w-7xl px-6 py-0">
+          <div className="mx-auto max-w-7xl px-0 py-0">
             <div className="flex flex-wrap justify-center">
               <div className="w-full md:w-1/3">
                 <ChartBillsByPayee />
