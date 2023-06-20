@@ -29,7 +29,10 @@ export default function Navigation() {
                 <div className="flex items-center">
                   <div className="flex-shrink-0 mt-2">
                     <a href="https://killbills.onrender.com" className="-m-1.5 p-1.5">
-                      <span className="text-2xl font-bold text-black">KILL/BILLS</span>
+                      <span className="text-2xl font-bold text-black">KILL</span>
+                      <span className="text-2xl text-indigo-600">/</span>
+                      <span className="text-2xl font-bold text-black">BILL</span>
+                      <span className="text-2xl text-indigo-600">$</span>
                     </a>
                   </div>
                 </div>
