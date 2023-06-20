@@ -98,23 +98,6 @@ const getBillsUnpaid = (auth0Sub) => {
     });
 };
 
-const getBillsUnpaidDates = (auth0Sub) => {
-  return db
-    .query(
-      `
-      SELECT DISTINCT due_date
-      FROM bills b
-      JOIN users u ON b.user_id = u.id
-      WHERE u.auth0_sub = $1
-      AND b.paid_date IS NULL;
-    `,
-      [auth0Sub]
-    )
-    .then((data) => {
-      return data.rows;
-    });
-};
-
 const getBillsDue = (auth0Sub) => {
   return db
     .query(
@@ -296,7 +279,7 @@ const getBillNextDate = (auth0Sub) => {
       WHERE
         u.auth0_sub = $1
         AND b.paid_date IS NULL
-        AND b.due_date > CURRENT_DATE
+        AND b.due_date >= CURRENT_DATE
       ORDER BY
         b.due_date ASC
       LIMIT 1;
@@ -305,6 +288,59 @@ const getBillNextDate = (auth0Sub) => {
     )
     .then((data) => {
       return data.rows[0].days || 0;
+    });
+};
+
+const getBillsUnpaidDates = (auth0Sub) => {
+  return db
+    .query(
+      `
+      SELECT DISTINCT due_date
+      FROM bills b
+      JOIN users u ON b.user_id = u.id
+      WHERE u.auth0_sub = $1
+      AND b.paid_date IS NULL
+      AND b.due_date >= CURRENT_DATE;
+    `,
+      [auth0Sub]
+    )
+    .then((data) => {
+      return data.rows;
+    });
+};
+
+const getBillsPaidDates = (auth0Sub) => {
+  return db
+    .query(
+      `
+      SELECT DISTINCT due_date
+      FROM bills b
+      JOIN users u ON b.user_id = u.id
+      WHERE u.auth0_sub = $1
+      AND b.paid_date IS NOT NULL;
+    `,
+      [auth0Sub]
+    )
+    .then((data) => {
+      return data.rows;
+    });
+};
+
+const getBillsOverdueDates = (auth0Sub) => {
+  return db
+    .query(
+      `
+      SELECT DISTINCT due_date
+      FROM bills b
+      JOIN users u ON b.user_id = u.id
+      WHERE u.auth0_sub = $1
+      AND b.paid_date IS NULL
+      AND b.due_date < CURRENT_DATE;
+    `,
+      [auth0Sub]
+    )
+    .then((data) => {
+      return data.rows;
     });
 };
 
@@ -317,7 +353,6 @@ module.exports = {
   getBillsByCategoryId, 
   getBillsPaid, 
   getBillsUnpaid, 
-  getBillsUnpaidDates, 
   getBillsDue, 
   getBillsOverdue, 
   getBillsByDate, 
@@ -331,5 +366,8 @@ module.exports = {
   getBillsByPayee, 
   getBillsByCategory, 
   getBillsByMonth,
-  getBillNextDate
+  getBillNextDate,
+  getBillsUnpaidDates, 
+  getBillsPaidDates, 
+  getBillsOverdueDates
 };

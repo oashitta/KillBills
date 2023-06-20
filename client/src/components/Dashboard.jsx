@@ -12,6 +12,9 @@ const Dashboard = () => {
   const [totalDue, setTotalDue] = useState(null);
   const [countPastDue, setCountPastDue] = useState(null);
   const [nextDue, setNextDue] = useState(null);
+  const [billsUnpaidDates, setBillsUnpaidDates] = useState(null);
+  const [billsPaidDates, setBillsPaidDates] = useState(null);
+  const [billsOverdueDates, setBillsOverdueDates] = useState(null);
   const [billDates, setBillDates] = useState(null);
   const [isAddBillModalOpen, setIsAddBillModalOpen] = useState(false);
   const currentDate = new Date();
@@ -116,7 +119,7 @@ const Dashboard = () => {
   }, []);
 
   useEffect(() => {
-    const fetchBillDates = async () => {
+    const fetchBillsUnpaidDates = async () => {
       try {
         const accessToken = await getAccessTokenSilently({
           audience: process.env.REACT_APP_AUTH0_AUDIENCE,
@@ -130,15 +133,63 @@ const Dashboard = () => {
           }
         );
         const data = await response.json();
-        setBillDates(data.billDates);
+        setBillsUnpaidDates(data.billsUnpaidDates);
       } catch (error) {
         console.error("Error fetching dates:", error);
       }
     };
 
-    fetchBillDates();
+    fetchBillsUnpaidDates();
   }, []);
 
+  useEffect(() => {
+    const fetchBillsPaidDates = async () => {
+      try {
+        const accessToken = await getAccessTokenSilently({
+          audience: process.env.REACT_APP_AUTH0_AUDIENCE,
+        });
+        const response = await fetch(
+          process.env.REACT_APP_API_SERVER_URL + "/bills/paid/dates",
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
+        const data = await response.json();
+        setBillsPaidDates(data.billsPaidDates);
+      } catch (error) {
+        console.error("Error fetching dates:", error);
+      }
+    };
+
+    fetchBillsPaidDates();
+  }, []);
+
+  useEffect(() => {
+    const fetchBillsOverdueDates = async () => {
+      try {
+        const accessToken = await getAccessTokenSilently({
+          audience: process.env.REACT_APP_AUTH0_AUDIENCE,
+        });
+        const response = await fetch(
+          process.env.REACT_APP_API_SERVER_URL + "/bills/overdue/dates",
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
+        const data = await response.json();
+        setBillsOverdueDates(data.billsOverdueDates);
+      } catch (error) {
+        console.error("Error fetching dates:", error);
+      }
+    };
+
+    fetchBillsOverdueDates();
+  }, []);
+  
   const showToast = (message) => {
     setToastMessage(message);
     toast.success(message);
@@ -166,7 +217,14 @@ const Dashboard = () => {
                   {totalDue !== null ? <p>{totalDue}</p> : <p>$0</p>}
                 </h1>
                 {nextDue !== null && (
-                  <span className="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded">Next bill due in {nextDue} {nextDue == 1 ? 'Day' : 'Days'}</span>
+                  <span className="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded">Next bill due&nbsp;
+                    {nextDue === 0
+                      ? "today"
+                      : nextDue === 1
+                      ? "tomorrow"
+                      : `in ${nextDue} days"`
+                    }
+                  </span>
                 )}
               </div>
               {totalPastDue !== 0 && (
@@ -182,7 +240,7 @@ const Dashboard = () => {
               )}
             </div>
             <div className="w-3/5 lg:w-1/3">
-              <Calendar billDates={billDates} />
+              <Calendar billsUnpaidDates={billsUnpaidDates} billsPaidDates={billsPaidDates} billsOverdueDates={billsOverdueDates} />
             </div>
           </div>
           <div className="mx-auto flex max-w-7xl items-center justify-between p-6 py-0">
