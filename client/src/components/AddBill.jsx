@@ -116,7 +116,7 @@ const AddBill = ({ closeModal, showToast }) => {
                     onClick={() => setIsAddPayeeModalOpen(true)}
                     className="px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-indigo-700 rounded-md hover:bg-indigo-600 focus:outline-none focus:bg-indigo-600"
                   >
-                    Add New Payee
+                    Add Payee
                   </button>
               </div>
             </div>
