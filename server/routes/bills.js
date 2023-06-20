@@ -134,15 +134,6 @@ router.get("/unpaid", (req, res) => {
   });
 });
 
-// GET /bills/unpaid/dates
-router.get("/unpaid/dates", (req, res) => {
-  const auth0Sub = req.auth.payload.sub;
-  bills.getBillsUnpaidDates(auth0Sub).then((data) => {
-    const billDates = data.map((row) => row.due_date.toISOString().split("T")[0]);
-    res.json({ billDates });
-  });
-});
-
 // GET /bills/due
 router.get("/due", (req, res) => {
   const auth0Sub = req.auth.payload.sub;
@@ -206,6 +197,33 @@ router.get("/next/days", (req, res) => {
   const auth0Sub = req.auth.payload.sub;
   bills.getBillNextDate(auth0Sub).then((data) => {
     res.json({ days: data });
+  });
+});
+
+// GET /bills/unpaid/udates
+router.get("/unpaid/dates", (req, res) => {
+  const auth0Sub = req.auth.payload.sub;
+  bills.getBillsUnpaidDates(auth0Sub).then((data) => {
+    const billsUnpaidDates = data.map((row) => (row.due_date ? row.due_date.toISOString().split("T")[0] : null));
+    res.json({ billsUnpaidDates });
+  });
+});
+
+// GET /bills/paid/dates
+router.get("/paid/dates", (req, res) => {
+  const auth0Sub = req.auth.payload.sub;
+  bills.getBillsPaidDates(auth0Sub).then((data) => {
+    const billsPaidDates = data.map((row) => (row.due_date ? row.due_date.toISOString().split("T")[0] : null));
+    res.json({ billsPaidDates });
+  });
+});
+
+// GET /bills/overdue/dates
+router.get("/overdue/dates", (req, res) => {
+  const auth0Sub = req.auth.payload.sub;
+  bills.getBillsOverdueDates(auth0Sub).then((data) => {
+    const billsOverdueDates = data.map((row) => (row.due_date ? row.due_date.toISOString().split("T")[0] : null));
+    res.json({ billsOverdueDates });
   });
 });
 

@@ -6,7 +6,7 @@ import { useFormik } from "formik";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useNavigate } from "react-router-dom";
 
-const AddPayee = () => {
+const AddPayee = ({ closePayeeModal }) => {
   const { getAccessTokenSilently } = useAuth0();
   const [categories, setCategories] = useState([]);
 
@@ -59,9 +59,10 @@ const AddPayee = () => {
           }
         );
         toast.success("Payee added successfully!");
-        setTimeout(() => {
-          navigate("/add-bill");
-        }, 2000);
+        closePayeeModal();
+        // setTimeout(() => {
+        //   navigate("/");
+        // }, 2000);
       } catch (error) {
         // console.log("Error adding payee:", error);
         toast.error("Failed to add payee. Please try again.");
@@ -70,8 +71,8 @@ const AddPayee = () => {
   });
 
   return (
-    <div className="relative flex flex-col justify-center min-h-screen overflow-hidden">
-      <div className="w-full p-6 m-auto bg-white rounded-md border-solid border-2 border-indigo-400 lg:max-w-xl mt-12">
+    <div className="relative flex flex-col justify-center overflow-hidden">
+      <div className="w-full p-6 m-auto bg-white rounded-md lg:max-w-xl">
         <form className="mt-6" onSubmit={formik.handleSubmit}>
           <div className="mb-2">
             <label htmlFor="payee" className="text-md font-bold text-gray-800">

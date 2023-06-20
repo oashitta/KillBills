@@ -7,7 +7,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 
-const EditBill = () => {
+const EditBill = ({ billId, closeModal }) => {
   const { user, getAccessTokenSilently } = useAuth0();
   const [payees, setPayees] = useState([]);
   const [bill, setBill] = useState({});
@@ -15,6 +15,8 @@ const EditBill = () => {
 
   const navigate = useNavigate();
   const params = useParams();
+  const date = new Date();
+  const today = date.toISOString()
 
   useEffect(() => {
     const fetchPayees = async () => {
@@ -46,7 +48,7 @@ const EditBill = () => {
           audience: process.env.REACT_APP_AUTH0_AUDIENCE,
         });
         const response = await axios.get(
-          process.env.REACT_APP_API_SERVER_URL + "/bills/" + params.id,
+          process.env.REACT_APP_API_SERVER_URL + "/bills/" + billId,
           {
             headers: {
               "Content-Type": "application/json",
@@ -56,23 +58,25 @@ const EditBill = () => {
         );
 
         const bill = response.data.bill;
+        console.log("dueDate", bill.due_date);
         const dueDate = String(bill.due_date).split("").slice(0, 10).join("");
         const reminderDate = String(bill.reminder_date)
           .split("")
           .slice(0, 10)
           .join("");
-        const paidDate = () => {
-          if (!bill.paid_date) {
-            return undefined;
-          }
-          return String(bill.paid_date).split("").slice(0, 10).join("");
-        };
-        const isPaid = () => {
-          if (bill.paid_date) {
-            return true;
-          }
-          return false;
-        };
+
+          const paidDate = () => {
+            if (!bill.paid_date) {
+              return undefined;
+            }
+            return String(bill.paid_date).split("").slice(0, 10).join("");
+          };
+          const isPaid = () => {
+            if (bill.paid_date) {
+              return true;
+            }
+            return false;
+          };
 
         formik.setValues({
           isPaid: isPaid(),
@@ -111,8 +115,22 @@ const EditBill = () => {
         });
 
         if (btnClicked === "edit") {
+          const paidDate = () => {
+            if (!values.paidDate && values.isPaid) {
+              return String(today).split("").slice(0, 10).join("");
+            }
+            if (values.paidDate && values.isPaid) {
+              return String(values.paidDate).split("").slice(0, 10).join("");
+            }
+            if (!values.paidDate && !values.isPaid) {
+              return undefined;
+            }
+          };
+
+          values.paidDate = paidDate();
+
           await axios.put(
-            process.env.REACT_APP_API_SERVER_URL + "/bills/" + params.id,
+            process.env.REACT_APP_API_SERVER_URL + "/bills/" + billId,
             values,
             {
               headers: {
@@ -121,13 +139,14 @@ const EditBill = () => {
               },
             }
           );
-          toast.success("Bill update successful!");
+          toast.success("Bill updated successfully!");
+          closeModal();
           setTimeout(() => {
             navigate("/");
           }, 2000);
         } else {
           await axios.delete(
-            process.env.REACT_APP_API_SERVER_URL + "/bills/" + params.id,
+            process.env.REACT_APP_API_SERVER_URL + "/bills/" + billId,
             {
               headers: {
                 "Content-Type": "application/json",
@@ -136,20 +155,20 @@ const EditBill = () => {
             }
           );
           toast.success("Bill deleted successfully!");
+          closeModal();
           setTimeout(() => {
             navigate("/");
           }, 1000);
         }
       } catch (error) {
-        // console.log("Error adding bill:", error);
         toast.error("Action failed. Please try again.");
       }
     },
   });
 
   return (
-    <div className="relative flex flex-col justify-center min-h-screen overflow-hidden">
-      <div className="w-full p-6 m-auto bg-white rounded-md border-solid border-2 border-indigo-400 lg:max-w-xl mt-12">
+    <div className="relative flex flex-col justify-center overflow-hidden">
+      <div className="w-full p-6 m-auto bg-white rounded-md lg:max-w-xl">
         <form className="mt-6" onSubmit={formik.handleSubmit}>
           <div className="mb-2">
             <label
@@ -198,7 +217,7 @@ const EditBill = () => {
               data-type="currency"
               onChange={formik.handleChange}
               value={formik.values.amount}
-              className="block w-full px-4 py-2 mt-2 text-indigo-700 bg-white border rounded-md focus:border-indigo-400 focus:ring-indigo-300 focus:outline-none focus:ring focus:ring-opacity-40"
+              className="block w-full px-4 py-2 mt-2 bg-white border rounded-md focus:border-indigo-400 focus:ring-indigo-300 focus:outline-none focus:ring focus:ring-opacity-40"
             />
           </div>
           <div className="mt-2">
@@ -215,7 +234,7 @@ const EditBill = () => {
               placeholder="Due Date"
               onChange={formik.handleChange}
               value={formik.values.dueDate}
-              className="block w-full px-4 py-2 mt-2 text-indigo-700 bg-white border rounded-md focus:border-indigo-400 focus:ring-indigo-300 focus:outline-none focus:ring focus:ring-opacity-40"
+              className="block w-full px-4 py-2 mt-2 bg-white border rounded-md focus:border-indigo-400 focus:ring-indigo-300 focus:outline-none focus:ring focus:ring-opacity-40"
             />
           </div>
           <div className="mt-2">
@@ -232,7 +251,7 @@ const EditBill = () => {
               placeholder="Reminder Date"
               onChange={formik.handleChange}
               value={formik.values.reminderDate}
-              className="block w-full px-4 py-2 mt-2 text-indigo-700 bg-white border rounded-md focus:border-indigo-400 focus:ring-indigo-300 focus:outline-none focus:ring focus:ring-opacity-40"
+              className="block w-full px-4 py-2 mt-2 bg-white border rounded-md focus:border-indigo-400 focus:ring-indigo-300 focus:outline-none focus:ring focus:ring-opacity-40"
             />
           </div>
           <div className="mt-2">
@@ -249,7 +268,7 @@ const EditBill = () => {
               placeholder="Paid Date"
               onChange={formik.handleChange}
               value={formik.values.paidDate}
-              className="block w-full px-4 py-2 mt-2 text-indigo-700 bg-white border rounded-md focus:border-indigo-400 focus:ring-indigo-300 focus:outline-none focus:ring focus:ring-opacity-40"
+              className="block w-full px-4 py-2 mt-2 bg-white border rounded-md focus:border-indigo-400 focus:ring-indigo-300 focus:outline-none focus:ring focus:ring-opacity-40"
             />
           </div>
           <div className="mt-2">
@@ -263,7 +282,7 @@ const EditBill = () => {
               placeholder="Reminder Date"
               onChange={formik.handleChange}
               value={formik.values.note}
-              className="block w-full px-4 py-2 mt-2 text-indigo-700 bg-white border rounded-md focus:border-indigo-400 focus:ring-indigo-300 focus:outline-none focus:ring focus:ring-opacity-40"
+              className="block w-full px-4 py-2 mt-2 bg-white border rounded-md focus:border-indigo-400 focus:ring-indigo-300 focus:outline-none focus:ring focus:ring-opacity-40"
             />
           </div>
           <div className="mt-4">
@@ -300,7 +319,7 @@ const EditBill = () => {
               onClick={(e) => {
                 setBtnClicked("delete");
               }}
-              className="ml-6 px-6 py-2 tracking-wide text-white transition-colors duration-200 transform bg-red-700 rounded-md hover:bg-red-600 focus:outline-none focus:bg-indigo-600"
+              className="ml-6 px-6 py-2 tracking-wide text-white transition-colors duration-200 transform bg-red-600 rounded-md hover:bg-red-700 focus:outline-none focus:bg-indigo-600"
             >
               Delete Bill
             </button>
