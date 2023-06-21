@@ -85,8 +85,9 @@ router.get("/unpaid/total", async (req, res) => {
     if (!userExists) {
       await users.addUser(auth0Sub);
     }
-    const total = await bills.getBillsPaidTotal(auth0Sub);
-    res.json({ total });
+    bills.getBillsUnpaidTotal(auth0Sub).then((data) => {
+      res.json({ total: data });
+    })
   } catch (error) {
     res.status(500).json({ error: "Failed to process the request" });
   }
