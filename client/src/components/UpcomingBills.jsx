@@ -226,13 +226,13 @@ const UpcomingBills = () => {
                         <p>Visit: <a href={row.original.link} className="underline">{row.original.link}</a></p>
                       </Box>           
                     )}
-                    muiTablePaperProps={{
-                      elevation: 0,
-                      sx: {
-                        borderTopRightRadius: '1.5rem',
-                        border: '1px #e0e0e0',
-                      },
-                    }}
+                    // muiTablePaperProps={{
+                    //   elevation: 0,
+                    //   sx: {
+                    //     borderTopRightRadius: '1.5rem',
+                    //     border: '1px #e0e0e0',
+                    //   },
+                    // }}
                     muiTableBodyRowProps={({ row }) => ({
                       onClick: () => {
                         openEditBillModal(row.original.id);
@@ -245,7 +245,6 @@ const UpcomingBills = () => {
                       sx: {
                         fontSize: "1.0rem",
                         paddingLeft: "1.6rem",
-                        color: 'black',
                       },
                     }}
                   />
