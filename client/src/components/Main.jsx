@@ -3,6 +3,7 @@ import { Outlet } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import Navigation from "./Navigation";
 import Dashboard from "./Dashboard";
+import Footer from "./Footer";
 
 const Main = () => {
   const { isAuthenticated, isLoading, loginWithRedirect } = useAuth0();
@@ -40,6 +41,7 @@ const Main = () => {
           <Navigation />
           <Dashboard />
           <Outlet />
+          <Footer />
         </>
       ) : (
         <div className="relative bg-gray-900">
