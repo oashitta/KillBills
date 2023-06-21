@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { MaterialReactTable } from "material-react-table";
 import { Box } from "@mui/material";
@@ -7,17 +7,30 @@ import CssBaseline from '@mui/material/CssBaseline';
 import EditBill from "./EditBill";
 import useDarkSide from './DarkMode';
 
-const PaymentHistory = () => {
+const PaymentHistory = ({darkMode}) => {
   const { isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0();
   const [bills, setBills] = useState([]);
   const [isEditBillModalOpen, setIsEditBillModalOpen] = useState(false);
   const [billId, setBillId] = useState(null);
 
-  const [colorTheme, toggleDarkMode] = useDarkSide();
+  const [mode, setMode] = useState(localStorage.getItem('theme'));
+
+  useEffect(() => {
+    const handleStorageChange = () => {
+      const updatedTheme = localStorage.getItem('theme');
+      setMode(updatedTheme);
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
+  }, []);
 
   const theme = createTheme({
     palette: {
-      mode: colorTheme === 'dark' ? 'light' : 'dark',
+      mode: mode
     },
   });
 
@@ -52,6 +65,8 @@ const PaymentHistory = () => {
     name: bill.payee_name,
     amount: bill.amount,
     date: bill.paid_date,
+    link: bill.payee_link,
+    note: bill.note
   }));
 
   const columns = [
@@ -201,13 +216,33 @@ const PaymentHistory = () => {
           <div className="mx-auto max-w-7xl px-0 py-0">
             <div>
               <div className="mt-0">
-                <ThemeProvider theme={theme}>
+              <ThemeProvider theme={theme}>
                   <MaterialReactTable
                     columns={columns}
                     data={data}
                     initialState={{ columnVisibility: { id: false }, density: 'compact' }}
                     enableDensityToggle={false}
                     enableHiding={false}
+                    renderDetailPanel={({ row }) => (
+                      <Box
+                        sx={{            
+                          display: 'grid',
+                          marginLeft: '18px',
+                          gridTemplateColumns: '1fr 1fr',
+                          width: '100%',
+                        }}            
+                      >
+                        <p>{row.original.note}</p><br />
+                        <p>Visit: <a href={row.original.link} className="underline">{row.original.link}</a></p>
+                      </Box>           
+                    )}
+                    // muiTablePaperProps={{
+                    //   elevation: 0,
+                    //   sx: {
+                    //     borderTopRightRadius: '1.5rem',
+                    //     border: '1px #e0e0e0',
+                    //   },
+                    // }}
                     muiTableBodyRowProps={({ row }) => ({
                       onClick: () => {
                         openEditBillModal(row.original.id);
@@ -217,11 +252,10 @@ const PaymentHistory = () => {
                       },
                     })}
                     muiTableHeadCellProps={{
-                      sx: () => ({
-                        color: "#4F46E5",
+                      sx: {
                         fontSize: "1.0rem",
                         paddingLeft: "1.6rem",
-                      }),
+                      },
                     }}
                   />
                 </ThemeProvider>

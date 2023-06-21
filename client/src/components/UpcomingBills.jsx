@@ -205,7 +205,7 @@ const UpcomingBills = () => {
           </div>
           <div className="mx-auto max-w-7xl px-0 py-0">
             <div>
-              <div className="mt-0 shadow-lg">
+              <div className="mt-0">
                 <ThemeProvider theme={theme}>
                   <MaterialReactTable
                     columns={columns}
