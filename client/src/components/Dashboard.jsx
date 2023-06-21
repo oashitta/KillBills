@@ -222,7 +222,7 @@ const Dashboard = () => {
                       ? "today"
                       : nextDue === 1
                       ? "tomorrow"
-                      : `in ${nextDue} days"`
+                      : `in ${nextDue} days`
                     }
                   </span>
                 )}
