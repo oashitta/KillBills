@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import { Link, useLocation } from "react-router-dom";
 import Calendar from "./Calendar"
 import AddBill from "./AddBill"
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Dashboard = () => {
-  const { user, getAccessTokenSilently, isAuthenticated, isLoading } = useAuth0();
+  const { getAccessTokenSilently, isAuthenticated } = useAuth0();
   const [totalPastDue, setTotalPastDue] = useState(null);
   const [totalDue, setTotalDue] = useState(null);
   const [countPastDue, setCountPastDue] = useState(null);
@@ -15,12 +14,7 @@ const Dashboard = () => {
   const [billsUnpaidDates, setBillsUnpaidDates] = useState(null);
   const [billsPaidDates, setBillsPaidDates] = useState(null);
   const [billsOverdueDates, setBillsOverdueDates] = useState(null);
-  const [billDates, setBillDates] = useState(null);
   const [isAddBillModalOpen, setIsAddBillModalOpen] = useState(false);
-  const currentDate = new Date();
-  const currentDay = currentDate.getDate();
-  const currentMonth = currentDate.toLocaleString('default', { month: 'long' });
-  const [toastMessage, setToastMessage] = useState("");
   
   useEffect(() => {
     const fetchOverdueTotal = async () => {
@@ -191,7 +185,6 @@ const Dashboard = () => {
   }, []);
   
   const showToast = (message) => {
-    setToastMessage(message);
     toast.success(message);
     setTimeout(() => {
       window.location.reload();
@@ -199,7 +192,6 @@ const Dashboard = () => {
   };
 
   const showToastError = (message) => {
-    setToastMessage(message);
     toast.error(message);
   };
 

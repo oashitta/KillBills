@@ -11,7 +11,6 @@ import EditBill from "./components/EditBill";
 import Main from "./components/Main";
 import PaymentHistory from "./components/PaymentHistory";
 import Insights from "./components/Insights";
-import Switcher from './components/Switcher';
 
 const router = createBrowserRouter([
   {

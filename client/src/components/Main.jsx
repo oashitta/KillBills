@@ -1,13 +1,11 @@
-import heroImage from "../heroImage.jpg";
-import { useAuth0 } from "@auth0/auth0-react";
-
 import React from "react";
 import { Outlet } from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react";
 import Navigation from "./Navigation";
 import Dashboard from "./Dashboard";
 
 const Main = () => {
-  const { user, isAuthenticated, isLoading, loginWithRedirect } = useAuth0();
+  const { isAuthenticated, isLoading, loginWithRedirect } = useAuth0();
 
   if (isLoading) {
     return (

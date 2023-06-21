@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 export default function useDarkSide() {
   const [theme, setTheme] = useState(localStorage.theme);

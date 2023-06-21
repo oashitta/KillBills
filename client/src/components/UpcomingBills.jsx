@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { MaterialReactTable } from "material-react-table";
 import { Box } from "@mui/material";
-import { useTheme, ThemeProvider, createTheme } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
 import EditBill from "./EditBill";
 import useDarkSide from './DarkMode';
 

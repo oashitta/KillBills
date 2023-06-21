@@ -1,8 +1,6 @@
-import { useState, Fragment } from "react";
+import { Fragment } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import { Link } from "react-router-dom";
-import { Dialog, Popover, Disclosure, Menu, Transition } from "@headlessui/react";
-import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import { Disclosure, Menu, Transition } from "@headlessui/react";
 import Switcher from './Switcher';
 
 const userNavigation = [
