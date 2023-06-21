@@ -72,10 +72,10 @@ export default function Calendar({ billsUnpaidDates, billsPaidDates, billsOverdu
                       ? "bg-black text-white dark:bg-yellow-200 dark:text-black"
                       : billsUnpaidDate
                       ? "bg-indigo-100 dark:bg-indigo-200 dark:text-black"
-                      : billsPaidDate
-                      ? "bg-gray-200 dark:text-black"
                       : billsOverdueDate
                       ? "bg-red-100 dark:bg-red-200 dark:text-red-900"
+                      : billsPaidDate
+                      ? "bg-gray-200 dark:text-black"
                       : "",
                     "h-10 w-10 rounded-full grid place-content-center hover:bg-black hover:text-white transition-all cursor-pointer select-none"
                   )}
