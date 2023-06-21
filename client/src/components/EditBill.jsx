@@ -224,7 +224,7 @@ const EditBill = ({ billId, closeModal }) => {
               id="amount"
               name="amount"
               type="text"
-              pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$"
+              pattern="^(?:\$)?(?:\d{1,3}(?:,\d{3})*(?:\.\d+)?|\d+(?:\.\d+)?)$"
               data-type="currency"
               onChange={formik.handleChange}
               value={formik.values.amount}

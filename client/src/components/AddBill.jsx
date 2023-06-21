@@ -129,7 +129,7 @@ const AddBill = ({ closeModal, showToast }) => {
               id="amount"
               name="amount"
               type="text"
-              pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$"
+              pattern="^(?:\$)?(?:\d{1,3}(?:,\d{3})*(?:\.\d+)?|\d+(?:\.\d+)?)$"
               data-type="currency"
               placeholder="$1,000.00"
               onChange={formik.handleChange}
