@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import AddPayee from './AddPayee';
 
-const AddBill = ({ closeModal, showToast }) => {
+const AddBill = ({ closeModal, showToast, showToastError }) => {
   const { user, getAccessTokenSilently } = useAuth0();
   const [payees, setPayees] = useState([]);
   const [isAddPayeeModalOpen, setIsAddPayeeModalOpen] = useState(false);
@@ -77,7 +77,7 @@ const AddBill = ({ closeModal, showToast }) => {
           navigate("/");
         }, 2000);
       } catch (error) {
-        showToast("Failed to add bill. Please try again.");
+        showToastError("Failed to add bill. Please try again.");
       }
     },
   });

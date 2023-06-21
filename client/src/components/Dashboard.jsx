@@ -198,6 +198,11 @@ const Dashboard = () => {
     }, 2000);
   };
 
+  const showToastError = (message) => {
+    setToastMessage(message);
+    toast.error(message);
+  };
+
   const closeModal = () => {
     setIsAddBillModalOpen(false);
   };
@@ -213,13 +218,13 @@ const Dashboard = () => {
       {isAuthenticated && (
         <>
           <div className="mx-auto flex flex-wrap max-w-7xl items-center justify-between p-6">
-            <div className="w-2/5 lg:w-1/3">
+            <div className="w-2/5 lg:w-2/3">
               <div className="p-2">
-                <p className="mb-0 font-sans font-semibold leading-normal text-sm">Total Due</p>
+                <p className="mb-0 font-sans font-semibold leading-normal text-sm">{totalDue !== 0 ? "Total Due" : "Congratulations! You have no bills due. Add a bill to get started."}</p>
                 <h1 className="mb-0 font-bold text-2xl">
-                  {totalDue !== null ? <p>{totalDue}</p> : <p>$0</p>}
+                  {totalDue !== 0 && <p>{totalDue}</p>}
                 </h1>
-                {nextDue !== null && (
+                {nextDue >= 0 && (
                   <span className="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded">Next bill due&nbsp;
                     {nextDue === 0
                       ? "today"
@@ -258,7 +263,7 @@ const Dashboard = () => {
           {isAddBillModalOpen && (
             <div className="fixed inset-0 flex items-center justify-center z-50 bg-opacity-50 bg-black" onClick={handleOverlayClick}>
               <div className="relative bg-white bg-white dark:bg-gray-900 w-5/6 max-w-md p-6 rounded-lg shadow-lg w-full max-w-2xl max-h-full">
-                <AddBill closeModal={closeModal} showToast={showToast} />
+                <AddBill closeModal={closeModal} showToast={showToast} showToastError={showToastError} />
                 <button type="button" onClick={closeModal} className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 focus:outline-none">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-6 h-6 dark:stroke-gray-200">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />

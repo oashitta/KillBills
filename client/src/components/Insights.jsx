@@ -1,14 +1,36 @@
 import React, { useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import { FiLink } from "react-icons/fi";
-import { MaterialReactTable } from 'material-react-table';
-import { Box } from '@mui/material';
 import ChartBillsByPayee from "./ChartBillsByPayee";
 import ChartBillsByCategory from "./ChartBillsByCategory";
 import ChartBillsByMonth from "./ChartBillsByMonth";
 
 const UpcomingBills = () => {
   const { isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0();
+  const [billsCount, setBillsCount] = useState(null);
+
+  useEffect(() => {
+    const fetchBillsCount = async () => {
+      try {
+        const accessToken = await getAccessTokenSilently({
+          audience: process.env.REACT_APP_AUTH0_AUDIENCE,
+        });
+        const response = await fetch(
+          process.env.REACT_APP_API_SERVER_URL + "/bills/count",
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
+        const data = await response.json();
+        setBillsCount(data.count);
+      } catch (error) {
+        console.error("Error fetching count", error);
+      }
+    };
+
+    fetchBillsCount();
+  }, []);
 
   return (
     <>
@@ -39,19 +61,21 @@ const UpcomingBills = () => {
               </ul>
             </div>
           </div>
-          <div className="mx-auto max-w-7xl px-0 py-0">
-            <div className="flex flex-wrap justify-center">
-              <div className="w-full md:w-1/3">
-                <ChartBillsByPayee />
-              </div>
-              <div className="w-full md:w-1/3">
-                <ChartBillsByCategory />
-              </div>
-              <div className="w-full md:w-1/3">
-                <ChartBillsByMonth />
+          {billsCount != 0 && (
+            <div className="mx-auto max-w-7xl px-0 py-0">
+              <div className="flex flex-wrap justify-center">
+                <div className="w-full md:w-1/3">
+                  <ChartBillsByPayee />
+                </div>
+                <div className="w-full md:w-1/3">
+                  <ChartBillsByCategory />
+                </div>
+                <div className="w-full md:w-1/3">
+                  <ChartBillsByMonth />
+                </div>
               </div>
             </div>
-          </div>
+          )}
     </>
   );
 };

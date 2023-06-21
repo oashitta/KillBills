@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const bills = require("../db/queries/bills");
+const users = require("../db/queries/users");
+const db = require("../configs/db.config");
 
 // GET /bills
 router.get("/", (req, res) => {
@@ -50,6 +52,14 @@ router.delete("/:id", (req, res) => {
   });
 });
 
+// GET /bills/count
+router.get("/count", (req, res) => {
+  const auth0Sub = req.auth.payload.sub;
+  bills.getBillsCount(auth0Sub).then((data) => {
+    res.json({ count: data });
+  });
+});
+
 // GET /bills/category/total
 router.get("/category/total", (req, res) => {
   const auth0Sub = req.auth.payload.sub;
@@ -68,11 +78,18 @@ router.get("/paid/total", (req, res) => {
 });
 
 // GET /bills/unpaid/total
-router.get("/unpaid/total", (req, res) => {
+router.get("/unpaid/total", async (req, res) => {
   const auth0Sub = req.auth.payload.sub;
-  bills.getBillsUnpaidTotal(auth0Sub).then((data) => {
-    res.json({ total: data });
-  });
+  try {
+    const userExists = await users.checkUserExists(auth0Sub);   
+    if (!userExists) {
+      await users.addUser(auth0Sub);
+    }
+    const total = await bills.getBillsPaidTotal(auth0Sub);
+    res.json({ total });
+  } catch (error) {
+    res.status(500).json({ error: "Failed to process the request" });
+  }
 });
 
 // GET /bills/due/total
