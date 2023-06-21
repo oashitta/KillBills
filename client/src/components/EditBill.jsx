@@ -180,12 +180,12 @@ const EditBill = ({ billId, closeModal }) => {
 
   return (
     <div className="relative flex flex-col justify-center overflow-hidden">
-      <div className="w-full p-6 m-auto bg-white rounded-md lg:max-w-xl">
+      <div className="w-full p-6 m-auto bg-white dark:bg-gray-900 rounded-md lg:max-w-xl">
         <form className="mt-6" onSubmit={formik.handleSubmit}>
           <div className="mb-2">
             <label
               htmlFor="payeeId"
-              className="text-md font-bold text-gray-800"
+              className="text-md font-bold text-gray-800 dark:text-gray-200"
             >
               Payee:
             </label>
@@ -195,7 +195,7 @@ const EditBill = ({ billId, closeModal }) => {
                 id="payeeId"
                 onChange={formik.handleChange}
                 value={formik.values.payeeId}
-                className="flex-grow w-3/5 px-4 py-2 mr-2 bg-white border rounded-md focus:border-indigo-400 focus:ring-indigo-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                className="flex-grow w-3/5 px-4 py-2 mr-2 bg-white dark:bg-gray-700 border rounded-md focus:border-indigo-400 focus:ring-indigo-300 focus:outline-none focus:ring focus:ring-opacity-40"
               >
                 {payees
                   .sort((a, b) => a.name.localeCompare(b.name))
@@ -217,7 +217,7 @@ const EditBill = ({ billId, closeModal }) => {
             </div>
           </div>
           <div mt-2>
-            <label htmlFor="amount" className="text-md font-bold text-gray-800">
+            <label htmlFor="amount" className="text-md font-bold text-gray-800 dark:text-gray-200">
               Amount:
             </label>
             <input
@@ -228,13 +228,13 @@ const EditBill = ({ billId, closeModal }) => {
               data-type="currency"
               onChange={formik.handleChange}
               value={formik.values.amount}
-              className="block w-full px-4 py-2 mt-2 bg-white border rounded-md focus:border-indigo-400 focus:ring-indigo-300 focus:outline-none focus:ring focus:ring-opacity-40"
+              className="block w-full px-4 py-2 mt-2 bg-white dark:bg-gray-700 border rounded-md focus:border-indigo-400 focus:ring-indigo-300 focus:outline-none focus:ring focus:ring-opacity-40"
             />
           </div>
           <div className="mt-2">
             <label
               htmlFor="dueDate"
-              className="text-md font-bold text-gray-800"
+              className="text-md font-bold text-gray-800 dark:text-gray-200"
             >
               Due Date:
             </label>
@@ -245,13 +245,13 @@ const EditBill = ({ billId, closeModal }) => {
               placeholder="Due Date"
               onChange={formik.handleChange}
               value={formik.values.dueDate}
-              className="block w-full px-4 py-2 mt-2 bg-white border rounded-md focus:border-indigo-400 focus:ring-indigo-300 focus:outline-none focus:ring focus:ring-opacity-40"
+              className="block w-full px-4 py-2 mt-2 bg-white dark:bg-gray-700 border rounded-md focus:border-indigo-400 focus:ring-indigo-300 focus:outline-none focus:ring focus:ring-opacity-40"
             />
           </div>
           <div className="mt-2">
             <label
               htmlFor="reminderDate"
-              className="text-md font-bold text-gray-800"
+              className="text-md font-bold text-gray-800 dark:text-gray-200"
             >
               Reminder Date:
             </label>
@@ -262,13 +262,13 @@ const EditBill = ({ billId, closeModal }) => {
               placeholder="Reminder Date"
               onChange={formik.handleChange}
               value={formik.values.reminderDate}
-              className="block w-full px-4 py-2 mt-2 bg-white border rounded-md focus:border-indigo-400 focus:ring-indigo-300 focus:outline-none focus:ring focus:ring-opacity-40"
+              className="block w-full px-4 py-2 mt-2 bg-white dark:bg-gray-700 border rounded-md focus:border-indigo-400 focus:ring-indigo-300 focus:outline-none focus:ring focus:ring-opacity-40"
             />
           </div>
           <div className="mt-2">
             <label
               htmlFor="paidDate"
-              className="text-md font-bold text-gray-800"
+              className="text-md font-bold text-gray-800 dark:text-gray-200"
             >
               Paid Date:
             </label>
@@ -279,11 +279,11 @@ const EditBill = ({ billId, closeModal }) => {
               placeholder="Paid Date"
               onChange={formik.handleChange}
               value={formik.values.paidDate}
-              className="block w-full px-4 py-2 mt-2 bg-white border rounded-md focus:border-indigo-400 focus:ring-indigo-300 focus:outline-none focus:ring focus:ring-opacity-40"
+              className="block w-full px-4 py-2 mt-2 bg-white dark:bg-gray-700 border rounded-md focus:border-indigo-400 focus:ring-indigo-300 focus:outline-none focus:ring focus:ring-opacity-40"
             />
           </div>
           <div className="mt-2">
-            <label htmlFor="note" className="text-md font-bold text-gray-800">
+            <label htmlFor="note" className="text-md font-bold text-gray-800 dark:text-gray-200">
               Note:
             </label>
             <textarea
@@ -293,7 +293,7 @@ const EditBill = ({ billId, closeModal }) => {
               placeholder="Reminder Date"
               onChange={formik.handleChange}
               value={formik.values.note}
-              className="block w-full px-4 py-2 mt-2 bg-white border rounded-md focus:border-indigo-400 focus:ring-indigo-300 focus:outline-none focus:ring focus:ring-opacity-40"
+              className="block w-full px-4 py-2 mt-2 bg-white dark:bg-gray-700 border rounded-md focus:border-indigo-400 focus:ring-indigo-300 focus:outline-none focus:ring focus:ring-opacity-40"
             />
           </div>
           <div className="mt-4">
@@ -308,7 +308,7 @@ const EditBill = ({ billId, closeModal }) => {
                   onClick={formik.handleChange}
                   readOnly
                 />
-                <div className="w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-green-300  peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-600"></div>
+                <div className="w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-green-300  peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-500"></div>
                 <span className="ml-2 text-md font-medium text-gray-900">
                   Paid
                 </span>
@@ -339,10 +339,10 @@ const EditBill = ({ billId, closeModal }) => {
       </div>
       {isAddPayeeModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center z-50 bg-opacity-50 bg-black" onClick={handleOverlayClick}>
-          <div className="relative bg-white w-5/6 max-w-md p-6 rounded-lg shadow-lg w-full max-w-2xl max-h-full">
+          <div className="relative bg-white dark:bg-gray-900 w-5/6 max-w-md p-6 rounded-lg shadow-lg w-full max-w-2xl max-h-full">
             <AddPayee closePayeeModal={closePayeeModal} />
             <button type="button" onClick={closePayeeModal} className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 focus:outline-none">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-6 h-6">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-6 h-6 dark:stroke-gray-200">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>

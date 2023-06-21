@@ -1,7 +1,6 @@
 import dayjs from "dayjs";
 import React, { useState } from "react";
 import { generateDate, months } from "./Cal";
-import { GrFormNext, GrFormPrevious } from "react-icons/gr";
 
 export default function Calendar({ billsUnpaidDates, billsPaidDates, billsOverdueDates }) {
   const days = ["S", "M", "T", "W", "T", "F", "S"];
@@ -18,12 +17,13 @@ export default function Calendar({ billsUnpaidDates, billsPaidDates, billsOverdu
             {months[today.month()]}, {today.year()}
           </h1>
           <div className="flex gap-10 items-center">
-            <GrFormPrevious
-              className="w-5 h-5 cursor-pointer hover:scale-105 transition-all"
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 cursor-pointer hover:scale-105 transition-all dark:stroke-gray-200"
               onClick={() => {
                 setToday(today.month(today.month() - 1));
               }}
-            />
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+            </svg>
             <h1
               className="cursor-pointer hover:scale-105 transition-all"
               onClick={() => {
@@ -32,12 +32,13 @@ export default function Calendar({ billsUnpaidDates, billsPaidDates, billsOverdu
             >
               Today
             </h1>
-            <GrFormNext
-              className="w-5 h-5 cursor-pointer hover:scale-105 transition-all"
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 cursor-pointer hover:scale-105 transition-all dark:stroke-gray-200"
               onClick={() => {
-                setToday(today.month(today.month() + 1));
-              }}
-            />
+                  setToday(today.month(today.month() + 1));
+                }}
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+            </svg>
           </div>
         </div>
         <div className="grid grid-cols-7">
@@ -68,19 +69,16 @@ export default function Calendar({ billsUnpaidDates, billsPaidDates, billsOverdu
                     currentMonth ? "" : "text-gray-400",
                     today ? "bg-black text-white" : "",
                     selectDate.toDate().toDateString() === date.toDate().toDateString()
-                      ? "bg-black text-white"
+                      ? "bg-black text-white dark:bg-yellow-200 dark:text-black"
                       : billsUnpaidDate
-                      ? "bg-indigo-100"
+                      ? "bg-indigo-100 dark:bg-indigo-200 dark:text-black"
                       : billsPaidDate
-                      ? "bg-gray-200"
+                      ? "bg-gray-200 dark:text-black"
                       : billsOverdueDate
-                      ? "bg-red-100"
+                      ? "bg-red-100 dark:bg-red-200 dark:text-red-900"
                       : "",
                     "h-10 w-10 rounded-full grid place-content-center hover:bg-black hover:text-white transition-all cursor-pointer select-none"
                   )}
-                  // onClick={() => {
-                  //   setSelectDate(date);
-                  // }}
                 >
                   {date.date()}
                 </h1>

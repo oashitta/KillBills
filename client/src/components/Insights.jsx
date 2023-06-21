@@ -13,7 +13,7 @@ const UpcomingBills = () => {
   return (
     <>
           <div className="mx-auto flex max-w-7xl items-center justify-between pb-0 mt-12">
-            <div className="border-b border-gray-200 bg-white rounded-t-sm pt-2 px-6 shadow-lg">
+            <div className="border-b border-gray-200 bg-white dark:bg-black rounded-t-sm pt-2 px-0 shadow-lg">
               <ul className="flex flex-wrap -mb-px text-sm font-medium text-center text-gray-500 dark:text-gray-400">
                 <li className="mr-2">
                 <a href="/" className="inline-flex p-4 border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300 group">

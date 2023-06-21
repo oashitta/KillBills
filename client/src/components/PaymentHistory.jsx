@@ -2,13 +2,24 @@ import React, { useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { MaterialReactTable } from "material-react-table";
 import { Box } from "@mui/material";
+import { useTheme, ThemeProvider, createTheme } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
 import EditBill from "./EditBill";
+import useDarkSide from './DarkMode';
 
 const PaymentHistory = () => {
   const { isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0();
   const [bills, setBills] = useState([]);
   const [isEditBillModalOpen, setIsEditBillModalOpen] = useState(false);
   const [billId, setBillId] = useState(null);
+
+  const [colorTheme, toggleDarkMode] = useDarkSide();
+
+  const theme = createTheme({
+    palette: {
+      mode: colorTheme === 'dark' ? 'light' : 'dark',
+    },
+  });
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -73,8 +84,6 @@ const PaymentHistory = () => {
           sx={{
             fontSize: "1.0rem",
             gap: "1rem",
-            textAlign: "right",
-            paddingRight: "2rem",
           }}
         >
           <span>${renderedCellValue.toFixed(2)}</span>
@@ -90,8 +99,6 @@ const PaymentHistory = () => {
           sx={{
             fontSize: "1.0rem",
             gap: "1rem",
-            textAlign: "right",
-            paddingRight: "2rem",
           }}
         >
           <span>
@@ -128,7 +135,7 @@ const PaymentHistory = () => {
       ) : isAuthenticated ? (
         <>
           <div className="mx-auto flex max-w-7xl items-center justify-between pb-0 mt-12">
-            <div className="border-b border-gray-200 bg-white rounded-t-sm pt-2 px-6 shadow-lg">
+            <div className="border-b border-gray-200 bg-white dark:bg-black rounded-t-sm pt-2 px-0 shadow-lg">
               <ul className="flex flex-wrap -mb-px text-sm font-medium text-center text-gray-500 dark:text-gray-400">
                 <li className="mr-2">
                   <a
@@ -194,37 +201,39 @@ const PaymentHistory = () => {
           <div className="mx-auto max-w-7xl px-0 py-0">
             <div>
               <div className="mt-0">
-                <MaterialReactTable
-                  columns={columns}
-                  data={data}
-                  initialState={{ columnVisibility: { id: false }, density: 'compact' }}
-                  enableDensityToggle={false}
-                  enableHiding={false}
-                  muiTableBodyRowProps={({ row }) => ({
-                    onClick: () => {
-                      openEditBillModal(row.original.id);
-                    },
-                    sx: {
-                      cursor: "pointer",
-                    },
-                  })}
-                  muiTableHeadCellProps={{
-                    sx: () => ({
-                      color: "#4F46E5",
-                      fontSize: "1.0rem",
-                      paddingLeft: "1.6rem",
-                    }),
-                  }}
-                />
+                <ThemeProvider theme={theme}>
+                  <MaterialReactTable
+                    columns={columns}
+                    data={data}
+                    initialState={{ columnVisibility: { id: false }, density: 'compact' }}
+                    enableDensityToggle={false}
+                    enableHiding={false}
+                    muiTableBodyRowProps={({ row }) => ({
+                      onClick: () => {
+                        openEditBillModal(row.original.id);
+                      },
+                      sx: {
+                        cursor: "pointer",
+                      },
+                    })}
+                    muiTableHeadCellProps={{
+                      sx: () => ({
+                        color: "#4F46E5",
+                        fontSize: "1.0rem",
+                        paddingLeft: "1.6rem",
+                      }),
+                    }}
+                  />
+                </ThemeProvider>
               </div>
             </div>
           </div>
           {isEditBillModalOpen && (
             <div className="fixed inset-0 flex items-center justify-center z-50 bg-opacity-50 bg-black" onClick={handleOverlayClick}>
-              <div className="relative bg-white w-5/6 max-w-md p-6 rounded-lg shadow-lg w-full max-w-2xl max-h-full">
+              <div className="relative bg-white dark:bg-gray-900 w-5/6 max-w-md p-6 rounded-lg shadow-lg w-full max-w-2xl max-h-full">
                 <EditBill billId={billId} closeModal={closeModal} />
                 <button type="button" onClick={closeModal} className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 focus:outline-none">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-6 h-6">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-6 h-6 dark:stroke-gray-200">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
                   </svg>
                 </button>

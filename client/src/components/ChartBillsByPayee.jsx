@@ -82,7 +82,7 @@ const ChartBillsByPayee = () => {
     <div className="px-1 py-1">
       {isAuthenticated ? (
         chartData ? (
-          <div className="rounded-lg shadow-lg border border-gray-100 p-4">
+          <div className="rounded-lg shadow-lg border border-gray-100 dark:border-0 p-4">
             <Chart type="pie" data={chartData} options={chartData.options} />
           </div>
         ) : (
