@@ -4,8 +4,7 @@ import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
 import { useFormik } from "formik";
 import { useAuth0 } from "@auth0/auth0-react";
-import { useNavigate, useParams } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import AddPayee from './AddPayee';
 
 const EditBill = ({ billId, closeModal }) => {
@@ -16,7 +15,6 @@ const EditBill = ({ billId, closeModal }) => {
   const [isAddPayeeModalOpen, setIsAddPayeeModalOpen] = useState(false);
 
   const navigate = useNavigate();
-  const params = useParams();
   const date = new Date();
   const today = date.toISOString()
 
@@ -193,6 +191,7 @@ const EditBill = ({ billId, closeModal }) => {
               <select
                 name="payeeId"
                 id="payeeId"
+                required 
                 onChange={formik.handleChange}
                 value={formik.values.payeeId}
                 className="flex-grow w-3/5 px-4 py-2 mr-2 bg-white dark:bg-gray-700 border rounded-md focus:border-indigo-400 focus:ring-indigo-300 focus:outline-none focus:ring focus:ring-opacity-40"
@@ -216,13 +215,14 @@ const EditBill = ({ billId, closeModal }) => {
               </div>
             </div>
           </div>
-          <div mt-2>
+          <div className="mt-2">
             <label htmlFor="amount" className="text-md font-bold text-gray-800 dark:text-gray-200">
               Amount:
             </label>
             <input
               id="amount"
               name="amount"
+              required
               type="text"
               pattern="^(?:\$)?(?:\d{1,3}(?:,\d{3})*(?:\.\d+)?|\d+(?:\.\d+)?)$"
               data-type="currency"
@@ -241,6 +241,7 @@ const EditBill = ({ billId, closeModal }) => {
             <input
               id="dueDate"
               name="dueDate"
+              required
               type="date"
               placeholder="Due Date"
               onChange={formik.handleChange}
@@ -258,6 +259,7 @@ const EditBill = ({ billId, closeModal }) => {
             <input
               id="reminderDate"
               name="reminderDate"
+              required
               type="date"
               placeholder="Reminder Date"
               onChange={formik.handleChange}

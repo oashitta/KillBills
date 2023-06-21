@@ -4,13 +4,10 @@ import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
 import { useFormik } from "formik";
 import { useAuth0 } from "@auth0/auth0-react";
-import { useNavigate } from "react-router-dom";
 
 const AddPayee = ({ closePayeeModal }) => {
   const { getAccessTokenSilently } = useAuth0();
   const [categories, setCategories] = useState([]);
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -60,11 +57,7 @@ const AddPayee = ({ closePayeeModal }) => {
         );
         toast.success("Payee added successfully!");
         closePayeeModal();
-        // setTimeout(() => {
-        //   navigate("/");
-        // }, 2000);
       } catch (error) {
-        // console.log("Error adding payee:", error);
         toast.error("Failed to add payee. Please try again.");
       }
     },
@@ -81,11 +74,12 @@ const AddPayee = ({ closePayeeModal }) => {
             <select
               name="categoryId"
               id="categoryId"
+              required
               onChange={formik.handleChange}
               value={formik.values.value}
               className="flex-grow w-full px-4 py-2 mr-2 bg-white dark:bg-gray-700 border rounded-md focus:border-indigo-400 focus:ring-indigo-300 focus:outline-none focus:ring focus:ring-opacity-40"
             >
-              <option selected>Choose a category</option>
+              <option value="">Choose a category</option>
               {categories.map((category) => (
                 <option key={category.id} value={category.id}>
                   {category.name}
@@ -101,6 +95,7 @@ const AddPayee = ({ closePayeeModal }) => {
               id="name"
               name="name"
               type="text"
+              required
               placeholder="Payee Name"
               onChange={formik.handleChange}
               value={formik.values.name}
