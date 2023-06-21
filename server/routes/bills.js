@@ -52,6 +52,14 @@ router.delete("/:id", (req, res) => {
   });
 });
 
+// GET /bills/count
+router.get("/count", (req, res) => {
+  const auth0Sub = req.auth.payload.sub;
+  bills.getBillsCount(auth0Sub).then((data) => {
+    res.json({ count: data });
+  });
+});
+
 // GET /bills/category/total
 router.get("/category/total", (req, res) => {
   const auth0Sub = req.auth.payload.sub;

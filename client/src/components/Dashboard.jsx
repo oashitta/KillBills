@@ -213,13 +213,13 @@ const Dashboard = () => {
       {isAuthenticated && (
         <>
           <div className="mx-auto flex flex-wrap max-w-7xl items-center justify-between p-6">
-            <div className="w-2/5 lg:w-1/3">
+            <div className="w-2/5 lg:w-2/3">
               <div className="p-2">
-                <p className="mb-0 font-sans font-semibold leading-normal text-sm">Total Due</p>
+                <p className="mb-0 font-sans font-semibold leading-normal text-sm">{totalDue !== 0 ? "Total Due" : "Congratulations! You have no bills due. Add a bill to get started."}</p>
                 <h1 className="mb-0 font-bold text-2xl">
-                  {totalDue !== null ? <p>{totalDue}</p> : <p>$0</p>}
+                  {totalDue !== 0 && <p>{totalDue}</p>}
                 </h1>
-                {nextDue !== null && (
+                {nextDue >= 0 && (
                   <span className="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded">Next bill due&nbsp;
                     {nextDue === 0
                       ? "today"

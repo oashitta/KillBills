@@ -50,6 +50,22 @@ const deleteBill = (id) => {
   return db.query("DELETE FROM bills WHERE id = $1", [id]);
 };
 
+const getBillsCount = (auth0Sub) => {
+  return db
+    .query(
+      `
+      SELECT COUNT(*) AS total_count
+      FROM bills b 
+      JOIN users u ON b.user_id = u.id 
+      WHERE u.auth0_sub = $1 
+      `,
+      [auth0Sub]
+    )
+    .then((data) => {
+      return data.rows[0].total_count || 0;
+    });
+};
+
 const getBillsByCategoryId = (auth0Sub, categoryId) => {
   return db
     .query(
@@ -287,12 +303,13 @@ const getBillNextDate = (auth0Sub) => {
       [auth0Sub]
     )
     .then((data) => {
-      if (data && data.rows && data.rows.length > 0 && data.rows[0].days) {
-        return data.rows[0].days;
+      if (data && data.rows && data.rows.length > 0) {
+        const days = data.rows[0].days;
+        return days !== null ? days : 0;
       } else {
-        return 0;
+        return -1;
       }
-    })
+    });
 };
 
 const getBillsUnpaidDates = (auth0Sub) => {
@@ -354,6 +371,7 @@ module.exports = {
   addBill, 
   updateBill, 
   deleteBill, 
+  getBillsCount,
   getBillsByCategoryId, 
   getBillsPaid, 
   getBillsUnpaid, 
