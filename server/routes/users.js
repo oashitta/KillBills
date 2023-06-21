@@ -17,4 +17,14 @@ router.get("/:id", (req, res) => {
   });
 });
 
+// POST /users
+router.post("/", (req, res) => {
+  const { auth0_sub, name, email } = req.body;
+  users
+    .addBill(auth0_sub, name, email)
+    .then((data) => {
+      res.json({ users: data });
+    });
+});
+
 module.exports = router;

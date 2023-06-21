@@ -12,9 +12,9 @@ const getUserById = (auth0Sub) => {
   });
 };
 
-const addUser = (auth0Sub, name, email) => {
+const addUser = (auth0_sub, name, email) => {
   return db
-    .query("INSERT INTO users (auth0_sub, name, email) VALUES ($1, $2, $3, $4) RETURNING *", [
+    .query("INSERT INTO users (auth0_sub, name, email) VALUES ($1, $2, $3) RETURNING *", [
       auth0Sub,
       name,
       email
