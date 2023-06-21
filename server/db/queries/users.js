@@ -7,21 +7,28 @@ const getUsers = () => {
 };
 
 const getUserById = (auth0Sub) => {
-  return db.query("SELECT * FROM users WHERE auth0_sub = $1", [auth0Sub]).then((data) => {
-    return data.rows[0];
-  });
-};
-
-const addUser = (auth0_sub, name, email) => {
   return db
-    .query("INSERT INTO users (auth0_sub, name, email) VALUES ($1, $2, $3) RETURNING *", [
-      auth0Sub,
-      name,
-      email
-    ])
+    .query("SELECT * FROM users WHERE auth0_sub = $1", [auth0Sub])
     .then((data) => {
       return data.rows[0];
     });
 };
 
-module.exports = { getUsers, getUserById, addUser };
+const addUser = (auth0Sub) => {
+  return db
+    .query("INSERT INTO users (auth0_sub) VALUES ($1)", [auth0Sub])
+    .then((data) => {
+      return data.rows[0];
+    });
+};
+
+const checkUserExists = (auth0Sub) => {
+  return db
+    .query("SELECT EXISTS (SELECT 1 FROM users WHERE auth0_sub = $1)", [auth0Sub])
+    // .then((data) => data.rows[0].exists);
+    .then((data) => {
+      return data.rows[0].exists;
+    });
+};
+
+module.exports = { getUsers, getUserById, addUser, checkUserExists };

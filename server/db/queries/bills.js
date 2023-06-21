@@ -287,8 +287,12 @@ const getBillNextDate = (auth0Sub) => {
       [auth0Sub]
     )
     .then((data) => {
-      return data.rows[0].days || 0;
-    });
+      if (data && data.rows && data.rows.length > 0 && data.rows[0].days) {
+        return data.rows[0].days;
+      } else {
+        return 0;
+      }
+    })
 };
 
 const getBillsUnpaidDates = (auth0Sub) => {
