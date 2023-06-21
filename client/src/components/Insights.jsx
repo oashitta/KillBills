@@ -3,6 +3,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import ChartBillsByPayee from "./ChartBillsByPayee";
 import ChartBillsByCategory from "./ChartBillsByCategory";
 import ChartBillsByMonth from "./ChartBillsByMonth";
+import ChartBillsByYear from "./ChartBillsByYear";
 
 const UpcomingBills = () => {
   const { isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0();
@@ -64,14 +65,17 @@ const UpcomingBills = () => {
           {billsCount != 0 && (
             <div className="mx-auto max-w-7xl px-0 py-0">
               <div className="flex flex-wrap justify-center">
-                <div className="w-full md:w-1/3">
+                <div className="w-full md:w-1/2">
                   <ChartBillsByPayee />
                 </div>
-                <div className="w-full md:w-1/3">
+                <div className="w-full md:w-1/2">
                   <ChartBillsByCategory />
                 </div>
-                <div className="w-full md:w-1/3">
+                <div className="w-full md:w-1/2">
                   <ChartBillsByMonth />
+                </div>
+                <div className="w-full md:w-1/2">
+                  <ChartBillsByYear />
                 </div>
               </div>
             </div>

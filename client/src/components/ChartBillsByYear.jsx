@@ -3,7 +3,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import "chart.js/auto";
 import { Chart } from "react-chartjs-2";
 
-const ChartBillsByPayee = () => {
+const ChartBillsByYear = () => {
   const { getAccessTokenSilently, isAuthenticated } = useAuth0();
   const [chartData, setChartData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -16,7 +16,7 @@ const ChartBillsByPayee = () => {
             audience: process.env.REACT_APP_AUTH0_AUDIENCE,
           });
           const response = await fetch(
-            process.env.REACT_APP_API_SERVER_URL + "/bills/payee",
+            process.env.REACT_APP_API_SERVER_URL + "/bills/year",
             {
               headers: {
                 Authorization: `Bearer ${accessToken}`,
@@ -24,30 +24,35 @@ const ChartBillsByPayee = () => {
             }
           );
           const data = await response.json();
-          const payees = data.payees.map((payee) => payee.name);
-          const totalAmounts = data.payees.map((payee) =>
-            parseFloat(payee.total_amount.replace(/[$,]/g, "")).toFixed(2)
+          const years = data.years.map((year) => year.year);
+          const totalAmounts = data.years.map((year) =>
+            parseFloat(year.total_amount.replace(/[$,]/g, "")).toFixed(2)
           );
 
           setChartData({
-            labels: payees,
+            labels: years,
             datasets: [
               {
                 data: totalAmounts,
                 fill: false,
                 backgroundColor: [
-                  "rgba(255,99,132,0.6)",
-                  "rgba(54,162,235,0.6)",
-                  "rgba(255,206,86,0.6)",
-                  "rgba(75,192,192,0.6)",
-                  "rgba(175,192,192,0.6)",
-                  "rgba(235,192,192,0.6)",
-                  "rgba(240,181,210,0.6)",
-                  "rgba(199,203,226,0.6)",
-                  "rgba(255,230,153,0.6)",
-                  "rgba(203,226,199,0.6)",
-                  "rgba(153,255,230,0.6)",
-                  "rgba(226,199,203,0.6)",
+                  "rgba(0, 0, 255, 0.6)",
+                  "rgba(255, 0, 0, 0.6)",
+                  "rgba(255, 0, 0, 0.6)",
+                  "rgba(255, 99, 132, 0.6)",
+                  "rgba(54, 162, 235, 0.6)",
+                  "rgba(255, 206, 86, 0.6)",
+                  "rgba(75, 192, 192, 0.6)",
+                  "rgba(255, 159, 64, 0.6)",
+                  "rgba(153, 102, 255, 0.6)",
+                  "rgba(220, 20, 60, 0.6)",
+                  "rgba(46, 139, 87, 0.6)",
+                  "rgba(238, 130, 238, 0.6)",
+                  "rgba(30, 144, 255, 0.6)",
+                  "rgba(0, 255, 0, 0.6)",
+                  "rgba(255, 255, 0, 0.6)",
+                  "rgba(255, 0, 255, 0.6)",
+                  "rgba(0, 255, 255, 0.6)"
                 ],
                 borderWidth: 2,
               },
@@ -56,10 +61,10 @@ const ChartBillsByPayee = () => {
               plugins: {
                 title: {
                   display: true,
-                  text: "By Payee",
+                  text: "By Year",
                 },
                 legend: {
-                  display: true,
+                  display: false,
                   position: "right"
                 },
               },
@@ -84,7 +89,7 @@ const ChartBillsByPayee = () => {
       {isAuthenticated ? (
         chartData ? (
           <div className="rounded-lg shadow-lg border border-gray-100 dark:border-0 p-4">
-            <Chart type="pie" data={chartData} options={chartData.options} />
+            <Chart type="bar" data={chartData} options={chartData.options} />
           </div>
         ) : (
           <p>No data available</p>
@@ -96,4 +101,4 @@ const ChartBillsByPayee = () => {
   );
 };
 
-export default ChartBillsByPayee;
+export default ChartBillsByYear;

@@ -210,6 +210,14 @@ router.get("/month", (req, res) => {
   });
 });
 
+// GET /bills/year
+router.get("/year", (req, res) => {
+  const auth0Sub = req.auth.payload.sub;
+  bills.getBillsByYear(auth0Sub).then((data) => {
+    res.json({ years: data });
+  });
+});
+
 // GET /bills/next/days
 router.get("/next/days", (req, res) => {
   const auth0Sub = req.auth.payload.sub;

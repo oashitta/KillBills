@@ -36,20 +36,27 @@ const ChartBillsByMonth = () => {
                 data: totalAmounts,
                 fill: false,
                 backgroundColor: [
-                  "rgba(255,99,132,0.6)",
-                  "rgba(54,162,235,0.6)",
-                  "rgba(255,206,86,0.6)",
-                  "rgba(75,192,192,0.6)",
-                  "rgba(175,192,192,0.6)",
-                  "rgba(235,192,192,0.6)",
-                  "rgba(240,181,210,0.6)",
-                  "rgba(199,203,226,0.6)",
-                  "rgba(255,230,153,0.6)",
-                  "rgba(203,226,199,0.6)",
-                  "rgba(153,255,230,0.6)",
-                  "rgba(226,199,203,0.6)",
+                  'rgba(220, 20, 60, 0.6)'
+                  // "rgba(255, 99, 132, 0.6)",    // Red
+                  // "rgba(54, 162, 235, 0.6)",    // Blue
+                  // "rgba(255, 206, 86, 0.6)",     // Yellow
+                  // "rgba(75, 192, 192, 0.6)",    // Turquoise
+                  // "rgba(255, 159, 64, 0.6)",     // Orange
+                  // "rgba(153, 102, 255, 0.6)",   // Purple
+                  // "rgba(220, 20, 60, 0.6)",      // Crimson
+                  // "rgba(46, 139, 87, 0.6)",     // Sea Green
+                  // "rgba(238, 130, 238, 0.6)",   // Violet
+                  // "rgba(30, 144, 255, 0.6)",    // Dodger Blue
+                  // "rgba(255, 0, 0, 0.6)",         // Bright Red
+                  // "rgba(0, 255, 0, 0.6)",         // Bright Green
+                  // "rgba(0, 0, 255, 0.6)",         // Bright Blue
+                  // "rgba(255, 255, 0, 0.6)",       // Yellow
+                  // "rgba(255, 0, 255, 0.6)",       // Magenta
+                  // "rgba(0, 255, 255, 0.6)"        // Cyan
                 ],
                 borderWidth: 2,
+                borderColor: 'rgba(220, 20, 60, 0.6)',
+                tension: 0.3
               },
             ],
             options: {
@@ -60,6 +67,7 @@ const ChartBillsByMonth = () => {
                 },
                 legend: {
                   display: false,
+                  position: "right"
                 },
               },
             },
@@ -79,11 +87,11 @@ const ChartBillsByMonth = () => {
   }
 
   return (
-    <div className="px-1 py-1">
+    <div className="p-0">
       {isAuthenticated ? (
         chartData ? (
           <div className="rounded-lg shadow-lg border border-gray-100 dark:border-0 p-4">
-            <Chart type="pie" data={chartData} options={chartData.options} />
+            <Chart type="line" data={chartData} options={chartData.options} />
           </div>
         ) : (
           <p>No data available</p>

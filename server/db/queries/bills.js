@@ -269,9 +269,27 @@ const getBillsByMonth = (auth0Sub) => {
       SELECT TO_CHAR(DATE_TRUNC('month', b.due_date), 'YYYY-MM') AS month_year, SUM(b.amount) AS total_amount
       FROM bills b
       JOIN users u ON b.user_id = u.id
-      WHERE u.auth0_sub = $1 AND b.due_date >= CURRENT_DATE - INTERVAL '1 year'
+      WHERE u.auth0_sub = $1 
       GROUP BY month_year
       ORDER BY month_year;
+    `,
+      [auth0Sub]
+    )
+    .then((data) => {
+      return data.rows;
+    });
+};
+
+const getBillsByYear = (auth0Sub) => {
+  return db
+    .query(
+      `
+      SELECT TO_CHAR(DATE_TRUNC('year', b.due_date), 'YYYY') AS year, SUM(b.amount) AS total_amount
+      FROM bills b
+      JOIN users u ON b.user_id = u.id
+      WHERE u.auth0_sub = $1 
+      GROUP BY year
+      ORDER BY year;
     `,
       [auth0Sub]
     )
@@ -388,6 +406,7 @@ module.exports = {
   getBillsByPayee, 
   getBillsByCategory, 
   getBillsByMonth,
+  getBillsByYear,
   getBillNextDate,
   getBillsUnpaidDates, 
   getBillsPaidDates, 
