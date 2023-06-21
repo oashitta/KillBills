@@ -158,7 +158,7 @@ const PaymentHistory = () => {
                 </li>
                 <li className="mr-2">
                   <a
-                    href="/insights"
+                    href="/history"
                     className="inline-flex p-4 text-indigo-600 border-b-2 border-indigo-600 active group font-bold"
                     aria-current="page"
                   >
