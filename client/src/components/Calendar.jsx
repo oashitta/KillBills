@@ -11,7 +11,7 @@ export default function Calendar({ billsUnpaidDates, billsPaidDates, billsOverdu
 
   return (
     <div className="flex justify-center mx-auto items-center flex-col">
-      <div className="w-80 h-80">
+      <div className="w-60 h-60 md:w-80 md:h-80">
         <div className="flex justify-between items-center">
           <h1 className="select-none font-semibold">
             {months[today.month()]}, {today.year()}
@@ -46,7 +46,7 @@ export default function Calendar({ billsUnpaidDates, billsPaidDates, billsOverdu
             return (
               <h1
                 key={index}
-                className="text-sm text-center h-14 w-14 grid place-content-center text-gray-500 select-none"
+                className="text-sm text-center h-8 w-8 md:h-14 md:w-14 grid place-content-center text-gray-500 select-none"
               >
                 {day}
               </h1>
@@ -77,7 +77,7 @@ export default function Calendar({ billsUnpaidDates, billsPaidDates, billsOverdu
                       : billsPaidDate
                       ? "bg-gray-200 dark:text-black"
                       : "",
-                    "h-10 w-10 rounded-full grid place-content-center hover:bg-black hover:text-white transition-all cursor-pointer select-none"
+                    "h-8 w-8 md:h-10 md:w-10 rounded-full grid place-content-center hover:bg-black hover:text-white transition-all cursor-pointer select-none"
                   )}
                 >
                   {date.date()}
