@@ -11,6 +11,9 @@ export default function Switcher() {
     setTheme(newTheme);
     setDarkSide(checked);
     localStorage.setItem('theme', newTheme);
+    setTimeout(() => {
+      window.location.reload();
+    }, 500);
   };
 
   return (

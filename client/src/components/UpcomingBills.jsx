@@ -4,7 +4,6 @@ import { MaterialReactTable } from "material-react-table";
 import { Box } from "@mui/material";
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import EditBill from "./EditBill";
-import useDarkSide from './DarkMode';
 
 const UpcomingBills = () => {
   const { isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0();
@@ -12,11 +11,11 @@ const UpcomingBills = () => {
   const [isEditBillModalOpen, setIsEditBillModalOpen] = useState(false);
   const [billId, setBillId] = useState(null);
 
-  const [colorTheme, toggleDarkMode] = useDarkSide();
+  const [mode, setMode] = useState(localStorage.getItem('theme'));
 
   const theme = createTheme({
     palette: {
-      mode: colorTheme === 'dark' ? 'light' : 'dark',
+      mode: mode
     },
   });
 

@@ -13,19 +13,6 @@ const PaymentHistory = ({darkMode}) => {
 
   const [mode, setMode] = useState(localStorage.getItem('theme'));
 
-  useEffect(() => {
-    const handleStorageChange = () => {
-      const updatedTheme = localStorage.getItem('theme');
-      setMode(updatedTheme);
-    };
-
-    window.addEventListener('storage', handleStorageChange);
-
-    return () => {
-      window.removeEventListener('storage', handleStorageChange);
-    };
-  }, []);
-
   const theme = createTheme({
     palette: {
       mode: mode
