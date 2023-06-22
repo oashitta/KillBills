@@ -25,7 +25,6 @@ const Dashboard = () => {
     });
 
     return () => {
-      OneSignal.disconnect();
     };
   }, []);
 
