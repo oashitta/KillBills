@@ -14,7 +14,7 @@ const Profile = () => {
         <img src={user.picture} alt={user.name} />
         <h2>{user.name}</h2>
         <p>{user.email}</p>
-        <div class="onesignal-customlink-container"></div>
+        <div className="onesignal-customlink-container"></div>
       </div>
     )
   );
