@@ -55,6 +55,7 @@ const ChartBillsByYear = () => {
                   "rgba(0, 255, 255, 0.6)"
                 ],
                 borderWidth: 2,
+                borderColor: "white"
               },
             ],
             options: {
