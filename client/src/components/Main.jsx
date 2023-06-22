@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Outlet } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import Navigation from "./Navigation";
@@ -7,14 +7,23 @@ import Footer from "./Footer";
 
 const Main = () => {
   const { isAuthenticated, isLoading, loginWithRedirect } = useAuth0();
+  const [mode, setMode] = useState(localStorage.getItem("theme"));
+
+  const getBackgroundClass = () => {
+    if (mode === "dark") {
+      return "bg-black";
+    } else {
+      return "bg-gray-50";
+    }
+  };
 
   if (isLoading) {
     return (
-      <div className="flex justify-center">
-        <div role="status" className="mt-2">
+      <div className={`flex flex-col justify-center items-center h-screen ${getBackgroundClass()}`}>
+        {/* <div role="status" className="mt-2"> */}
           <svg
             aria-hidden="true"
-            className="inline w-8 h-8 mr-2 text-gray-200 animate-spin fill-indigo-600"
+            className="w-8 h-8 text-gray-200 animate-spin fill-indigo-600 fixed top-4"
             viewBox="0 0 100 101"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
@@ -29,7 +38,7 @@ const Main = () => {
             />
           </svg>
           <span className="sr-only">Loading</span>
-        </div>
+        {/* </div> */}
       </div>
     );
   }
