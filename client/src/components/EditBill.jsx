@@ -257,7 +257,6 @@ const EditBill = ({ billId, closeModal }) => {
             <input
               id="reminderDate"
               name="reminderDate"
-              required
               type="date"
               placeholder="Reminder Date"
               onChange={formik.handleChange}
