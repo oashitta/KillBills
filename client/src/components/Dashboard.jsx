@@ -246,7 +246,7 @@ const Dashboard = () => {
           <div className="mx-auto flex max-w-7xl items-center justify-between p-2 md:p-6 py-0">
             <div>
               <button type="button" onClick={() => setIsAddBillModalOpen(true)} className="inline-flex items-center rounded-lg bg-indigo-600 px-2 md:px-3 py-2 text-lg font-semibold text-white shadow-lg hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-4 h-4 md:w-6 md:h-6 mr-2">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-3 h-3 md:w-6 md:h-6 mr-2">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                 </svg>Add Bill&nbsp;&nbsp;
               </button>

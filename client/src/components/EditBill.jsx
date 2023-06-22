@@ -4,7 +4,6 @@ import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
 import { useFormik } from "formik";
 import { useAuth0 } from "@auth0/auth0-react";
-import { useNavigate } from "react-router-dom";
 import AddPayee from './AddPayee';
 
 const EditBill = ({ billId, closeModal }) => {
@@ -14,7 +13,6 @@ const EditBill = ({ billId, closeModal }) => {
   const [btnClicked, setBtnClicked] = useState("");
   const [isAddPayeeModalOpen, setIsAddPayeeModalOpen] = useState(false);
 
-  const navigate = useNavigate();
   const date = new Date();
   const today = date.toISOString()
 
@@ -152,7 +150,7 @@ const EditBill = ({ billId, closeModal }) => {
           toast.success("Bill updated successfully!");
           closeModal();
           setTimeout(() => {
-            navigate("/");
+            window.location.reload();
           }, 2000);
         } else {
           await axios.delete(
@@ -167,8 +165,8 @@ const EditBill = ({ billId, closeModal }) => {
           toast.success("Bill deleted successfully!");
           closeModal();
           setTimeout(() => {
-            navigate("/");
-          }, 1000);
+            window.location.reload();
+          }, 2000);
         }
       } catch (error) {
         toast.error("Action failed. Please try again.");
