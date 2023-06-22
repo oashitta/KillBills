@@ -212,7 +212,7 @@ const Dashboard = () => {
           <div className="mx-auto flex flex-wrap max-w-7xl items-center justify-stretch p-2 md:p-6">
             <div className="w-1/4 lg:w-2/3">
               <div className="p-2">
-                <p className="mb-0 font-sans font-semibold text-xs md:text-lg">{totalDue !== 0 ? "Total Due" : "Congratulations! You have no bills due. Add a bill to get started."}</p>
+                <p className="mb-0 font-sans font-semibold text-sm md:text-lg">{totalDue !== 0 ? "Total Due" : "Congratulations! You have no bills due. Add a bill to get started."}</p>
                 <h1 className="mb-0 font-bold text-xl md:text-3xl">
                   {totalDue !== 0 && <p>{totalDue}</p>}
                 </h1>
@@ -229,7 +229,7 @@ const Dashboard = () => {
               </div>
               {totalPastDue !== 0 && (
                 <div className="p-2">
-                   <p className="mb-0 font-sans font-semibold leading-normal text-xs md:text-lg text-red-500">
+                   <p className="mb-0 font-sans font-semibold leading-normal text-sm md:text-lg text-red-500">
                     Total Past Due
                   </p>
                   <h1 className="mb-0 font-bold text-xl md:text-3xl text-red-500">
@@ -246,7 +246,7 @@ const Dashboard = () => {
           <div className="mx-auto flex max-w-7xl items-center justify-between p-2 md:p-6 py-0">
             <div>
               <button type="button" onClick={() => setIsAddBillModalOpen(true)} className="inline-flex items-center rounded-lg bg-indigo-600 px-2 md:px-3 py-2 text-lg font-semibold text-white shadow-lg hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-3 h-3 md:w-6 md:h-6 mr-2">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-5 h-5 md:w-6 md:h-6 mr-2">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                 </svg>Add Bill&nbsp;&nbsp;
               </button>
