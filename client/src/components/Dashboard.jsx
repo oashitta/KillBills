@@ -4,7 +4,6 @@ import Calendar from "./Calendar"
 import AddBill from "./AddBill"
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import OneSignal from 'react-onesignal';
 
 const Dashboard = () => {
   const { getAccessTokenSilently, isAuthenticated } = useAuth0();
@@ -17,15 +16,6 @@ const Dashboard = () => {
   const [billsOverdueDates, setBillsOverdueDates] = useState(null);
   const [isAddBillModalOpen, setIsAddBillModalOpen] = useState(false);
 
-  useEffect(() => {
-    OneSignal.init({
-      appId: '59583636-8a5d-4790-9e2a-07e3d38c2b04',
-    });
-
-    return () => {
-    };
-  }, []);
- 
   useEffect(() => {
     const fetchOverdueTotal = async () => {
       try {
