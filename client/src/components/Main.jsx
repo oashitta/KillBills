@@ -48,14 +48,14 @@ const Main = () => {
           <section className="bg-gray-900 text-white">
             <div className="mx-auto max-w-screen-xl px-4 py-32 flex h-screen items-center">
               <div className="mx-auto max-w-3xl text-center">
-                <h1 className="bg-gradient-to-r from-green-300 via-blue-500 to-purple-600 bg-clip-text text-3xl font-extrabold text-transparent sm:text-5xl">
+                <h1 className="bg-gradient-to-r from-green-300 via-blue-500 to-purple-600 bg-clip-text text-3xl font-extrabold text-transparent sm:text-5xl pb-2">
                   Hate Paying Late Fees??!
                 </h1>
                 <p className="mx-auto mt-4 max-w-xl sm:text-xl/relaxed">
-                  Then click below to set up your bill reminders
+                  Then click below to set up reminders so you can kill your bills
                 </p>
                 <div className="mt-8 flex flex-wrap justify-center gap-4">
-                  <div className="block rounded border border-blue-600 bg-blue-600 px-12 py-3 text-sm font-medium text-white hover:bg-transparent hover:text-white focus:outline-none focus:ring active:text-opacity-75 cursor-pointer" onClick={() =>
+                  <div className="block rounded border border-indigo-600 bg-indigo-600 px-12 py-3 text-sm font-medium text-white hover:bg-transparent hover:text-white focus:outline-none focus:ring active:text-opacity-75 cursor-pointer" onClick={() =>
                   loginWithRedirect({
                     authorizationParams: { screen_hint: "signup" },
                   })

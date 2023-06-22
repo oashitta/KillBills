@@ -209,11 +209,11 @@ const Dashboard = () => {
     <>
       {isAuthenticated && (
         <>
-          <div className="mx-auto flex flex-wrap max-w-7xl items-center justify-between p-6">
-            <div className="w-2/5 lg:w-2/3">
+          <div className="mx-auto flex flex-wrap max-w-7xl items-center justify-between p-2 md:p-6">
+            <div className="w-1/4 lg:w-2/3">
               <div className="p-2">
-                <p className="mb-0 font-sans font-semibold leading-normal text-sm">{totalDue !== 0 ? "Total Due" : "Congratulations! You have no bills due. Add a bill to get started."}</p>
-                <h1 className="mb-0 font-bold text-2xl">
+                <p className="mb-0 font-sans font-semibold text-sm">{totalDue !== 0 ? "Total Due" : "Congratulations! You have no bills due. Add a bill to get started."}</p>
+                <h1 className="mb-0 font-bold text-xl md:text-2xl">
                   {totalDue !== 0 && <p>{totalDue}</p>}
                 </h1>
                 {nextDue >= 0 && (
@@ -232,21 +232,21 @@ const Dashboard = () => {
                    <p className="mb-0 font-sans font-semibold leading-normal text-sm text-red-500">
                     Total Past Due
                   </p>
-                  <h1 className="mb-0 font-bold text-2xl text-red-500">
+                  <h1 className="mb-0 font-bold text-xl md:text-2xl text-red-500">
                     {totalPastDue}
                   </h1>
                   <span className="bg-red-100 text-red-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded">{countPastDue} {countPastDue == 1 ? 'Bill' : 'Bills'} Overdue</span>
                 </div>
               )}
             </div>
-            <div className="w-3/5 lg:w-1/3">
+            <div className="w-3/4 lg:w-1/3">
               <Calendar billsUnpaidDates={billsUnpaidDates} billsPaidDates={billsPaidDates} billsOverdueDates={billsOverdueDates} />
             </div>
           </div>
-          <div className="mx-auto flex max-w-7xl items-center justify-between p-6 py-0">
+          <div className="mx-auto flex max-w-7xl items-center justify-between p-4 md:p-6 py-0">
             <div>
-              <button type="button" onClick={() => setIsAddBillModalOpen(true)} className="inline-flex items-center rounded-lg bg-indigo-600 px-3 py-2 text-lg font-semibold text-white shadow-lg hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6 mr-2">
+              <button type="button" onClick={() => setIsAddBillModalOpen(true)} className="inline-flex items-center rounded-lg bg-indigo-600 px-2 md:px-3 py-2 text-lg font-semibold text-white shadow-lg hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-3 h-3 md:w-6 md:h-6 mr-2">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                 </svg>Add Bill&nbsp;&nbsp;
               </button>
