@@ -6,8 +6,6 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import OneSignal from 'react-onesignal';
 
-OneSignal.init({ appId: '59583636-8a5d-4790-9e2a-07e3d38c2b04' });
-
 const Dashboard = () => {
   const { getAccessTokenSilently, isAuthenticated } = useAuth0();
   const [totalPastDue, setTotalPastDue] = useState(null);
@@ -27,14 +25,7 @@ const Dashboard = () => {
     return () => {
     };
   }, []);
-
-  const onHandleTag = (tag) => {
-    console.log("Tagging");
-    OneSignal.sendTag("test", tag).then(() => {
-      console.log("Tagged");
-    });
-  }  
-  
+ 
   useEffect(() => {
     const fetchOverdueTotal = async () => {
       try {
