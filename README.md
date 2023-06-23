@@ -5,8 +5,8 @@ The KillBills App is a full stack application using React to solve the problem o
 
 !["screenshot of Landing page"](https://github.com/oashitta/KillBills/blob/feature/readme.md/docs/landing-page.png?raw=true)
 !["screenshot of Main page"](https://github.com/oashitta/KillBills/blob/feature/readme.md/docs/main-page.png?raw=true)
-!["screenshot of Dark mode"](https://github.com/oashitta/KillBills/blob/feature/readme.md/docs/dark-mode.png?raw=true)
-!["screenshot of Insights page"](https://github.com/oashitta/KillBills/blob/feature/readme.md/docs/insights-page.png?raw=true)
+!["screenshot of Dark mode"](https://github.com/oashitta/KillBills/blob/master/docs/dark-mode.png?raw=true)
+!["screenshot of Insights page"](https://github.com/oashitta/KillBills/blob/master/docs/insights-page.png?raw=true)
 !["screenshot of Add bill modal"](https://github.com/oashitta/KillBills/blob/feature/readme.md/docs/addbill-modal.png?raw=true)
 !["screenshot of Add payee modal"](https://github.com/oashitta/KillBills/blob/feature/readme.md/docs/addpayee-modal.png?raw=true)
 !["screenshot of Edit bill modal"](https://github.com/oashitta/KillBills/blob/feature/readme.md/docs/editbill-modal.png?raw=true)
