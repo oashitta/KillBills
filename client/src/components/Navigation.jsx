@@ -2,8 +2,6 @@ import { Fragment } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import Switcher from './Switcher';
-// import runOneSignal from './OneSignal';
-// import { useEffect } from 'react';
 
 const userNavigation = [
   { name: 'Dashboard', href: '/' },
@@ -17,10 +15,6 @@ function classNames(...classes) {
 
 export default function Navigation() {
   const { isAuthenticated, user, logout } = useAuth0();
-
-  // useEffect(() => {
-  //   runOneSignal();
-  // })
 
   return (
     isAuthenticated && (

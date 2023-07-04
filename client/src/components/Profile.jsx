@@ -42,7 +42,6 @@ const Profile = () => {
         <img className="rounded-full" src={user.picture} alt={user.name} />
         <p className="txt-xl font-bold">{user.name}</p>
         <p className="txt-xl">{user.email}</p>
-        <div className="onesignal-customlink-container"></div>
       </div>
       </>
     )
